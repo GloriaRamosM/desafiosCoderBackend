@@ -83,10 +83,11 @@ export default class ProductManager {
     const producto = this.productos.find(
       (producto) => producto.id == productoId
     );
+
     if (!producto) {
       console.log("Producto no encontrado");
-      return null;
     }
+
     console.log("el producto fue encontrado");
 
     return producto;

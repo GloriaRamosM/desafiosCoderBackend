@@ -12,6 +12,9 @@ app.get("/products", async (req, res) => {
 app.get("/products/:pid", async (req, res) => {
   const productId = req.params.pid;
   const product = await manejadorDeProducto.getProductoById(productId);
+  if (!product) {
+    return res.status(404).json({ error: "Producto no encontrado" });
+  }
   res.json(product);
 });
 
