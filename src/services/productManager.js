@@ -23,14 +23,14 @@ export default class ProductManager {
     return limit ? this.productos.slice(0, limit) : this.productos;
   };
 
-  async agregarProductos(
+  async agregarProductos({
     titulo,
     descripcion,
     precio,
     rutaDeImagen,
     codigo,
-    stock
-  ) {
+    stock,
+  }) {
     if (
       !titulo ||
       !descripcion ||
@@ -39,7 +39,7 @@ export default class ProductManager {
       !codigo ||
       !stock
     ) {
-      return console.log("Falta agregar datos a este producto");
+      return null;
     }
 
     const productoExistente = this.productos.some(
@@ -48,7 +48,7 @@ export default class ProductManager {
 
     if (productoExistente) {
       console.log("Producto ya existe , no se puede agregar");
-      return;
+      return null;
     }
 
     const producto = {
@@ -66,6 +66,7 @@ export default class ProductManager {
       this.path,
       JSON.stringify(this.productos, null, "\t")
     );
+    return producto;
   }
 
   generarId() {
@@ -94,8 +95,14 @@ export default class ProductManager {
   }
 
   async updateProduct(productoId, cambios) {
+    const producto = this.productos.some(
+      (producto) => producto.id == productoId
+    );
+    if (!producto) {
+      return null;
+    }
     this.productos = this.productos.map((producto) => {
-      if (producto.id === productoId) {
+      if (producto.id == productoId) {
         producto = { ...producto, ...cambios };
       }
       return producto;
@@ -104,6 +111,8 @@ export default class ProductManager {
       this.path,
       JSON.stringify(this.productos, null, "\t")
     );
+
+    return this.productos.find((producto) => producto.id == productoId);
   }
 
   // METODO  DELETEPRODUCT
@@ -122,7 +131,7 @@ export default class ProductManager {
 
   async deleteProduct(productoId) {
     const productoIndex = this.productos.findIndex(
-      (producto) => producto.id === productoId
+      (producto) => producto.id == productoId
     );
 
     if (productoIndex !== -1) {
@@ -132,11 +141,9 @@ export default class ProductManager {
         this.path,
         JSON.stringify(this.productos, null, "\t")
       );
-      console.log("Producto eliminado");
+      return productoId;
     } else {
-      console.log(
-        `No se encontró ningún producto con el ID ${productoId} por esto, no se puede eliminar`
-      );
+      return null;
     }
   }
 }

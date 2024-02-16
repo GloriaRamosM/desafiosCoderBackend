@@ -1,92 +1,65 @@
 [
-  {
-    "id": 1,
-    "titulo": "Porducto Prueba 50",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 300,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo1234567",
-    "stock": 50
-  },
-  {
-    "id": 2,
-    "titulo": "pantalon",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 200,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345",
-    "stock": 50
-  },
-  {
-    "id": 3,
-    "titulo": "franela",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 200,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo123456",
-    "stock": 50
-  },
-  {
-    "id": 4,
-    "titulo": "remera",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 300,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678",
-    "stock": 50
-  },
-  {
-    "id": 5,
-    "titulo": "pantys",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 300,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo123456789",
-    "stock": 50
-  },
-  {
-    "id": 6,
-    "titulo": "chaqueta",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 500,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo1234567890",
-    "stock": 50
-  },
-  {
-    "id": 7,
-    "titulo": "gorra",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 100,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678901",
-    "stock": 50
-  },
-  {
-    "id": 8,
-    "titulo": "calcetines",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 50,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo123456789012",
-    "stock": 50
-  },
-  {
-    "id": 9,
-    "titulo": "bufanda",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 150,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo1234567890123",
-    "stock": 50
-  },
-  {
-    "id": 10,
-    "titulo": "guantes",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 120,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678901234",
-    "stock": 50
-  }
+	{
+		"id": 1,
+		"titulo": "Porducto Prueba 50",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 300,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo1234567",
+		"stock": 50
+	},
+	{
+		"id": 3,
+		"titulo": "franela",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 200,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo123456",
+		"stock": 50
+	},
+	{
+		"id": 7,
+		"titulo": "gorra",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 100,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo12345678901",
+		"stock": 50
+	},
+	{
+		"id": 8,
+		"titulo": "calcetines",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 50,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo123456789012",
+		"stock": 50
+	},
+	{
+		"id": 9,
+		"titulo": "bufanda",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 150,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo1234567890123",
+		"stock": 50
+	},
+	{
+		"id": 10,
+		"titulo": "guantes",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 120,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo12345678901234",
+		"stock": 50
+	},
+	{
+		"id": 11,
+		"titulo": "cama",
+		"descripcion": "Esto es una",
+		"precio": 6000,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo2425",
+		"stock": 100
+	}
 ]
