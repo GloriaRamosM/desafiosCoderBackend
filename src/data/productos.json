@@ -10,9 +10,9 @@
 	},
 	{
 		"id": 3,
-		"titulo": "franela",
-		"descripcion": "Esto es un producto prueba",
-		"precio": 200,
+		"titulo": "camisxl",
+		"descripcion": "Esto es un producto prueba camisa",
+		"precio": 500,
 		"rutaDeImagen": "sin ruta",
 		"codigo": "Codigo123456",
 		"stock": 50
@@ -61,5 +61,14 @@
 		"rutaDeImagen": "sin ruta",
 		"codigo": "Codigo2425",
 		"stock": 100
+	},
+	{
+		"id": 12,
+		"titulo": "bufandaRoja",
+		"descripcion": "Esto es un producto prueba bufanda",
+		"precio": 200,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo12345678900",
+		"stock": 700
 	}
 ]
