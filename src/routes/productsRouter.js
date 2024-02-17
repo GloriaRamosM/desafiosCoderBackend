@@ -67,6 +67,7 @@ productsRouter.put("/:pid/", async (req, res) => {
   }
 });
 
+// DELETE, voy a borrar el producto que le indique y le pase por parametros
 productsRouter.delete("/:pid/", async (req, res) => {
   const id = req.params.pid;
 
