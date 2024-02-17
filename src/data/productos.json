@@ -9,6 +9,15 @@
 		"stock": 50
 	},
 	{
+		"id": 2,
+		"titulo": "Traje de bano",
+		"descripcion": "Esto es un producto prueba traje de bano",
+		"precio": 4500,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo676869",
+		"stock": 70
+	},
+	{
 		"id": 3,
 		"titulo": "camisxl",
 		"descripcion": "Esto es un producto prueba camisa",

@@ -89,8 +89,6 @@ export default class ProductManager {
       console.log("Producto no encontrado");
     }
 
-    console.log("el producto fue encontrado");
-
     return producto;
   }
 

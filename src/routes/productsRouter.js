@@ -6,12 +6,14 @@ const productsRouter = Router();
 
 const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
 
+// GET traigo todos los productos, o usando query, limito cuantos quiero, usando parametros
 productsRouter.get("/", async (req, res) => {
   const limit = req.query.limit;
   const products = await manejadorDeProducto.getProductos(limit);
   res.json(products);
 });
 
+// GET, usando mi manejador, busco un producto especifico por ID y lo muestro
 productsRouter.get("/:pid/", async (req, res) => {
   const productId = req.params.pid;
   const product = await manejadorDeProducto.getProductoById(productId);
@@ -21,6 +23,7 @@ productsRouter.get("/:pid/", async (req, res) => {
   res.json(product);
 });
 
+// POST, en este post usando BODY , le agrego un producto nuevo a mi archivo de productos
 productsRouter.post("/", async (req, res) => {
   const productNuevo = req.body;
 
@@ -38,6 +41,7 @@ productsRouter.post("/", async (req, res) => {
   }
 });
 
+// PUT, usando mi manejador de Producto con el metodo update puedo actualizar mi producto pasandole id para identificar cual quiero cambiar y enviandole cambios por body
 productsRouter.put("/:pid/", async (req, res) => {
   const id = req.params.pid;
   const cambios = req.body;
