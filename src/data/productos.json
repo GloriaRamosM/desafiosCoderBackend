@@ -79,5 +79,14 @@
 		"rutaDeImagen": "sin ruta",
 		"codigo": "Codigo12345678900",
 		"stock": 700
+	},
+	{
+		"id": 13,
+		"titulo": "pantuflas moradas",
+		"descripcion": "Son comodas y accesible y lindas",
+		"precio": 6800,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "codigo89076",
+		"stock": 25
 	}
 ]
