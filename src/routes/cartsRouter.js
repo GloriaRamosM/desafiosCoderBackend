@@ -29,7 +29,10 @@ cartsRouter.post("/", async (req, res) => {
     let data = JSON.stringify(parsedCart, null, "\t");
     await fs.promises.writeFile(pathCart, data, null);
 
-    res.send("Carrito creado");
+    res.status(201).json({
+      mensaje: " Carrito creado",
+      CartID: ID,
+    });
   } catch (error) {
     console.error("Error al crear el carrito:", error);
     res.status(500).json({
@@ -46,7 +49,7 @@ cartsRouter.get("/", async (req, res) => {
   return;
 });
 
-// GET dentro de mi archivo JSON , busco al carrito por id y lo muestro
+// GET dentro de mi archivo JSON , busco al carrito por id y lo muestro (solo los productos dentro del carrito y no el carrito completo)
 cartsRouter.get("/:cid", async (req, res) => {
   let id = req.params.cid;
   let carrito = await fs.promises.readFile(pathCart, "utf-8");
@@ -57,11 +60,11 @@ cartsRouter.get("/:cid", async (req, res) => {
   if (finalCart === undefined) {
     res.status(404).send("El carrito no fue encontrado.");
   } else {
-    res.json(finalCart);
+    res.json(finalCart.products);
   }
 });
 
-// POST busco por ID mi carrito, luego busco un producto por ID y le pusheo ese producto que yo queria, al carrito que quiero.
+// POST busco por ID mi carrito, luego busco un producto por ID (si los encuentra)  le pusheo el ID del producto ,al carrito que quiero.
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
     let carrito = await fs.promises.readFile(pathCart, "utf-8");
@@ -85,15 +88,25 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
         .send("El ID del carrito solicitado no fue encontrado(post de cart)");
     }
 
-    parsedCart[foundCartIndex].products.push(foundProduct);
+    const productIndex = parsedCart[foundCartIndex].products.findIndex(
+      (product) => product.id == pid
+    );
+    if (productIndex !== -1) {
+      parsedCart[foundCartIndex].products[productIndex].quantity++;
+      res.send("se sumo la cantidad a tu producto ya guardado anteriormente");
+    } else {
+      parsedCart[foundCartIndex].products.push({ id: pid, quantity: 1 });
+      res.send("Se agrego el ID del producto al carrito solicitado");
+    }
 
     await fs.promises.writeFile(
       pathCart,
       JSON.stringify(parsedCart, null, "\t")
     );
+    res.status(200).json({ message: "Producto agregado al carrito." });
 
-    res.json({ foundProduct, foundCart: parsedCart[foundCartIndex] });
-    console.log(parsedCart);
+    //res.json({ foundProduct, foundCart: parsedCart[foundCartIndex] });
+    //console.log(parsedCart);
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
     res.status(500).send("Hubo un error al procesar la solicitud.");
