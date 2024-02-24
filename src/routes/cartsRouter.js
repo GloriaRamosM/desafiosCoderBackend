@@ -104,9 +104,6 @@ cartsRouter.post("/:cid/product/:pid", async (req, res) => {
       JSON.stringify(parsedCart, null, "\t")
     );
     res.status(200).json({ message: "Producto agregado al carrito." });
-
-    //res.json({ foundProduct, foundCart: parsedCart[foundCartIndex] });
-    //console.log(parsedCart);
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
     res.status(500).send("Hubo un error al procesar la solicitud.");
