@@ -1,0 +1,37 @@
+<div>
+  <ul>
+  
+
+      {{#each productos}}
+        <li> Nombre: {{this.titulo}}  - Precio: {{this.precio}} - Descripcion:{{this.descripcion}} </li> 
+       
+
+      {{/each}}
+
+    </li>
+  </ul>
+</div>
+
+
+<div>
+
+  <h2> Carga un producto </h2>
+  <form id="products" method="">
+    <label for="titulo">Título:</label><br />
+    <input type="text" id="titulo" name="titulo" value="" /><br />
+    <label for="descripcion">Descripción:</label><br />
+    <input type="text" id="descripcion" name="descripcion" value="" /><br />
+    <label for="precio">Precio:</label><br />
+    <input type="number" id="precio" name="precio" value="" /><br />
+    <label for="rutaDeImagen">Ruta de Imagen:</label><br />
+    <input type="text" id="rutaDeImagen" name="rutaDeImagen" value="" /><br />
+    <label for="codigo">Código:</label><br />
+    <input type="text" id="codigo" name="codigo" value="" /><br />
+    <label for="stock">Stock:</label><br />
+    <input type="number" id="stock" name="stock" value="" /><br /><br />
+    <button type="submit" onclick="submitForm(event)">Enviar</button>
+  </form>
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realtimep.js"></script>

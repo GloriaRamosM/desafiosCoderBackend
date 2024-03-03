@@ -88,5 +88,41 @@
 		"rutaDeImagen": "sin ruta",
 		"codigo": "codigo89076",
 		"stock": 25
+	},
+	{
+		"id": 14,
+		"titulo": "vcnb",
+		"descripcion": "gfgf",
+		"precio": "5415",
+		"rutaDeImagen": "httj",
+		"codigo": "6895",
+		"stock": "5"
+	},
+	{
+		"id": 15,
+		"titulo": "vestido",
+		"descripcion": "para una fiesta",
+		"precio": "785",
+		"rutaDeImagen": "sin ruta",
+		"codigo": "codigo689523",
+		"stock": "2"
+	},
+	{
+		"id": 16,
+		"titulo": "ef",
+		"descripcion": "ef",
+		"precio": "6985",
+		"rutaDeImagen": "fef",
+		"codigo": "3524",
+		"stock": "8"
+	},
+	{
+		"id": 17,
+		"titulo": "zapato",
+		"descripcion": "para patear",
+		"precio": "6987",
+		"rutaDeImagen": "sinrita",
+		"codigo": "098765",
+		"stock": "1"
 	}
 ]

@@ -20,4 +20,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/realtimeproducts", async (req, res) => {
+  try {
+    const productosData = await fs.readFile(productosFilePath, "utf-8");
+    const productos = JSON.parse(productosData);
+    res.render("realtimeproducts", { productos: productos });
+  } catch (error) {
+    console.error("Error al ingresar a la ruta", error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
 export default router;
