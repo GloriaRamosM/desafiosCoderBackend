@@ -1,10 +1,10 @@
 <div>
-  <ul>
+  <ul id="productosActuales">
   
 
       {{#each productos}}
-        <li> Nombre: {{this.titulo}}  - Precio: {{this.precio}} - Descripcion:{{this.descripcion}} </li> 
-       
+        <li id="{{this.id}}"> ID: {{this.id}} Nombre:  {{this.titulo}}  - Precio: {{this.precio}} - Descripcion:{{this.descripcion}}  <button onclick="eliminarProducto({{this.id}})"> Eliminar Producto</button> </li> 
+      
 
       {{/each}}
 

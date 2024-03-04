@@ -40,18 +40,27 @@ const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
 
-  socket.on("articuloCargado", (data) => {
+  socket.on("articuloCargado", async (data) => {
     const jsonObjeto = data.jsonObjeto;
-    const productoAgregado = manejadorDeProducto.agregarProductos(jsonObjeto);
+    const productoAgregado = await manejadorDeProducto.agregarProductos(
+      jsonObjeto
+    );
     if (productoAgregado) {
       console.log(
         "Producto agregado correctamente, en caso de que el producto exista en los datos, no se volvera a agregar"
       );
-      socket.emit("datos recibidos ", data);
-      console.log(data);
+
+      socket.emit("datosRecibidos", productoAgregado);
     } else {
       console.log("No se pudo agregar el producto");
       socket.emit("respuesta", { mensaje: "No se pudo agregar el producto" });
+    }
+  });
+
+  socket.on("eliminarProducto", async (pid) => {
+    const productoEliminado = await manejadorDeProducto.deleteProduct(pid);
+    if (productoEliminado) {
+      socket.emit("productoEliminado", productoEliminado);
     }
   });
 });

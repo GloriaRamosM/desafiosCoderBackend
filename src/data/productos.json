@@ -1,23 +1,5 @@
 [
 	{
-		"id": 1,
-		"titulo": "Porducto Prueba 50",
-		"descripcion": "Esto es un producto prueba",
-		"precio": 300,
-		"rutaDeImagen": "sin ruta",
-		"codigo": "Codigo1234567",
-		"stock": 50
-	},
-	{
-		"id": 2,
-		"titulo": "Traje de bano",
-		"descripcion": "Esto es un producto prueba traje de bano",
-		"precio": 4500,
-		"rutaDeImagen": "sin ruta",
-		"codigo": "Codigo676869",
-		"stock": 70
-	},
-	{
 		"id": 3,
 		"titulo": "camisxl",
 		"descripcion": "Esto es un producto prueba camisa",
@@ -99,15 +81,6 @@
 		"stock": "5"
 	},
 	{
-		"id": 15,
-		"titulo": "vestido",
-		"descripcion": "para una fiesta",
-		"precio": "785",
-		"rutaDeImagen": "sin ruta",
-		"codigo": "codigo689523",
-		"stock": "2"
-	},
-	{
 		"id": 16,
 		"titulo": "ef",
 		"descripcion": "ef",
@@ -117,12 +90,66 @@
 		"stock": "8"
 	},
 	{
-		"id": 17,
-		"titulo": "zapato",
-		"descripcion": "para patear",
-		"precio": "6987",
-		"rutaDeImagen": "sinrita",
-		"codigo": "098765",
-		"stock": "1"
+		"id": 18,
+		"titulo": "celular",
+		"descripcion": "iphone 13",
+		"precio": "800",
+		"rutaDeImagen": "notiene",
+		"codigo": "codigo98076",
+		"stock": "7"
+	},
+	{
+		"id": 20,
+		"titulo": "def",
+		"descripcion": "df",
+		"precio": "4567",
+		"rutaDeImagen": "notiene",
+		"codigo": "5677",
+		"stock": "4"
+	},
+	{
+		"id": 21,
+		"titulo": "mesa",
+		"descripcion": "hn",
+		"precio": "56",
+		"rutaDeImagen": "65",
+		"codigo": "768905",
+		"stock": "4"
+	},
+	{
+		"id": 25,
+		"titulo": "juguete",
+		"descripcion": "para jugar",
+		"precio": "567",
+		"rutaDeImagen": "sinruta",
+		"codigo": "7650",
+		"stock": "6"
+	},
+	{
+		"id": 26,
+		"titulo": "maquina",
+		"descripcion": "eftet",
+		"precio": "4567",
+		"rutaDeImagen": "45",
+		"codigo": "456755",
+		"stock": "5"
+	},
+	{
+		"id": 27,
+		"titulo": "f",
+		"descripcion": "re",
+		"precio": "45",
+		"rutaDeImagen": "5",
+		"codigo": "85343",
+		"stock": "5"
+	},
+	{
+		"id": 28,
+		"titulo": "dcsv",
+		"descripcion": "ef4",
+		"precio": "4",
+		"rutaDeImagen": "45",
+		"codigo": "4353",
+		"stock": "23"
 	}
 ]

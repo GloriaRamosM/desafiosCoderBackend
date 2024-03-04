@@ -12,10 +12,20 @@ function submitForm(event) {
   });
 
   socket.emit("articuloCargado", { jsonObjeto });
-  // Log the JSON data (replace this with sending the data to your server)
-  console.log(JSON.stringify(jsonObjeto));
-
-  socket.on("datos recibidos", (data) => {
-    data.jsonObjeto.innerHTML = +jsonObjeto;
-  });
 }
+
+const productosActuales = document.getElementById("productosActuales");
+
+socket.on("datosRecibidos", (data) => {
+  console.log(data);
+  productosActuales.innerHTML += `   <li id="${data.id}"> ID: ${data.id}  Nombre:  ${data.titulo}  - Precio: ${data.precio} - Descripcion:${data.descripcion}  <button onclick="eliminarProducto(${data.id})"> Eliminar Producto</button> </li> `;
+});
+
+const eliminarProducto = (pid) => {
+  socket.emit("eliminarProducto", pid);
+};
+
+socket.on("productoEliminado", (pid) => {
+  const productoAEliminar = document.getElementById(`${pid}`);
+  productosActuales.removeChild(productoAEliminar);
+});
