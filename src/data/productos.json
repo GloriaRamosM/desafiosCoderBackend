@@ -127,29 +127,11 @@
 	},
 	{
 		"id": 26,
-		"titulo": "maquina",
-		"descripcion": "eftet",
-		"precio": "4567",
-		"rutaDeImagen": "45",
-		"codigo": "456755",
-		"stock": "5"
-	},
-	{
-		"id": 27,
-		"titulo": "f",
-		"descripcion": "re",
-		"precio": "45",
-		"rutaDeImagen": "5",
-		"codigo": "85343",
-		"stock": "5"
-	},
-	{
-		"id": 28,
-		"titulo": "dcsv",
-		"descripcion": "ef4",
-		"precio": "4",
-		"rutaDeImagen": "45",
-		"codigo": "4353",
-		"stock": "23"
+		"titulo": "fgb",
+		"descripcion": "fghfg",
+		"precio": 56,
+		"rutaDeImagen": "yfg",
+		"codigo": "no",
+		"stock": 5
 	}
 ]

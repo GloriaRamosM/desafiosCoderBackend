@@ -3,15 +3,26 @@ const socket = io();
 function submitForm(event) {
   event.preventDefault();
 
-  const formData = new FormData(document.getElementById("products"));
+  // Obtener los valores de los campos
+  const titulo = document.getElementById("titulo").value;
+  const descripcion = document.getElementById("descripcion").value;
+  const precio = parseFloat(document.getElementById("precio").value);
+  const rutaDeImagen = document.getElementById("rutaDeImagen").value;
+  const codigo = document.getElementById("codigo").value;
+  const stock = parseInt(document.getElementById("stock").value);
 
-  // el form data lo convierte a un objeto
-  const jsonObjeto = {};
-  formData.forEach((value, key) => {
-    jsonObjeto[key] = value;
-  });
+  // Crear un objeto con los datos del formulario
+  const data = {
+    titulo: titulo,
+    descripcion: descripcion,
+    precio: precio,
+    rutaDeImagen: rutaDeImagen,
+    codigo: codigo,
+    stock: stock,
+  };
 
-  socket.emit("articuloCargado", { jsonObjeto });
+  // Emitir los datos al servidor a través del socket
+  socket.emit("articuloCargado", data);
 }
 
 const productosActuales = document.getElementById("productosActuales");

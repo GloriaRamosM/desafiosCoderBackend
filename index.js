@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
   console.log("Cliente conectado");
 
   socket.on("articuloCargado", async (data) => {
-    const jsonObjeto = data.jsonObjeto;
+    const jsonObjeto = data;
     const productoAgregado = await manejadorDeProducto.agregarProductos(
       jsonObjeto
     );
