@@ -1,102 +1,83 @@
 [
-  {
-    "id": 3,
-    "titulo": "camisxl",
-    "descripcion": "Esto es un producto prueba camisa",
-    "precio": 500,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo123456",
-    "stock": 50
-  },
-  {
-    "id": 7,
-    "titulo": "gorra",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 100,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678901",
-    "stock": 50
-  },
-  {
-    "id": 8,
-    "titulo": "calcetines",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 50,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo123456789012",
-    "stock": 50
-  },
-  {
-    "id": 9,
-    "titulo": "bufanda",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 150,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo1234567890123",
-    "stock": 50
-  },
-  {
-    "id": 10,
-    "titulo": "guantes",
-    "descripcion": "Esto es un producto prueba",
-    "precio": 120,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678901234",
-    "stock": 50
-  },
-  {
-    "id": 11,
-    "titulo": "cama",
-    "descripcion": "Esto es una",
-    "precio": 6000,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo2425",
-    "stock": 100
-  },
-  {
-    "id": 12,
-    "titulo": "bufandaRoja",
-    "descripcion": "Esto es un producto prueba bufanda",
-    "precio": 200,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "Codigo12345678900",
-    "stock": 700
-  },
-  {
-    "id": 13,
-    "titulo": "pantuflas moradas",
-    "descripcion": "Son comodas y accesible y lindas",
-    "precio": 6800,
-    "rutaDeImagen": "sin ruta",
-    "codigo": "codigo89076",
-    "stock": 25
-  },
-  {
-    "id": 14,
-    "titulo": "vcnb",
-    "descripcion": "gfgf",
-    "precio": "5415",
-    "rutaDeImagen": "httj",
-    "codigo": "6895",
-    "stock": "5"
-  },
-  {
-    "id": 16,
-    "titulo": "ef",
-    "descripcion": "ef",
-    "precio": "6985",
-    "rutaDeImagen": "fef",
-    "codigo": "3524",
-    "stock": "8"
-  },
-
-  {
-    "id": 26,
-    "titulo": "fgb",
-    "descripcion": "fghfg",
-    "precio": 56,
-    "rutaDeImagen": "yfg",
-    "codigo": "no",
-    "stock": 5
-  }
+	{
+		"id": 3,
+		"titulo": "camisxl",
+		"descripcion": "Esto es un producto prueba camisa",
+		"precio": 500,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo123456",
+		"stock": 50
+	},
+	{
+		"id": 7,
+		"titulo": "gorra",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 100,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo12345678901",
+		"stock": 50
+	},
+	{
+		"id": 8,
+		"titulo": "calcetines",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 50,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo123456789012",
+		"stock": 50
+	},
+	{
+		"id": 9,
+		"titulo": "bufanda",
+		"descripcion": "Esto es un producto prueba",
+		"precio": 150,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo1234567890123",
+		"stock": 50
+	},
+	{
+		"id": 11,
+		"titulo": "cama",
+		"descripcion": "Esto es una",
+		"precio": 6000,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo2425",
+		"stock": 100
+	},
+	{
+		"id": 12,
+		"titulo": "bufandaRoja",
+		"descripcion": "Esto es un producto prueba bufanda",
+		"precio": 200,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "Codigo12345678900",
+		"stock": 700
+	},
+	{
+		"id": 13,
+		"titulo": "pantuflas moradas",
+		"descripcion": "Son comodas y accesible y lindas",
+		"precio": 6800,
+		"rutaDeImagen": "sin ruta",
+		"codigo": "codigo89076",
+		"stock": 25
+	},
+	{
+		"id": 16,
+		"titulo": "ef",
+		"descripcion": "ef",
+		"precio": "6985",
+		"rutaDeImagen": "fef",
+		"codigo": "3524",
+		"stock": "8"
+	},
+	{
+		"id": 26,
+		"titulo": "fgb",
+		"descripcion": "fghfg",
+		"precio": 56,
+		"rutaDeImagen": "yfg",
+		"codigo": "no",
+		"stock": 5
+	}
 ]
