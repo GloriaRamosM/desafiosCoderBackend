@@ -9,15 +9,6 @@
 		"stock": 50
 	},
 	{
-		"id": 7,
-		"titulo": "gorra",
-		"descripcion": "Esto es un producto prueba",
-		"precio": 100,
-		"rutaDeImagen": "sin ruta",
-		"codigo": "Codigo12345678901",
-		"stock": 50
-	},
-	{
 		"id": 8,
 		"titulo": "calcetines",
 		"descripcion": "Esto es un producto prueba",
@@ -25,24 +16,6 @@
 		"rutaDeImagen": "sin ruta",
 		"codigo": "Codigo123456789012",
 		"stock": 50
-	},
-	{
-		"id": 9,
-		"titulo": "bufanda",
-		"descripcion": "Esto es un producto prueba",
-		"precio": 150,
-		"rutaDeImagen": "sin ruta",
-		"codigo": "Codigo1234567890123",
-		"stock": 50
-	},
-	{
-		"id": 11,
-		"titulo": "cama",
-		"descripcion": "Esto es una",
-		"precio": 6000,
-		"rutaDeImagen": "sin ruta",
-		"codigo": "Codigo2425",
-		"stock": 100
 	},
 	{
 		"id": 12,
@@ -63,21 +36,12 @@
 		"stock": 25
 	},
 	{
-		"id": 16,
-		"titulo": "ef",
-		"descripcion": "ef",
-		"precio": "6985",
-		"rutaDeImagen": "fef",
-		"codigo": "3524",
-		"stock": "8"
-	},
-	{
-		"id": 26,
-		"titulo": "fgb",
-		"descripcion": "fghfg",
-		"precio": 56,
-		"rutaDeImagen": "yfg",
-		"codigo": "no",
-		"stock": 5
+		"id": 27,
+		"titulo": "comida para doro",
+		"descripcion": "con carne",
+		"precio": 8000,
+		"rutaDeImagen": "no tiene",
+		"codigo": "codigo765894",
+		"stock": 90
 	}
 ]
