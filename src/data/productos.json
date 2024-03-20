@@ -6,7 +6,8 @@
     "precio": 500,
     "rutaDeImagen": "sin ruta",
     "codigo": "Codigo123456",
-    "stock": 50
+    "stock": 50,
+    "categoria": "Ropa"
   },
   {
     "id": 8,
@@ -15,7 +16,8 @@
     "precio": 50,
     "rutaDeImagen": "sin ruta",
     "codigo": "Codigo123456789012",
-    "stock": 50
+    "stock": 50,
+    "categoria": "Ropa"
   },
   {
     "id": 12,
@@ -24,7 +26,8 @@
     "precio": 200,
     "rutaDeImagen": "sin ruta",
     "codigo": "Codigo12345678900",
-    "stock": 700
+    "stock": 700,
+    "categoria": "Ropa"
   },
   {
     "id": 13,
@@ -33,6 +36,7 @@
     "precio": 6800,
     "rutaDeImagen": "sin ruta",
     "codigo": "codigo89076",
-    "stock": 25
+    "stock": 25,
+    "categoria": "Zapatos"
   }
 ]

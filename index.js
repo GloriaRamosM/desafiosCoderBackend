@@ -6,14 +6,22 @@ import { dirname } from "path";
 import productsRouter from "./src/routes/productsRouter.js";
 import cartsRouter from "./src/routes/cartsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
-import ProductMannager from "./src/services/productManager.js";
+import cartsRouterM from "./src/routes/cartRouterM.js";
+import productRouterfs from "./src/routes/productRouterfs.js";
+import ProductMannager from "./src/dao/services/productManager.js";
+import messageRouter from "./src/routes/messageRouter.js";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+// variables de entorno
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 
-const port = 8080;
+const port = process.env.port || 8080;
 
 //Middlewares
 app.set("views", __dirname + "/src/views");
@@ -27,15 +35,34 @@ app.use(viewsRouter);
 
 ////Routes
 
-app.use("/api/products", productsRouter);
+app.use("/api/mongo/products", productsRouter);
+app.use("/api/products", productRouterfs);
 app.use("/api/carts", cartsRouter);
+app.use("/api/mongo/carts", cartsRouterM);
+app.use("/api/chat", messageRouter);
 
 const server = app.listen(port, () =>
   console.log("servidor corriendo en el puerto " + port)
 );
 
+const connectMongoDB = async () => {
+  const DB_URL = process.env.DB_URL;
+
+  try {
+    await mongoose.connect(DB_URL);
+    console.log("conexion a la MONGODB");
+  } catch (error) {
+    console.error("No se pudo conectar a la BD", error);
+    process.exit();
+  }
+};
+
+connectMongoDB();
+
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
+
+const msg = [];
 
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
@@ -62,5 +89,10 @@ io.on("connection", (socket) => {
     if (productoEliminado) {
       socket.emit("productoEliminado", productoEliminado);
     }
+  });
+
+  socket.on("message", (data) => {
+    msg.push(data);
+    io.emit("messageLogs", msg);
   });
 });

@@ -2,13 +2,10 @@ import { Router } from "express";
 import fs, { writeFileSync } from "fs";
 import __dirname from "../utils.js";
 import { randomUUID } from "node:crypto";
-import ProductMannager from "../services/productManager.js";
 
 const cartsRouter = Router();
 
 const pathCart = "./src/data/carrito.json";
-
-const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
 
 // debo crear el propio manejador de carrito para no tener tanta logica dentro de las rutas, como lo hice inicialmente con manejador de Producto
 
