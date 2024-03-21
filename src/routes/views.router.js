@@ -2,7 +2,9 @@ import { Router } from "express";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+import MessageManager from "../dao/services/messagesMManager.js";
 
+const manejadorDeMensajes = new MessageManager();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -25,6 +27,16 @@ router.get("/realtimeproducts", async (req, res) => {
     const productosData = await fs.readFile(productosFilePath, "utf-8");
     const productos = JSON.parse(productosData);
     res.render("realtimeproducts", { productos: productos });
+  } catch (error) {
+    console.error("Error al ingresar a la ruta", error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
+router.get("/chat", async (req, res) => {
+  try {
+    const messages = await manejadorDeMensajes.getAll();
+    res.render("chat", { messages });
   } catch (error) {
     console.error("Error al ingresar a la ruta", error);
     res.status(500).send("Error interno del servidor");

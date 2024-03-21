@@ -9,9 +9,9 @@ import viewsRouter from "./src/routes/views.router.js";
 import cartsRouterM from "./src/routes/cartRouterM.js";
 import productRouterfs from "./src/routes/productRouterfs.js";
 import ProductMannager from "./src/dao/services/productManager.js";
-import messageRouter from "./src/routes/messageRouter.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import MessageManager from "./src/dao/services/messagesMManager.js";
 
 // variables de entorno
 dotenv.config();
@@ -39,7 +39,6 @@ app.use("/api/mongo/products", productsRouter);
 app.use("/api/products", productRouterfs);
 app.use("/api/carts", cartsRouter);
 app.use("/api/mongo/carts", cartsRouterM);
-app.use("/api/chat", messageRouter);
 
 const server = app.listen(port, () =>
   console.log("servidor corriendo en el puerto " + port)
@@ -61,8 +60,7 @@ connectMongoDB();
 
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
-
-const msg = [];
+const manejadorDeMensajes = new MessageManager();
 
 io.on("connection", (socket) => {
   console.log("Cliente conectado");
@@ -91,8 +89,9 @@ io.on("connection", (socket) => {
     }
   });
 
-  socket.on("message", (data) => {
-    msg.push(data);
-    io.emit("messageLogs", msg);
+  socket.on("message", async (data) => {
+    await manejadorDeMensajes.addMessage(data);
+    const messages = await manejadorDeMensajes.getAll();
+    io.emit("messageLogs", messages);
   });
 });
