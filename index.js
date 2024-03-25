@@ -4,10 +4,10 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import productsRouter from "./src/routes/productsRouter.js";
-import cartsRouter from "./src/routes/cartsRouter.js";
+//import cartsRouter from "./src/routes/cartsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
 import cartsRouterM from "./src/routes/cartRouterM.js";
-import productRouterfs from "./src/routes/productRouterfs.js";
+//import productRouterfs from "./src/routes/productRouterfs.js";
 import ProductMannager from "./src/dao/services/productManager.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -35,10 +35,8 @@ app.use(viewsRouter);
 
 ////Routes
 
-app.use("/api/mongo/products", productsRouter);
-app.use("/api/products", productRouterfs);
-app.use("/api/carts", cartsRouter);
-app.use("/api/mongo/carts", cartsRouterM);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouterM);
 
 const server = app.listen(port, () =>
   console.log("servidor corriendo en el puerto " + port)
