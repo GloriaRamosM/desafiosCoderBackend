@@ -1,0 +1,21 @@
+{{#if hasCarrito}}
+  <h2>Productos dentro del Carrito Solicitado</h2>
+  <hr />
+  <div>
+    {{#each carrito.products}}
+      <div>
+        <p><strong>Nombre:</strong> {{this.product.title}}</p>
+        <!-- Acceder a las propiedades del producto utilizando this.product -->
+        <p><strong>Descripción:</strong> {{this.product.description}}</p>
+        <p><strong>Precio:</strong> {{this.product.price}}</p>
+        <p><strong>Categoría:</strong> {{this.product.category}}</p>
+        <p><strong>Stock:</strong> {{this.product.stock}}</p>
+      </div>
+      <br />
+    {{/each}}
+  </div>
+  <br />
+{{else}}
+  <h2>No hay productos en este carrito</h2>
+  <hr />
+{{/if}}

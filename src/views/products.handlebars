@@ -1,0 +1,34 @@
+{{#if hasProducts}}
+  <h2>Listado de Productos</h2>
+  <hr />
+  <div>
+    {{#each payload}}
+      <div>
+        <p><strong>Nombre:</strong> {{title}}</p>
+        <p><strong>Descripción:</strong> {{description}}</p>
+        <p><strong>Precio:</strong> {{price}}</p>
+        <p><strong>Categoría:</strong> {{category}}</p>
+        <p><strong>Stock:</strong> {{stock}}</p>
+        <button>Agregar al carrito</button>
+      </div>
+      <br />
+    {{/each}}
+  </div>
+  <br />
+  <hr />
+  <div>
+    {{#if hasPrevPage}}
+      <a href="{{prevLink}}">&lt;&lt; Anterior</a>
+    {{/if}}
+    {{currentPage}}
+    {{#if hasNextPage}}
+      <a href="{{nextLink}}">Siguiente &gt;&gt;</a>
+    {{/if}}
+  </div>
+{{else}}
+  {{#if isValidPage}}
+    <h2>No hay productos en esta página</h2>
+  {{else}}
+    <h2>No hay productos</h2>
+  {{/if}}
+{{/if}}

@@ -11,9 +11,17 @@ export default class CartManager {
   };
 
   getCartById = async (id) => {
-    let result = await cartModel.findById(id);
-    return result;
+    try {
+      let result = await cartModel
+        .findById(id)
+        .populate("products.product")
+        .lean();
+      return result;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
+
   createCart = async () => {
     let result = await cartModel.create({});
     return result;
@@ -75,9 +83,52 @@ export default class CartManager {
     if (product === 0) {
       console.log("Producto no encontrado");
     } else {
-      cart.product.splice(product, 1);
+      cart.products.splice(product, 1);
     }
 
     return await cart.save();
+  };
+
+  updateCart = async (cid, pid, quantity) => {
+    let cart = await cartModel.findById(cid);
+    let product = cart.products.findIndex(
+      (product) => product.product.toString() === pid
+    );
+    if (product !== -1) {
+      cart.products[product].quantity = quantity;
+    }
+
+    await cart.save();
+    return cart;
+  };
+
+  deleteProducts = async (cid) => {
+    try {
+      let cart = await cartModel.findById(cid);
+      if (!cart) {
+        console.log("Carrito no encontrado");
+        return; // SI no lo encuentra, termina aca
+      }
+      if (cart.products.length === 0) {
+        console.log("El carrito ya está vacío");
+        return; // Si el carrito esta vacio y no tiene nada que borrar, termina aca
+      }
+      // Si encuentra al carrito, sigue y vacia products
+      cart.products = [];
+
+      // Guardar  el carrito actualizado sin productos
+      await cart.save();
+
+      console.log(
+        "Todos los productos fueron eliminados del carrito exitosamente"
+      );
+      return cart; // Devolver el carrito actualizado, me lo deja disponible
+    } catch (error) {
+      console.error(
+        "Error al intentar eliminar los productos del carrito:",
+        error
+      );
+      throw error; // Reenviar el error para ser manejado por el código que llama a esta función
+    }
   };
 }

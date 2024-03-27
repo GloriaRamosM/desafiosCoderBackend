@@ -7,9 +7,11 @@ const productsRouter = Router();
 const manejadorDeProducto = new ProductManager();
 
 // GET traigo todos los productos, o usando query, limito cuantos quiero, usando parametros
+
 productsRouter.get("/", async (req, res) => {
   let { limit, page, query, sort } = req.query;
   let data = await manejadorDeProducto.getAll({ limit, page, query, sort });
+  console.log(sort);
   res.json({ status: "success", ...data });
 });
 
@@ -24,9 +26,7 @@ productsRouter.get("/:pid/", async (req, res) => {
 productsRouter.post("/", async (req, res) => {
   //const {title, description,code,category,brand,price,stock,status,thumbnails} = req.body
   const newProduct = req.body;
-
   let result = await manejadorDeProducto.addProduct(newProduct);
-
   res.json({ result });
 });
 
@@ -44,73 +44,5 @@ productsRouter.delete("/:pid/", async (req, res) => {
   let result = await manejadorDeProducto.deleteProduct(id);
   res.json({ result });
 });
-
-// // const productos = [
-//   {
-//     "titulo": "Jordan",
-//     "descripcion": "zapas",
-//     "precio": 4500,
-//     "categoria": "ZApatos",
-//     "brand": "Nike",
-//     "codigo": 978,
-//     "stock": 50,
-//     "status": true,
-//     "rutaDeImagen": "SinRuta",
-//   },
-//   {
-//     titulo: "Basic",
-//     descripcion: "zapas",
-//     precio: 4500,
-//     categoria: "ZApatos",
-//     brand: "Nike",
-//     codigo: 68694,
-//     stock: 50,
-//     status: true,
-//     rutaDeImagen: "SinRuta",
-//   },
-//   {
-//     titulo: "negras",
-//     descripcion: "zapas",
-//     precio: 4500,
-//     categoria: "ZApatos",
-//     brand: "Nike",
-//     codigo: 154,
-//     stock: 50,
-//     status: true,
-//     rutaDeImagen: "SinRuta",
-//   },
-//   {
-//     titulo: "Nikie",
-//     descripcion: "zapas",
-//     precio: 4500,
-//     categoria: "ZApatos",
-//     brand: "Nike",
-//     codigo: 561,
-//     stock: 50,
-//     status: true,
-//     rutaDeImagen: "SinRuta",
-//   },
-//   {
-//     titulo: "Azules",
-//     descripcion: "zapas",
-//     precio: 4500,
-//     categoria: "ZApatos",
-//     brand: "Nike",
-//     codigo: 2614,
-//     stock: 50,
-//     status: true,
-//     rutaDeImagen: "SinRuta",
-//   },
-//   {
-//     titulo: "Basicas",
-//     descripcion: "zapas",
-//     precio: 4500,
-//     categoria: "ZApatos",
-//     brand: "Nike",
-//     codigo: 161,
-//     stock: 50,
-//     status: true,
-//     rutaDeImagen: "SinRuta",
-//   },
 
 export default productsRouter;

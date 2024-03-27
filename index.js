@@ -31,10 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/src/public`));
 app.engine("handlebars", handlebars.engine());
 
-app.use(viewsRouter);
-
 ////Routes
-
+app.use(viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouterM);
 
