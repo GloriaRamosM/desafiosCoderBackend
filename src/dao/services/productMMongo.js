@@ -5,9 +5,44 @@ export default class ProductManager {
     console.log("Trabajando con productManager");
   }
 
-  getAll = async (limit) => {
-    let result = await productsModel.find().limit(limit);
-    return result;
+  getAll = async ({ limit = 10, page = 1, query, sort }) => {
+    let options = { limit: limit, page };
+    if (sort) {
+      options.sort = { price: parseInt(sort) };
+    }
+    const queryParams = query ? JSON.parse(query) : {};
+
+    let {
+      docs,
+      totalPages,
+      page: actualPage,
+      prevPage,
+      nextPage,
+      hasPrevPage,
+      hasNextPage,
+    } = await productsModel.paginate(queryParams, options);
+
+    const queryString = JSON.stringify(queryParams);
+
+    return {
+      payload: docs,
+      totalPages,
+      page: actualPage,
+      prevPage,
+      nextPage,
+      hasPrevPage,
+      hasNextPage,
+      prevLink: !hasPrevPage
+        ? null
+        : `http://localhost:8080/api/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${encodeURIComponent(
+            queryString
+          )}`,
+      nextLink: !hasNextPage
+        ? null
+        : `http://localhost:8080/api/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${encodeURIComponent(
+            queryString
+          )}`,
+    };
   };
   getById = async (id) => {
     let result = await productsModel.findById(id);
