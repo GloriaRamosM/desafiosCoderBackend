@@ -65,8 +65,28 @@ cartsRouterM.delete("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-// PUT la consigna dice que deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.( no entiendo cual arreglo?)
-cartsRouterM.put("/:cid");
+// PUT la consigna dice que deberá actualizar el carrito con un arreglo de productos
+//con el formato especificado arriba.( no entiendo cual arreglo?)
+cartsRouterM.put("/:cid", async (req, res) => {
+  const { cid } = req.params; // Obtiene el ID del carrito de los parámetros de la ruta
+  const productsToUpdate = req.body; // Obtiene la lista de productos a actualizar del cuerpo de la solicitud
+
+  try {
+    // Iterar sobre cada producto en la lista y actualizarlo en el carrito
+    for (const { product, quantity } of productsToUpdate) {
+      await cartManager.updateProductsInCart(cid, product, quantity);
+    }
+
+    // Devuelve una respuesta exitosa
+    res.status(201).send({
+      status: "success",
+      message: "Productos actualizados correctamente en el carrito.",
+    });
+  } catch (error) {
+    // Devuelve una respuesta de error si ocurre algún problema
+    res.status(500).send({ status: "error", error: error.message });
+  }
+});
 
 //PUT api/carts/:cid/products/:pid ACTUALIZA atraves de req.
 //body la cantidad de ejemplares de ESE producto que pase, dentro del carrito

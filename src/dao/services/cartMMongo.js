@@ -102,6 +102,36 @@ export default class CartManager {
     return cart;
   };
 
+  updateProductsInCart = async (cid, pid, quantity) => {
+    try {
+      let cart = await cartModel.findById(cid);
+
+      if (!cart) {
+        throw new Error("El carrito no existe.");
+      }
+      let productIndex = cart.products.findIndex(
+        (product) => product.product.toString() === pid
+      );
+
+      if (productIndex === -1) {
+        cart.products.push({ product: pid, quantity });
+      } else {
+        cart.products[productIndex].quantity = quantity;
+      }
+
+      // Guardar los cambios en la base de datos
+      await cart.save();
+
+      return cart; // Devuelve  el carrito actualizado para poder usarlo
+    } catch (error) {
+      console.error(
+        "Error al intentar actualizar los productos del carrito:",
+        error
+      );
+      throw error; // envia el error para poder manejarlo
+    }
+  };
+
   deleteProducts = async (cid) => {
     try {
       let cart = await cartModel.findById(cid);
