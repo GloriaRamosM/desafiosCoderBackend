@@ -68,8 +68,8 @@ cartsRouterM.delete("/:cid/products/:pid", async (req, res) => {
 // PUT la consigna dice que deberá actualizar el carrito con un arreglo de productos
 //con el formato especificado arriba.( no entiendo cual arreglo?)
 cartsRouterM.put("/:cid", async (req, res) => {
-  const { cid } = req.params; // Obtiene el ID del carrito de los parámetros de la ruta
-  const productsToUpdate = req.body; // Obtiene la lista de productos a actualizar del cuerpo de la solicitud
+  const { cid } = req.params;
+  const productsToUpdate = req.body;
 
   try {
     // Iterar sobre cada producto en la lista y actualizarlo en el carrito
