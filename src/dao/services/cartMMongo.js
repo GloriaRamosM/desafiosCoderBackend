@@ -6,20 +6,15 @@ export default class CartManager {
   }
 
   getAllCarts = async (limit) => {
-    let result = await cartModel
-      .find()
-      .limit(limit)
-      .populate("products.product")
-      .lean();
+    let result = await cartModel.find().limit(limit);
+
     return result;
   };
 
   getCartById = async (id) => {
     try {
-      let result = await cartModel
-        .findById(id)
-        .populate("products.product")
-        .lean();
+      let result = await cartModel.findById(id);
+
       return result;
     } catch (error) {
       throw new Error(error.message);
@@ -55,17 +50,10 @@ export default class CartManager {
         throw new Error("El carrito no existe.");
       }
 
-      let productIndex = cart.products.findIndex(
-        (product) => product.product.toString() === pid
+      // Filtrar el carrito para eliminar todas las instancias del producto con el id dado
+      cart.products = cart.products.filter(
+        (product) => product.product.toString() !== pid
       );
-
-      if (productIndex === -1) {
-        console.log("Producto no encontrado en el carrito");
-        return cart; // No se encontró el producto, devolver el carrito sin cambios
-      }
-
-      // Eliminar el producto del carrito
-      cart.products.splice(productIndex, 1);
 
       // Guardar los cambios en la base de datos
       await cart.save();
@@ -76,14 +64,15 @@ export default class CartManager {
         "Error al intentar eliminar un producto del carrito:",
         error
       );
-      throw error; // Envía el error para poder manejarlo
+      throw error;
     }
   };
 
   updateCart = async (cid, pid, quantity) => {
     let cart = await cartModel.findById(cid);
+
     let product = cart.products.findIndex(
-      (product) => product.product.toString() === pid
+      product && product.product && product.product.toString() === pid
     );
     if (product !== -1) {
       cart.products[product].quantity = quantity;
@@ -102,12 +91,13 @@ export default class CartManager {
       }
 
       let productIndex = cart.products.findIndex(
-        (product) => product.product.toString() === pid
+        (product) =>
+          product && product.product && product.product.toString() === pid
       );
 
       if (productIndex === -1) {
         // Si el producto no está en el carrito, agregarlo con la cantidad proporcionada
-        cart.products.push({ product: pid, quantity });
+        cart.products.push({ _id: pid, quantity, product: pid });
       } else {
         // Si el producto ya está en el carrito, actualizar la cantidad
         cart.products[productIndex].quantity = quantity;

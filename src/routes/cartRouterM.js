@@ -71,6 +71,8 @@ cartsRouterM.put("/:cid", async (req, res) => {
   const { cid } = req.params;
   const productsToUpdate = req.body;
 
+  console.log("ID del producto:", cid);
+
   try {
     // Iterar sobre cada producto en la lista y actualizarlo en el carrito
     for (const { product, quantity } of productsToUpdate) {
