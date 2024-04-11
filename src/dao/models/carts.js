@@ -1,30 +1,5 @@
-// import mongoose from "mongoose";
-// const { Schema } = mongoose;
-
-// const collection = "Carts";
-
-// const schema = new Schema({
-//   products: [
-//     {
-//       product: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "products",
-//       },
-//       quantity: {
-//         type: Number,
-//         require: true,
-//       },
-//     },
-//   ],
-// });
-
-// const cartsModel = mongoose.model(collection, schema);
-
-// export default cartsModel;
-
 import mongoose from "mongoose";
-
-const { Schema } = mongoose;
+import { Schema } from "mongoose";
 
 const collection = "Carts";
 
@@ -32,17 +7,16 @@ const schema = new Schema({
   products: [
     {
       product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Products", // Aquí debes usar el nombre del modelo de productos
+        type: Schema.Types.ObjectId,
+        ref: "Products",
       },
       quantity: {
         type: Number,
-        required: true, // "require" debe ser "required"
+        default: 1,
       },
     },
   ],
 });
 
 const cartsModel = mongoose.model(collection, schema);
-
 export default cartsModel;

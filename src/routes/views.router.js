@@ -5,6 +5,7 @@ import { dirname, join } from "path";
 import MessageManager from "../dao/services/messagesMManager.js";
 import ProductManager from "../dao/services/productMMongo.js";
 import CartManager from "../dao/services/cartMMongo.js";
+import { auth } from "../middlewares/auth.js";
 
 const manejadorDeMensajes = new MessageManager();
 const manejadorDeProducto = new ProductManager();
@@ -16,7 +17,7 @@ const __dirname = dirname(__filename);
 const router = Router();
 const productosFilePath = join(__dirname, "../data/productos.json");
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const productosData = await fs.readFile(productosFilePath, "utf-8");
     const productos = JSON.parse(productosData);
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/realtimeproducts", async (req, res) => {
+router.get("/realtimeproducts", auth, async (req, res) => {
   try {
     const productosData = await fs.readFile(productosFilePath, "utf-8");
     const productos = JSON.parse(productosData);
@@ -38,7 +39,7 @@ router.get("/realtimeproducts", async (req, res) => {
   }
 });
 
-router.get("/chat", async (req, res) => {
+router.get("/chat", auth, async (req, res) => {
   try {
     const messages = await manejadorDeMensajes.getAll();
     res.render("chat", { messages });
@@ -48,7 +49,7 @@ router.get("/chat", async (req, res) => {
   }
 });
 
-router.get("/products", async (req, res) => {
+router.get("/products", auth, async (req, res) => {
   try {
     let { limit, page, query, sort } = req.query;
     let data = await manejadorDeProducto.getAllH({ limit, page, query, sort });
@@ -78,7 +79,7 @@ router.get("/products", async (req, res) => {
   }
 });
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", auth, async (req, res) => {
   try {
     const cid = req.params.cid;
     let carrito = await manejadorDeCarrito.getCartById(cid);
@@ -89,6 +90,20 @@ router.get("/carts/:cid", async (req, res) => {
     console.log(error);
     res.status(500).send({ status: "error", error: error.message });
   }
+});
+
+router.get("/register", (req, res) => {
+  res.render("register");
+});
+
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+
+router.get("/", auth, (req, res) => {
+  res.render("profile", {
+    user: req.session.user,
+  });
 });
 
 export default router;

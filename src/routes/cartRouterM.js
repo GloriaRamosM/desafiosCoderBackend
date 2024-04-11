@@ -58,7 +58,7 @@ cartsRouterM.delete("/:cid/products/:pid", async (req, res) => {
   const { cid, pid } = req.params;
   try {
     const deleteProduct = await cartManager.deleteProduct(cid, pid);
-    console.log("Producto borrado del carrito");
+    console.log("borrado");
     res.status(201).send({ status: "success", payload: deleteProduct });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
@@ -66,7 +66,7 @@ cartsRouterM.delete("/:cid/products/:pid", async (req, res) => {
 });
 
 // PUT la consigna dice que deberá actualizar el carrito con un arreglo de productos
-//con el formato especificado arriba.( no entiendo cual arreglo?)
+//con el formato especificado arriba.
 cartsRouterM.put("/:cid", async (req, res) => {
   const { cid } = req.params;
   const productsToUpdate = req.body;

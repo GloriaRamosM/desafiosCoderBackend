@@ -12,6 +12,9 @@ import ProductMannager from "./src/dao/services/productManager.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import MessageManager from "./src/dao/services/messagesMManager.js";
+import session from "express-session";
+import sessionsRouter from "./src/routes/sessions.router.js";
+import MongoStore from "connect-mongo";
 
 // variables de entorno
 dotenv.config();
@@ -31,18 +34,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/src/public`));
 app.engine("handlebars", handlebars.engine());
 
-////Routes
-app.use(viewsRouter);
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouterM);
-
 const server = app.listen(port, () =>
   console.log("servidor corriendo en el puerto " + port)
 );
 
-const connectMongoDB = async () => {
-  const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.DB_URL;
 
+const connectMongoDB = async () => {
   try {
     await mongoose.connect(DB_URL);
     console.log("conexion a la MONGODB");
@@ -53,6 +51,27 @@ const connectMongoDB = async () => {
 };
 
 connectMongoDB();
+
+//middleware session
+
+//logica de la sesión
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: DB_URL,
+      ttl: 3600,
+    }),
+    secret: "Kobu",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+////Routes
+app.use(viewsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouterM);
+app.use("/api/sessions", sessionsRouter);
 
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager("./src/data/productos.json");

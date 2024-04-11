@@ -6,7 +6,11 @@ export default class CartManager {
   }
 
   getAllCarts = async (limit) => {
-    let result = await cartModel.find().limit(limit);
+    let result = await cartModel
+      .find()
+      .limit(limit)
+      .populate("products.product")
+      .lean();
     return result;
   };
 
@@ -28,65 +32,52 @@ export default class CartManager {
   };
 
   addProduct = async (cid, pid, quantity) => {
+    let cart = await cartModel.findById(cid);
+    let product = cart.products.find(
+      (product) =>
+        product && product.product && product.product.toString() === pid
+    );
+
+    if (product) {
+      product.quantity += quantity;
+    } else {
+      cart.products.push({ _id: pid, quantity, product: pid });
+    }
+
+    return await cart.save();
+  };
+
+  deleteProduct = async (cid, pid) => {
     try {
-      // Buscar el carrito por su ID
       let cart = await cartModel.findById(cid);
 
-      // ver si existe el  carrito
       if (!cart) {
         throw new Error("El carrito no existe.");
       }
 
-      // Buscar el producto en el carrito por su ID
       let productIndex = cart.products.findIndex(
         (product) => product.product.toString() === pid
       );
 
-      // Si el producto ya está en el carrito, aumentar la cantidad
-      if (productIndex !== -1) {
-        cart.products[productIndex].quantity += quantity;
-      } else {
-        // Si el producto no está en el carrito, agregarlo con la cantidad especificada
-        cart.products.push({ product: pid, quantity });
+      if (productIndex === -1) {
+        console.log("Producto no encontrado en el carrito");
+        return cart; // No se encontró el producto, devolver el carrito sin cambios
       }
+
+      // Eliminar el producto del carrito
+      cart.products.splice(productIndex, 1);
 
       // Guardar los cambios en la base de datos
       await cart.save();
 
       return cart;
     } catch (error) {
-      return { error: error.message };
+      console.error(
+        "Error al intentar eliminar un producto del carrito:",
+        error
+      );
+      throw error; // Envía el error para poder manejarlo
     }
-  };
-
-  // addProduct = async (cid, pid, quantity) => {
-  //   let cart = await cartModel.findById(cid);
-  //   let product = cart.products.find(
-  //     (product) => product.product.toString() === pid
-  //   );
-
-  //   if (product) {
-  //     product.quantity += quantity;
-  //   } else {
-  //     cart.products.push({ product: pid, quantity });
-  //   }
-
-  //   return await cart.save();
-  // };
-
-  deleteProduct = async (cid, pid) => {
-    let cart = await cartModel.findById(cid);
-    let product = cart.products.findIndex(
-      (product) => product.product.toString() === pid
-    );
-
-    if (product === 0) {
-      console.log("Producto no encontrado");
-    } else {
-      cart.products.splice(product, 1);
-    }
-
-    return await cart.save();
   };
 
   updateCart = async (cid, pid, quantity) => {
@@ -109,26 +100,29 @@ export default class CartManager {
       if (!cart) {
         throw new Error("El carrito no existe.");
       }
+
       let productIndex = cart.products.findIndex(
         (product) => product.product.toString() === pid
       );
 
       if (productIndex === -1) {
+        // Si el producto no está en el carrito, agregarlo con la cantidad proporcionada
         cart.products.push({ product: pid, quantity });
       } else {
+        // Si el producto ya está en el carrito, actualizar la cantidad
         cart.products[productIndex].quantity = quantity;
       }
 
-      // Guardar los cambios en la base de datos
+      // Guardar los cambios en el documento del carrito
       await cart.save();
 
-      return cart; // Devuelve  el carrito actualizado para poder usarlo
+      return cart; // Devuelve el carrito actualizado para poder usarlo
     } catch (error) {
       console.error(
         "Error al intentar actualizar los productos del carrito:",
         error
       );
-      throw error; // envia el error para poder manejarlo
+      throw error; // Envía el error para poder manejarlo
     }
   };
 
