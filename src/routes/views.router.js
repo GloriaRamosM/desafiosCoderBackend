@@ -73,6 +73,7 @@ router.get("/products", auth, async (req, res) => {
       prevLink,
       nextLink,
       hasProducts,
+      user: req.session.user,
     });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
@@ -100,8 +101,8 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/", auth, (req, res) => {
-  res.render("profile", {
+router.get("/porfile", auth, (req, res) => {
+  res.render("porfile", {
     user: req.session.user,
   });
 });

@@ -18,7 +18,7 @@ form.addEventListener("submit", async (e) => {
     if (response.ok) {
       console.log("inicio sesion");
       // Aquí podrías redirigir al usuario a otra página si el inicio de sesión fue exitoso
-      window.location.href = "/"; // Por ejemplo, redirigir a la página principal
+      window.location.href = "/products"; // Por ejemplo, redirigir a la página principal
     } else {
       const errorMessage = await response.text(); // Obtener el mensaje de error del servidor
       throw new Error(errorMessage || "Error en el inicio de sesión");

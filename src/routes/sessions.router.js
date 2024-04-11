@@ -27,29 +27,28 @@ sessionRouter.post("/register", async (req, res) => {
 
 sessionRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
+  // Verificamos si el usuario es administrador
+  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+    // Si el correo y la contraseña coinciden con las del administrador, agregamos un campo "rol" a la sesión
+    req.session.user = {
+      name: "Admin",
+      email: email,
+      role: "Admin",
+    };
+    return res.send({
+      status: "success",
+      payload: req.session.user,
+      message: "Inicio exitoso",
+    });
+  }
+
   const user = await userModel.findOne({ email });
 
   if (!user) {
     return res
       .status(400)
       .send({ status: "error", error: "error en las credenciales" });
-  }
-
-  // Verificamos si el usuario es administrador
-  if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
-    // Si el correo y la contraseña coinciden con las del administrador, agregamos un campo "rol" a la sesión
-    req.session.user = {
-      name: `${user.first_name} ${user.last_name}`,
-      email: user.email,
-      age: user.age,
-      role: "Admin",
-    };
-
-    return res.send({
-      status: "success",
-      payload: req.session.user,
-      message: "Inicio exitoso",
-    });
   }
 
   // Si no es el usuario administrador, verificamos la contraseña normalmente
@@ -66,6 +65,7 @@ sessionRouter.post("/login", async (req, res) => {
     name: `${user.first_name} ${user.last_name}`,
     email: user.email,
     age: user.age,
+    role: "usuario",
   };
 
   res.send({
