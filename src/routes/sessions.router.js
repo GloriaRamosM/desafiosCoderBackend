@@ -85,4 +85,20 @@ sessionRouter.get("/logout", (req, res) => {
   });
 });
 
+sessionRouter.post("/restore", async (req, res) => {
+  const { email, password } = req.body;
+  //validar
+  const user = await userModel.findOne({ email });
+  console.log(user);
+  if (!user)
+    return res
+      .status(400)
+      .send({ status: "error", message: "No se encuentra el user" });
+  const newPass = createHash(password);
+
+  await userModel.updateOne({ _id: user._id }, { $set: { password: newPass } });
+
+  res.send({ status: "success", message: "Password actualizado" });
+});
+
 export default sessionRouter;
