@@ -15,6 +15,8 @@ import MessageManager from "./src/dao/services/messagesMManager.js";
 import session from "express-session";
 import sessionsRouter from "./src/routes/sessions.router.js";
 import MongoStore from "connect-mongo";
+import passport from "passport";
+import initilizePassport from "./src/config/passport.config.js";
 
 // variables de entorno
 dotenv.config();
@@ -66,6 +68,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+//usando passpot, primero traigo a la funcion que cree en passport.config, luego inicio passport y luego uso
+// con paassport la session que esta trabajando con la base de Datos Mongo
+initilizePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 ////Routes
 app.use(viewsRouter);

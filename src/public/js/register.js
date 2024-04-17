@@ -17,8 +17,10 @@ form.addEventListener("submit", (e) => {
     .then((json) => {
       if (json) {
         if (json.status === "success") {
-          alert(`¡Bienvenido, ${obj.first_name}!`);
-          window.location.href = "api/products";
+          alert(
+            `¡Bienvenido, ${obj.first_name} ahora puedes ingresar con tus credenciales`
+          );
+          window.location.href = "/products";
         } else if (json.error) {
           alert(json.error);
         } else {

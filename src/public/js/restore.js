@@ -16,6 +16,7 @@ form.addEventListener("submit", (e) => {
   }).then((response) => {
     if (response.status === 200) {
       console.log("exito");
+      window.location.href = "/login";
     } else {
       console.log("algo salio mal");
     }
