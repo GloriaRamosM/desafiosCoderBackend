@@ -82,7 +82,7 @@ const initilizePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          console.log(profile); //obtenemos el objeto del perfil que me trae de github cuando conecta, en produccion se borra dijo el profe
+          //aca habia un console.log de porfile //obtenemos el objeto del perfil que me trae de github cuando conecta, en produccion se borra dijo el profe
           //buscamos en la db el email
           const user = await userService.findOne({
             email: profile._json.email,
