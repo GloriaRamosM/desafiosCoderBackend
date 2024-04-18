@@ -27,6 +27,7 @@ const sessionRouter = Router();
 //   res.status(201).send({ status: "success", payload: result });
 // });
 
+// REGISTER USANDO PASSPORT
 sessionRouter.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/failregister" }),
@@ -91,6 +92,7 @@ sessionRouter.get("/failregister", async (req, res) => {
 //   });
 // });
 
+/// LOGIN USANDO PASSPORT
 sessionRouter.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
@@ -111,6 +113,29 @@ sessionRouter.get("/faillogin", async (req, res) => {
   res.send({ error: "Fallo" });
 });
 
+//INICIAR SESION USANDO GITHUB CON PASSPORT
+
+// Iniciar sesión usando Github
+//ruta a la que nos dirigimos para iniciar sesión
+sessionRouter.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {
+    res.send("inicio de sesion con Github!");
+  }
+);
+
+//ruta que nos lleva a github login
+sessionRouter.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    req.session.user = req.user;
+
+    res.redirect("/products"); //ruta a la que redirigimos luego de iniciar sesión
+  }
+);
+
 sessionRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (!err) {
@@ -123,7 +148,12 @@ sessionRouter.get("/logout", (req, res) => {
 
 sessionRouter.post("/restore", async (req, res) => {
   const { email, password } = req.body;
-  //validar
+  if (!email || !password) {
+    return res.status(400).send({
+      status: "error",
+      message: "Correo electrónico y contraseña son requeridos",
+    });
+  }
   const user = await userModel.findOne({ email });
   console.log(user);
   if (!user)

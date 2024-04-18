@@ -2,10 +2,22 @@ import passport from "passport";
 import local from "passport-local";
 import userService from "../dao/models/Users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
+import GitHubStrategy from "passport-github2"; // se instalo para la estrategia de Github y asociarse en el inicio de sesion
+import dotenv from "dotenv";
+
+// variables de entorno
+dotenv.config();
+
+const ClientIDGithub = process.env.ClientIDGithub;
+
+const ClientSecretGithub = process.env.ClientSecretGithub;
+
+const CallbackGithub = process.env.CallbackGithub;
 
 const LocalStrategy = local.Strategy;
 
 const initilizePassport = () => {
+  //estrategia de passport para el register
   passport.use(
     "register",
     new LocalStrategy(
@@ -52,6 +64,50 @@ const initilizePassport = () => {
           if (!valid) return done(null, false);
 
           return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  //estrategia para iniciar sesion con Github
+  passport.use(
+    "github",
+    new GitHubStrategy(
+      {
+        clientID: ClientIDGithub, //id de la app en github
+        clientSecret: ClientSecretGithub, //clave secreta de github
+        callbackURL: CallbackGithub, //url callback de github
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          console.log(profile); //obtenemos el objeto del perfil que me trae de github cuando conecta, en produccion se borra dijo el profe
+          //buscamos en la db el email
+          const user = await userService.findOne({
+            email: profile._json.email,
+          });
+          //si no existe lo creamos
+          if (!user) {
+            //contruimos el objeto según el modelo (los datos no pertenecientes al modelo lo seteamos por default)
+            const newUser = {
+              first_name: profile._json.name,
+              last_name: "",
+              age: 28,
+              email: profile._json.email,
+              password: "",
+            };
+
+            // aca arriba se creo el NewUser con el nombre que trae de git
+            //y el email los demas por default los dejamos blanco y la edad seteada random
+
+            //guardamos el usuario en la database
+            let createdUser = await userService.create(newUser);
+            // aca es donde se crea
+            done(null, createdUser);
+          } else {
+            done(null, user);
+          }
         } catch (error) {
           return done(error);
         }

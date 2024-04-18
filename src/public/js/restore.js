@@ -2,6 +2,16 @@ const form = document.getElementById("restoreForm");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  const email = form.email.value;
+  const password = form.password.value;
+
+  // Verificar si los campos están vacíos
+  if (!email || !password) {
+    alert("Por favor, ingresa un correo electrónico y una contraseña.");
+    return;
+  }
+
   const data = new FormData(form);
   const obj = {};
   console.log(data);
