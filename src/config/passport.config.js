@@ -79,6 +79,7 @@ const initilizePassport = () => {
         clientID: ClientIDGithub, //id de la app en github
         clientSecret: ClientSecretGithub, //clave secreta de github
         callbackURL: CallbackGithub, //url callback de github
+        scope: ["user:email"],
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -94,7 +95,7 @@ const initilizePassport = () => {
               first_name: profile._json.name,
               last_name: "",
               age: 28,
-              email: profile._json.email,
+              email: profile.emails[0].value,
               password: "",
             };
 
@@ -105,8 +106,10 @@ const initilizePassport = () => {
             let createdUser = await userService.create(newUser);
             // aca es donde se crea
             done(null, createdUser);
+            console.log(createdUser, profile);
           } else {
             done(null, user);
+            console.log(user, profile);
           }
         } catch (error) {
           return done(error);

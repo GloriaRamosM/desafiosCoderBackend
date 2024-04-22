@@ -26,7 +26,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-const port = process.env.port || 8080;
+const port = process.env.PORT || 8080;
 
 //Middlewares
 app.set("views", __dirname + "/src/views");
@@ -41,6 +41,7 @@ const server = app.listen(port, () =>
 );
 
 const DB_URL = process.env.DB_URL;
+console.log(DB_URL);
 
 const connectMongoDB = async () => {
   try {
