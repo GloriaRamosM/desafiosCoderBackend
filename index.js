@@ -17,6 +17,8 @@ import sessionsRouter from "./src/routes/sessions.router.js";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import initilizePassport from "./src/config/passport.config.js";
+import userRouter from "./src/routes/userRouter.js";
+import cookieParser from "cookie-parser";
 
 // variables de entorno
 dotenv.config();
@@ -72,6 +74,7 @@ app.use(
 
 //usando passpot, primero traigo a la funcion que cree en passport.config, luego inicio passport y luego uso
 // con paassport la session que esta trabajando con la base de Datos Mongo
+app.use(cookieParser());
 initilizePassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -81,6 +84,7 @@ app.use(viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouterM);
 app.use("/api/sessions", sessionsRouter);
+app.use("/api", userRouter);
 
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager("./src/data/productos.json");

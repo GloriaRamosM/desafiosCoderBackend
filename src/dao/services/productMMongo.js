@@ -164,4 +164,28 @@ export default class ProductManager {
     let result = await productsModel.deleteOne({ _id: id });
     return result;
   };
+
+  //Buscar los productos con categorias incluidas
+  getAllProductsWithCategories = async () => {
+    try {
+      const products = await productsModel.find().populate("category");
+      return products;
+    } catch (error) {
+      console.log("Error  al obtener todos lo productos");
+    }
+  };
+
+  // Para paginar los productos que vienen por Backend
+  getPaginateProducts = async (page = 1, limit = 10) => {
+    try {
+      const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+      };
+      const products = await productsModel.paginate({}, options);
+      return products;
+    } catch (error) {
+      console.log("Error  al Paginar los  productos");
+    }
+  };
 }

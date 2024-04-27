@@ -9,10 +9,17 @@ const manejadorDeProducto = new ProductManager();
 // GET traigo todos los productos, o usando query, limito cuantos quiero, usando parametros
 
 productsRouter.get("/", async (req, res) => {
-  let { limit, page, query, sort } = req.query;
-  let data = await manejadorDeProducto.getAll({ limit, page, query, sort });
-  console.log(sort);
-  res.json({ status: "success", ...data });
+  try {
+    let { limit, page, query, sort } = req.query;
+    let data = await manejadorDeProducto.getAll({ limit, page, query, sort });
+    //let data = await manejadorDeProducto.getAllProductsWithCategories({ limit, page, query, sort });
+    console.log(sort);
+    res.status(200).json({ data }); // usamos json porque tiene incluido a send() pero tiene algo adicional en un tema de formato que me conviene usar por ejemplo un null.
+  } catch (error) {
+    console.log(
+      "Error al intentar traer todos los productos  " + error.message
+    );
+  }
 });
 
 // GET, usando mi manejador, busco un producto especifico por ID y lo muestro

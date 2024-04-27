@@ -4,17 +4,23 @@ import userService from "../dao/models/Users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2"; // se instalo para la estrategia de Github y asociarse en el inicio de sesion
 import dotenv from "dotenv";
+import jwt from "passport-jwt";
 
 // variables de entorno
 dotenv.config();
-
+// para la estrategia de passport con Github
 const ClientIDGithub = process.env.ClientIDGithub;
 
 const ClientSecretGithub = process.env.ClientSecretGithub;
 
 const CallbackGithub = process.env.CallbackGithub;
 
+// para la estrategia de passport local
 const LocalStrategy = local.Strategy;
+
+//para la estrategia de passport con jwt = token
+const JWTStrategy = jwt.Strategy;
+const ExtracJWT = jwt.ExtractJwt;
 
 const initilizePassport = () => {
   //estrategia de passport para el register
@@ -39,6 +45,7 @@ const initilizePassport = () => {
             last_name,
             email,
             age,
+            rol,
             password: createHash(password),
           };
           //crea y guarda al usuaruo
@@ -111,6 +118,32 @@ const initilizePassport = () => {
             done(null, user);
             console.log(user, profile);
           }
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) {
+      token = req.cookies["desafio-integrador"];
+    }
+    return token;
+  };
+
+  //Estrategia para jwt
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtracJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: "desafio-integrador",
+      },
+      async (jwt_payload, done) => {
+        try {
+          return done(null, jwt_payload);
         } catch (error) {
           return done(error);
         }
