@@ -2,6 +2,7 @@ import { Router } from "express";
 import userModel from "../dao/models/Users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
+import { auth } from "../middlewares/auth.js";
 const sessionRouter = Router();
 
 //REGISTER SIN PASSPORT
@@ -135,6 +136,14 @@ sessionRouter.get(
     res.redirect("/products"); //ruta a la que redirigimos luego de iniciar sesión
   }
 );
+
+sessionRouter.get("/current", auth, (req, res) => {
+  res.send({
+    ...req.session.passport,
+    ...req.session.user,
+    sessionType: "Passport session",
+  });
+});
 
 sessionRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {

@@ -2,6 +2,7 @@ import { Router } from "express";
 import UserManager from "../dao/services/userMMongo.js";
 import AuthManager from "../dao/services/authMannager.js";
 import passport from "passport";
+import { auth } from "../middlewares/auth.js";
 
 const userRouter = Router();
 
@@ -9,9 +10,9 @@ const userRouter = Router();
 const userManager = new UserManager();
 const authManager = new AuthManager();
 
-// Obtener todos los usuarios
+//Obtener todos los usuarios. traer a los usuarios usando la estrategia de JWT y loggeado con la ruta de JWT
 userRouter.get(
-  "/users",
+  "/jwt/users",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
@@ -23,6 +24,18 @@ userRouter.get(
     }
   }
 );
+
+// traer a los usuarios usando session.
+
+userRouter.get("/users", auth, async (req, res) => {
+  try {
+    const users = await userManager.getAll();
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error(`Error al cargar los usuarios: ${error}`);
+    res.status(500).json({ error: `Error al recibir los usuarios` });
+  }
+});
 
 // Obtener un usuario por su ID
 userRouter.get("/user/:id", async (req, res) => {
