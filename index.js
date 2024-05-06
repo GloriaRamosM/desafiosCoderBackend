@@ -10,7 +10,6 @@ import cartsRouterM from "./src/routes/cartRouterM.js";
 //import productRouterfs from "./src/routes/productRouterfs.js";
 import ProductMannager from "./src/dao/services/productManager.js";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import MessageManager from "./src/dao/services/messagesMManager.js";
 import session from "express-session";
 import sessionsRouter from "./src/routes/sessions.router.js";
@@ -19,16 +18,14 @@ import passport from "passport";
 import initilizePassport from "./src/config/passport.config.js";
 import userRouter from "./src/routes/userRouter.js";
 import cookieParser from "cookie-parser";
-
-// variables de entorno
-dotenv.config();
+import config from "./src/config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 
-const port = process.env.PORT || 8080;
+const port = config.PORT || 8080;
 
 //Middlewares
 app.set("views", __dirname + "/src/views");
@@ -42,7 +39,7 @@ const server = app.listen(port, () =>
   console.log("servidor corriendo en el puerto " + port)
 );
 
-const DB_URL = process.env.DB_URL;
+const DB_URL = config.DB_URL;
 console.log(DB_URL);
 
 const connectMongoDB = async () => {

@@ -3,17 +3,15 @@ import local from "passport-local";
 import userService from "../dao/models/Users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2"; // se instalo para la estrategia de Github y asociarse en el inicio de sesion
-import dotenv from "dotenv";
 import jwt from "passport-jwt";
+import config from "../config.js";
 
-// variables de entorno
-dotenv.config();
-// para la estrategia de passport con Github
-const ClientIDGithub = process.env.ClientIDGithub;
+// para la estrategia de passport con Github// me lo traigo de config y en config tengo la configuracion de dotenv para la variables de entorno
+const ClientIDGithub = config.ClientIdGithub;
 
-const ClientSecretGithub = process.env.ClientSecretGithub;
+const ClientSecretGithub = config.ClientSecretGithub;
 
-const CallbackGithub = process.env.CallbackGithub;
+const CallbackGithub = config.CallbackGithub;
 
 // para la estrategia de passport local
 const LocalStrategy = local.Strategy;
