@@ -4,9 +4,9 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import productsRouter from "./src/routes/productsRouter.js";
-//import cartsRouter from "./src/routes/cartsRouter.js";
+import cartsRouter from "./src/routes/cartsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
-import cartsRouterM from "./src/routes/cartRouterM.js";
+//import cartsRouterM from "./src/routes/cartRouterM.js";
 //import productRouterfs from "./src/routes/productRouterfs.js";
 import ProductMannager from "./src/dao/services/productManager.js";
 import mongoose from "mongoose";
@@ -79,7 +79,7 @@ app.use(passport.session());
 ////Routes
 app.use(viewsRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouterM);
+app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
 

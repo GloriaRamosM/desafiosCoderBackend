@@ -22,7 +22,12 @@
 	},
 	{
 		"id": "f9b39186-d1c6-41d3-9f0c-20c085f36542",
-		"products": []
+		"products": [
+			{
+				"id": "3",
+				"quantity": 3
+			}
+		]
 	},
 	{
 		"id": "7033a886-bcc9-485e-bcfe-17333b7dc7e3",

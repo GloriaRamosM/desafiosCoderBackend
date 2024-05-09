@@ -16,6 +16,6 @@ cartsRouter.get("/", cartsControllerFS.get);
 cartsRouter.get("/:cid", cartsControllerFS.getById);
 
 // POST busco por ID mi carrito, luego busco un producto por ID (si los encuentra)  le pusheo el ID del producto ,al carrito que quiero.
-cartsRouter.post("/:cid/product/:pid", cartsControllerFS.update);
+cartsRouter.post("/:cid/product/:pid", cartsControllerFS.addProductToCart);
 
 export default cartsRouter;

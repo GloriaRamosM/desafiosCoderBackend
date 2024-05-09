@@ -8,10 +8,10 @@ export default class ProductManager {
     this.path = path;
     if (fs.existsSync(this.path)) {
       this.productos = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-      console.log("existe el archivo");
+      console.log("existe el archivo de productos");
     } else {
       fs.writeFileSync(this.path, JSON.stringify(this.productos));
-      console.log("no existe");
+      console.log("no existe el archivo de productos");
     }
   }
 
@@ -86,7 +86,7 @@ export default class ProductManager {
     );
 
     if (!producto) {
-      console.log("Producto no encontrado");
+      console.log(`Producto con id ${productoId} no encontrado`);
     }
 
     return producto;

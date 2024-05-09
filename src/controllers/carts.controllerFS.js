@@ -30,7 +30,7 @@ class CartController {
     res.json(cart);
   }
 
-  async update(req, res) {
+  async addProductToCart(req, res) {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
@@ -47,12 +47,12 @@ class CartController {
     }
 
     try {
-      const actualizar = await manejadorDeCart.update(cid, pid);
+      const actualizar = await manejadorDeCart.addProductToCart(cid, pid);
       res.json({ actualizar });
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
       res.status(500).json({
-        error: "Ocurrió un error interno al intentar eliminar el producto.",
+        error: "Ocurrió un error interno al intentar agregar el producto.",
       });
     }
   }
