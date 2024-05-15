@@ -1,6 +1,6 @@
 import { Router } from "express";
-import userModel from "../dao/models/Users.model.js";
-import { createHash, isValidPassword } from "../utils.js";
+
+//import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
 import { auth } from "../middlewares/auth.js";
 import sessionsController from "../controllers/sessions.controller.js";

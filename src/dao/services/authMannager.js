@@ -1,4 +1,4 @@
-import userModel from "../models/Users.model.js";
+import userModel from "../mongo/models/Users.model.js";
 import { isValidPassword, generateToken } from "../../utils.js";
 
 export default class AuthManager {

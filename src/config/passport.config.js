@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import userService from "../dao/models/Users.model.js";
+import userService from "../dao/mongo/models/Users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2"; // se instalo para la estrategia de Github y asociarse en el inicio de sesion
 import jwt from "passport-jwt";

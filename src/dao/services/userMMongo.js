@@ -1,5 +1,5 @@
 import { createHash } from "../../utils.js";
-import userModel from "../models/Users.model.js";
+import userModel from "../mongo/models/Users.model.js";
 
 export default class UserManager {
   constructor() {

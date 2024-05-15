@@ -1,4 +1,4 @@
-import userModel from "../dao/models/Users.model.js";
+import userModel from "../dao/mongo/models/Users.model.js";
 import { auth } from "../middlewares/auth.js";
 import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
