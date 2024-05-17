@@ -12,12 +12,12 @@ productsRouter.get("/", ProductController.getAll);
 productsRouter.get("/:pid/", ProductController.getById);
 
 // POST, en este post usando BODY , le agrego un producto nuevo a mi archivo de productos
-productsRouter.post("/", ProductController.addProduct);
+productsRouter.post("/", ProductController.add);
 
 // PUT, usando mi manejador de Producto con el metodo update puedo actualizar mi producto pasandole id para identificar cual quiero cambiar y enviandole cambios por body
-productsRouter.put("/:pid/", ProductController.updateProduct);
+productsRouter.put("/:pid/", ProductController.update);
 
 // DELETE, voy a borrar el producto que le indique y le pase por parametros
-productsRouter.delete("/:pid/", ProductController.deleteProduct);
+productsRouter.delete("/:pid/", ProductController.delete);
 
 export default productsRouter;

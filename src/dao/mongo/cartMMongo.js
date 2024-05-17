@@ -5,13 +5,13 @@ export default class CartManager {
     console.log("Trabajando con cartManager");
   }
 
-  getAllCarts = async (limit) => {
+  getAll = async (limit) => {
     let result = await cartModel.find().limit(limit);
 
     return result;
   };
 
-  getCartById = async (id) => {
+  getById = async (id) => {
     try {
       let result = await cartModel.findById(id);
 
@@ -21,12 +21,12 @@ export default class CartManager {
     }
   };
 
-  createCart = async () => {
+  create = async () => {
     let result = await cartModel.create({});
     return result;
   };
 
-  addProduct = async (cid, pid, quantity) => {
+  add = async (cid, pid, quantity) => {
     let cart = await cartModel.findById(cid);
     let product = cart.products.find(
       (product) =>
@@ -42,7 +42,7 @@ export default class CartManager {
     return await cart.save();
   };
 
-  deleteProduct = async (cid, pid) => {
+  delete = async (cid, pid) => {
     try {
       let cart = await cartModel.findById(cid);
 
@@ -68,7 +68,7 @@ export default class CartManager {
     }
   };
 
-  updateCart = async (cid, pid, quantity) => {
+  update = async (cid, pid, quantity) => {
     let cart = await cartModel.findById(cid);
 
     let product = cart.products.findIndex(
@@ -116,7 +116,7 @@ export default class CartManager {
     }
   };
 
-  deleteProducts = async (cid) => {
+  deleteAll = async (cid) => {
     try {
       let cart = await cartModel.findById(cid);
       if (!cart) {

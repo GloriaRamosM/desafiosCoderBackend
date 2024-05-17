@@ -1,8 +1,8 @@
-import UserManager from "../dao/services/userMMongo.js";
-import AuthManager from "../dao/services/authMannager.js";
+import { Users } from "../dao/factory.js";
+import { Auth } from "../dao/factory.js";
 
-const userManager = new UserManager();
-const authManager = new AuthManager();
+const userManager = new Users();
+const authManager = new Auth();
 
 class UserController {
   constructor() {

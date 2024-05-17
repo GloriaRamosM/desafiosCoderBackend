@@ -4,13 +4,11 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import productsRouter from "./src/routes/productsRouter.js";
-import cartsRouter from "./src/routes/cartsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
-//import cartsRouterM from "./src/routes/cartRouterM.js";
-//import productRouterfs from "./src/routes/productRouterfs.js";
-import ProductMannager from "./src/dao/services/productManager.js";
+import cartsRouterM from "./src/routes/cartRouterM.js";
+import ProductMannager from "./src/dao/fs/productManager.js";
 import mongoose from "mongoose";
-import MessageManager from "./src/dao/services/messagesMManager.js";
+import MessageManager from "./src/dao/mongo/messagesMManager.js";
 import session from "express-session";
 import sessionsRouter from "./src/routes/sessions.router.js";
 import MongoStore from "connect-mongo";
@@ -42,18 +40,6 @@ const server = app.listen(port, () =>
 const DB_URL = config.DB_URL;
 console.log(DB_URL);
 
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(DB_URL);
-    console.log("conexion a la MONGODB");
-  } catch (error) {
-    console.error("No se pudo conectar a la BD", error);
-    process.exit();
-  }
-};
-
-connectMongoDB();
-
 //middleware session
 
 //logica de la sesión
@@ -79,12 +65,14 @@ app.use(passport.session());
 ////Routes
 app.use(viewsRouter);
 app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/carts", cartsRouterM);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
 
 const io = new Server(server); // instanciando socket.io
-const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
+const manejadorDeProducto = new ProductMannager(
+  "./src/dao/fs/data/productos.json"
+);
 const manejadorDeMensajes = new MessageManager();
 
 io.on("connection", (socket) => {

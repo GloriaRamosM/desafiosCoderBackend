@@ -9,4 +9,5 @@ export default {
   ClientIdGithub: process.env.ClientIDGithub,
   ClientSecretGithub: process.env.ClientSecretGithub,
   CallbackGithub: process.env.CallbackGithub,
+  persistence: process.env.PERSISTENCE,
 };

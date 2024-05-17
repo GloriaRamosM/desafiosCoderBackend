@@ -5,18 +5,18 @@ const cartsRouterM = Router();
 
 // GET /api/carts/:cid
 
-cartsRouterM.get("/", CartsController.getAllCarts);
+cartsRouterM.get("/", CartsController.getAll);
 
-cartsRouterM.get("/:cid", CartsController.getCartById);
+cartsRouterM.get("/:cid", CartsController.getById);
 
 // POST /api/carts
-cartsRouterM.post("/", CartsController.createCart);
+cartsRouterM.post("/", CartsController.create);
 
 // POST /api/carts/:cid/product/:pid AGREGA PRODUCTOS AL CARRITO
-cartsRouterM.post("/:cid/products/:pid", CartsController.addProduct);
+cartsRouterM.post("/:cid/products/:pid", CartsController.add);
 
 // BORRA EL PRODUCTO DEL CARRITO
-cartsRouterM.delete("/:cid/products/:pid", CartsController.deleteProduct);
+cartsRouterM.delete("/:cid/products/:pid", CartsController.delete);
 
 // PUT la consigna dice que deberá actualizar el carrito con un arreglo de productos
 //con el formato especificado arriba.
@@ -25,8 +25,8 @@ cartsRouterM.put("/:cid", CartsController.updateProductsInCart);
 //PUT api/carts/:cid/products/:pid ACTUALIZA atraves de req.
 //body la cantidad de ejemplares de ESE producto que pase, dentro del carrito
 
-cartsRouterM.put("/:cid/products/:pid", CartsController.updateCart);
+cartsRouterM.put("/:cid/products/:pid", CartsController.update);
 
-cartsRouterM.delete("/:cid", CartsController.deleteProducts);
+cartsRouterM.delete("/:cid", CartsController.deleteAll);
 
 export default cartsRouterM;

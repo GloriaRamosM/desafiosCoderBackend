@@ -2,7 +2,7 @@ import fs from "fs";
 import { randomUUID } from "node:crypto";
 import ProductManager from "./productManager.js";
 
-const manejadorDeProducto = new ProductManager("./src/data/productos.json");
+const manejadorDeProducto = new ProductManager("../fs/data/productos.json");
 
 export default class CartManager {
   carts = [];
@@ -19,7 +19,7 @@ export default class CartManager {
   }
 
   // consultar si hace falta sacar el await en la parte de JSON.parse
-  createCart = async () => {
+  create = async () => {
     try {
       const ID = randomUUID();
 
@@ -36,7 +36,7 @@ export default class CartManager {
     }
   };
 
-  get() {
+  getAll() {
     return this.carts;
   }
 
@@ -51,7 +51,7 @@ export default class CartManager {
   }
 
   // busca por el id un carrito , cuando lo encuentra le suma el id de producto que le paso, y si existe le suma la cantidad
-  addProductToCart = async (cid, pid) => {
+  add = async (cid, pid) => {
     let foundProduct;
     try {
       foundProduct = await manejadorDeProducto.getProductoById(pid);

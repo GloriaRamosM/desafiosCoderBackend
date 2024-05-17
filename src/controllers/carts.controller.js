@@ -1,22 +1,38 @@
-import CartManager from "../dao/services/cartMMongo.js";
+import { Carts } from "../dao/factory.js";
 
-const cartManager = new CartManager();
+const Servicies = new Carts();
 
 class CartController {
   constructor() {
     console.log("Controlador de Carrito");
   }
 
-  async getAllCarts(req, res) {
+  // GET ALL FS
+  // async getAll(req, res) {
+  //   const carts = manejadorDeCart.getAll();
+  //   res.json(carts);
+  // }
+
+  async getAll(req, res) {
     let limit = req.query;
-    let data = await cartManager.getAllCarts(limit);
+    let data = await Servicies.getAll(limit);
     res.json({ data });
   }
 
-  async getCartById(req, res) {
+  // GETBYID FS
+  // async getById(req, res) {
+  //   const cid = req.params.cid;
+  //   const cart = manejadorDeCart.getById(cid);
+  //   if (!cart) {
+  //     return res.status(404).json({ error: "Carrito  no fue encontrado" });
+  //   }
+  //   res.json(cart);
+  // }
+
+  async getById(req, res) {
     try {
       const cid = req.params.cid;
-      const cart = await cartManager.getCartById(cid);
+      const cart = await Servicies.getById(cid);
       console.log(cart);
       res.send({ status: "success", payload: cart });
     } catch (error) {
@@ -25,36 +41,72 @@ class CartController {
     }
   }
 
-  async createCart(req, res) {
+  //CREATE FS
+  // async create(req, res) {
+  //   const cart = await manejadorDeCart.create();
+  //   res.status(201).json({
+  //     mensaje: " Carrito creado",
+  //     CartID: ID,
+  //   });
+  //   res.json(cart);
+  // }
+
+  async create(req, res) {
     try {
-      const newCart = await cartManager.createCart();
+      const newCart = await Servicies.create();
       res.status(201).send({ status: "success", payload: newCart });
     } catch (error) {
       console.log(error);
       res.status(500).send({ status: "error", error: error.message });
     }
   }
+  //
 
-  async addProduct(req, res) {
+  //ADD FS
+  //   async add(req, res) {
+  //     const cid = req.params.cid;
+  //     const pid = req.params.pid;
+
+  //     if (!cid) {
+  //       return res.status(400).json({
+  //         error: "Se requiere proporcionar 'id de carrito'",
+  //       });
+  //     }
+
+  //     if (!pid) {
+  //       return res.status(400).json({
+  //         error: "se requiero id de producto",
+  //       });
+  //     }
+
+  //     try {
+  //       const actualizar = await manejadorDeCart.add(cid, pid);
+  //       res.json({ actualizar });
+  //     } catch (error) {
+  //       console.error("Error al eliminar el producto:", error);
+  //       res.status(500).json({
+  //         error: "Ocurrió un error interno al intentar agregar el producto.",
+  //       });
+  //     }
+  //   }
+  // }
+
+  async add(req, res) {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
 
     try {
-      const updatedCart = await cartManager.addProduct(
-        cid,
-        pid,
-        parseInt(quantity)
-      );
+      const updatedCart = await Servicies.add(cid, pid, parseInt(quantity));
       res.status(201).send({ status: "success", payload: updatedCart });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
     }
   }
 
-  async deleteProduct(req, res) {
+  async delete(req, res) {
     const { cid, pid } = req.params;
     try {
-      const deleteProduct = await cartManager.deleteProduct(cid, pid);
+      const deleteProduct = await Servicies.delete(cid, pid);
       console.log("borrado");
       res.status(201).send({ status: "success", payload: deleteProduct });
     } catch (error) {
@@ -71,7 +123,7 @@ class CartController {
     try {
       // Iterar sobre cada producto en la lista y actualizarlo en el carrito
       for (const { product, quantity } of productsToUpdate) {
-        await cartManager.updateProductsInCart(cid, product, quantity);
+        await Servicies.updateProductsInCart(cid, product, quantity);
       }
 
       // Devuelve una respuesta exitosa
@@ -85,12 +137,12 @@ class CartController {
     }
   }
 
-  async updateCart(req, res) {
+  async update(req, res) {
     const { cid, pid } = req.params;
     const { quantity } = req.body;
 
     try {
-      const updatedQuantity = await cartManager.updateCart(
+      const updatedQuantity = await Servicies.update(
         cid,
         pid,
         parseInt(quantity)
@@ -101,10 +153,10 @@ class CartController {
     }
   }
 
-  async deleteProducts(req, res) {
+  async deleteAll(req, res) {
     const { cid } = req.params;
     try {
-      const deleteProducts = await cartManager.deleteProducts(cid);
+      const deleteProducts = await Servicies.deleteAll(cid);
       console.log("ProductOS borradoS del carrito");
       res.status(201).send({ status: "success", payload: deleteProducts });
     } catch (error) {
