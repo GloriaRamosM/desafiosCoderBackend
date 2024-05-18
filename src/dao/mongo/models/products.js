@@ -27,8 +27,8 @@ const schema = new Schema({
     required: true,
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId, // Referencia al modelo Category
-    ref: "category", // Referencia al nombre del modelo "category"
+    type: String, //mongoose.Schema.Types.ObjectId, // Referencia al modelo Category
+    //ref: "category", // Referencia al nombre del modelo "category"
     required: true, // Obligatorio tener una categoría asociada,
   },
   stock: {

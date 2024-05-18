@@ -1,5 +1,7 @@
 import { Users } from "../dao/factory.js";
 import { Auth } from "../dao/factory.js";
+import UserDTO from "../dao/DTOs/user.dto.js";
+import { createHash } from "../utils.js";
 
 const userManager = new Users();
 const authManager = new Auth();
@@ -36,7 +38,15 @@ class UserController {
 
   async createUser(req, res) {
     try {
-      const newUser = req.body;
+      const { first_name, last_name, email, age, password } = req.body;
+      const hashedPassword = createHash(password);
+      const newUser = new UserDTO({
+        first_name,
+        last_name,
+        email,
+        age,
+        password: hashedPassword,
+      });
       const result = await userManager.createUser(newUser);
       res.status(201).json({ result });
     } catch (error) {
@@ -48,7 +58,16 @@ class UserController {
   async updateUser(req, res) {
     try {
       const { id } = req.params;
-      const updatedUser = req.body;
+      const { first_name, last_name, email, age, password } = req.body;
+      const hashedPassword = createHash(password);
+
+      const updatedUser = new UserDTO({
+        first_name,
+        last_name,
+        email,
+        age,
+        password: hashedPassword,
+      });
       const result = await userManager.updateUser(id, updatedUser);
       if (result) {
         res.status(200).json({ message: "Usuario actualizado exitosamente" });

@@ -7,7 +7,6 @@ import productsRouter from "./src/routes/productsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
 import cartsRouterM from "./src/routes/cartRouterM.js";
 import ProductMannager from "./src/dao/fs/productManager.js";
-import mongoose from "mongoose";
 import MessageManager from "./src/dao/mongo/messagesMManager.js";
 import session from "express-session";
 import sessionsRouter from "./src/routes/sessions.router.js";

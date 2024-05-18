@@ -1,6 +1,6 @@
-import { Products } from "../dao/factory.js";
-
-const Servicies = new Products();
+//import { Products } from "../dao/factory.js";
+//import ProductDTO from "../dao/DTOs/product.dto.js";
+import { ProductsService } from "../repositories/index.js";
 
 class ProductController {
   constructor() {
@@ -17,7 +17,7 @@ class ProductController {
   async getAll(req, res) {
     try {
       let { limit, page, query, sort } = req.query;
-      let data = await Servicies.getAll({ limit, page, query, sort });
+      let data = await ProductsService.getAll({ limit, page, query, sort });
       //let data = await manejadorDeProducto.getAllProductsWithCategories({ limit, page, query, sort });
       console.log(sort);
       res.status(200).json({ data }); // usamos json porque tiene incluido a send() pero tiene algo adicional en un tema de formato que me conviene usar por ejemplo un null.
@@ -40,7 +40,7 @@ class ProductController {
 
   async getById(req, res) {
     const productId = req.params.pid;
-    let data = await Servicies.getById(productId);
+    let data = await ProductsService.getById(productId);
     res.json({ data });
   }
 
@@ -63,8 +63,29 @@ class ProductController {
   // }
 
   async add(req, res) {
-    const newProduct = req.body;
-    let result = await Servicies.add(newProduct);
+    const {
+      title,
+      description,
+      code,
+      price,
+      status,
+      category,
+      stock,
+      thumbnails,
+      brand,
+    } = req.body;
+    const newProduct = {
+      title,
+      description,
+      code,
+      price,
+      status,
+      category,
+      stock,
+      thumbnails,
+      brand,
+    };
+    let result = await ProductsService.add(newProduct);
     res.json({ result });
   }
 
@@ -96,8 +117,29 @@ class ProductController {
 
   async update(req, res) {
     let id = req.params.pid;
-    let updateUser = req.body;
-    let result = await Servicies.update(id, updateUser);
+    const {
+      title,
+      description,
+      code,
+      price,
+      status,
+      category,
+      stock,
+      thumbnails,
+      brand,
+    } = req.body;
+    const updateProduct = {
+      title,
+      description,
+      code,
+      price,
+      status,
+      category,
+      stock,
+      thumbnails,
+      brand,
+    };
+    let result = await ProductsService.update(id, updateProduct);
     res.json({ result });
   }
 
@@ -129,7 +171,7 @@ class ProductController {
 
   async delete(req, res) {
     const id = req.params.pid;
-    let result = await Servicies.delete(id);
+    let result = await ProductsService.delet(id);
     res.json({ result });
   }
 }
