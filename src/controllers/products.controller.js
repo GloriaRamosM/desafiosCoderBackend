@@ -17,7 +17,7 @@ class ProductController {
   async getAll(req, res) {
     try {
       let { limit, page, query, sort } = req.query;
-      let data = await ProductsService.getAll({ limit, page, query, sort });
+      let data = await ProductsService.getAll(limit, page, query, sort);
       //let data = await manejadorDeProducto.getAllProductsWithCategories({ limit, page, query, sort });
       console.log(sort);
       res.status(200).json({ data }); // usamos json porque tiene incluido a send() pero tiene algo adicional en un tema de formato que me conviene usar por ejemplo un null.

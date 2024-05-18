@@ -2,6 +2,7 @@ import userModel from "../dao/mongo/models/Users.model.js";
 import { auth } from "../middlewares/auth.js";
 import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
+import UserdatosDTO from "../dao/DTOs/userdatos.dto.js";
 
 class SessionController {
   constructor() {
@@ -39,12 +40,20 @@ class SessionController {
     res.redirect("/products"); //ruta a la que redirigimos luego de iniciar sesión
   }
 
+  // Modificada para que pase informacion con un DTO indicando que datos va a enviar
   async current(req, res) {
+    let { first_name, last_name, age, rol } = req.session.user;
+    const datosUser = new UserdatosDTO({ first_name, last_name, age, rol });
     res.send({
-      ...req.session.passport,
-      ...req.session.user,
+      datosUser,
       sessionType: "Passport session",
     });
+
+    // res.send({
+    //   ...req.session.passport,
+    //   ...req.session.user,
+    //   sessionType: "Passport session",
+    // });
   }
 
   async logout(req, res) {

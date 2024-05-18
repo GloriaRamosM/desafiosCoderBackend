@@ -6,6 +6,7 @@ export default class ProductManager {
 
   constructor(path) {
     this.path = path;
+    console.log(this.path);
     if (fs.existsSync(this.path)) {
       this.productos = JSON.parse(fs.readFileSync(this.path, "utf-8"));
       console.log("existe el archivo de productos");

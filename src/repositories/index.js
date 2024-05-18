@@ -1,4 +1,10 @@
-import { Products } from "../dao/factory.js";
+import ProductManager from "../dao/mongo/productMMongo";
 import ProductRepository from "./Product.repository.js";
 
-export const ProductsService = new ProductRepository(new Products());
+// MONGO sin ruta
+export const ProductsService = new ProductRepository(new ProductManager());
+
+// FS con ruta
+// export const ProductsService = new ProductRepository(
+//   new Products("./src/dao/fs/data/productos.json")
+// );

@@ -38,7 +38,7 @@ class UserController {
 
   async createUser(req, res) {
     try {
-      const { first_name, last_name, email, age, password } = req.body;
+      const { first_name, last_name, email, age, password, rol } = req.body;
       const hashedPassword = createHash(password);
       const newUser = new UserDTO({
         first_name,
@@ -46,6 +46,7 @@ class UserController {
         email,
         age,
         password: hashedPassword,
+        rol,
       });
       const result = await userManager.createUser(newUser);
       res.status(201).json({ result });

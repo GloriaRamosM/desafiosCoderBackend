@@ -47,6 +47,15 @@ switch (config.persistence) {
 
     const { default: CartsFS } = await import("./fs/cartManagerFS.js");
     Carts = CartsFS;
+
+    const { default: UsersFS } = await import("./fs/userMMongo.js");
+    Users = UsersFS;
+
+    const { default: MessageFS } = await import("./fs/messagesMManager.js");
+    Message = MessageFS;
+
+    const { default: AuthFS } = await import("./fs/authMannager.js");
+    Auth = AuthFS;
     break;
 
   default:

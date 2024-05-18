@@ -2,7 +2,9 @@ import fs from "fs";
 import { randomUUID } from "node:crypto";
 import ProductManager from "./productManager.js";
 
-const manejadorDeProducto = new ProductManager("../fs/data/productos.json");
+const manejadorDeProducto = new ProductManager(
+  "./src/dao/fs/data/productos.json"
+);
 
 export default class CartManager {
   carts = [];
