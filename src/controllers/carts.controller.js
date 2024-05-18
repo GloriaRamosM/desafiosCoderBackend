@@ -1,6 +1,6 @@
-import { Carts } from "../dao/factory.js";
+import CartsManager from "../dao/mongo/cartMMongo.js";
 
-const Servicies = new Carts("./src/dao/fs/data/carrito.json");
+const Servicies = new CartsManager();
 
 class CartController {
   constructor() {

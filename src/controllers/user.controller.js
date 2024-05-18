@@ -1,10 +1,8 @@
-import { Users } from "../dao/factory.js";
-import { Auth } from "../dao/factory.js";
-import UserDTO from "../dao/DTOs/user.dto.js";
+import { UsersService } from "../repositories/index.js";
+import authManager from "../dao/mongo/authMannager.js";
 import { createHash } from "../utils.js";
 
-const userManager = new Users();
-const authManager = new Auth();
+const ServiciesAuthManager = new authManager();
 
 class UserController {
   constructor() {
@@ -13,7 +11,7 @@ class UserController {
 
   async getAll(req, res) {
     try {
-      const users = await userManager.getAll();
+      const users = await UsersService.getAll();
       res.status(200).json({ users });
     } catch (error) {
       console.error(`Error al cargar los usuarios: ${error}`);
@@ -24,7 +22,7 @@ class UserController {
   async getById(req, res) {
     try {
       const { id } = req.params;
-      const user = await userManager.getById(id);
+      const user = await UsersService.getById(id);
       if (user) {
         res.status(200).json({ user });
       } else {
@@ -38,17 +36,16 @@ class UserController {
 
   async createUser(req, res) {
     try {
-      const { first_name, last_name, email, age, password, rol } = req.body;
+      const { first_name, last_name, email, age, password } = req.body;
       const hashedPassword = createHash(password);
-      const newUser = new UserDTO({
+      const newUser = {
         first_name,
         last_name,
         email,
         age,
         password: hashedPassword,
-        rol,
-      });
-      const result = await userManager.createUser(newUser);
+      };
+      const result = await UsersService.createUser(newUser);
       res.status(201).json({ result });
     } catch (error) {
       console.error(`Error al crear el usuario: ${error}`);
@@ -59,17 +56,18 @@ class UserController {
   async updateUser(req, res) {
     try {
       const { id } = req.params;
+
       const { first_name, last_name, email, age, password } = req.body;
       const hashedPassword = createHash(password);
 
-      const updatedUser = new UserDTO({
+      const updatedUser = {
         first_name,
         last_name,
         email,
         age,
         password: hashedPassword,
-      });
-      const result = await userManager.updateUser(id, updatedUser);
+      };
+      const result = await UsersService.updateUser(id, updatedUser);
       if (result) {
         res.status(200).json({ message: "Usuario actualizado exitosamente" });
       } else {
@@ -84,7 +82,7 @@ class UserController {
   async deleteUser(req, res) {
     try {
       const { id } = req.params;
-      const deletedUser = await userManager.deleteUser(id);
+      const deletedUser = await UsersService.deleteUser(id);
       if (deletedUser) {
         res.status(200).json({ message: "Usuario eliminado exitosamente" });
       } else {
@@ -99,7 +97,7 @@ class UserController {
   async login(req, res) {
     try {
       const { email, password } = req.body;
-      const user = await authManager.login({ email, password });
+      const user = await ServiciesAuthManager.login({ email, password });
       console.log(user.token);
       if (user.token) {
         res

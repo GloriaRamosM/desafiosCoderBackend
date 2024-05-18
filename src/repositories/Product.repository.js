@@ -1,5 +1,4 @@
 import ProductDTO from "../dao/DTOs/product.dto.js";
-import productsModel from "../dao/mongo/models/products.js";
 
 export default class ProductRepository {
   constructor(dao) {

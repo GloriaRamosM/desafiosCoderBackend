@@ -1,10 +1,7 @@
-import ProductManager from "../dao/mongo/productMMongo";
+import ProductManager from "../dao/mongo/productMMongo.js";
 import ProductRepository from "./Product.repository.js";
+import UserManager from "../dao/mongo/userMMongo.js";
+import UserRepository from "./User.repository.js";
 
-// MONGO sin ruta
 export const ProductsService = new ProductRepository(new ProductManager());
-
-// FS con ruta
-// export const ProductsService = new ProductRepository(
-//   new Products("./src/dao/fs/data/productos.json")
-// );
+export const UsersService = new UserRepository(new UserManager());
