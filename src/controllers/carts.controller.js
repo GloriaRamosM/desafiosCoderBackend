@@ -1,6 +1,4 @@
-import CartsManager from "../dao/mongo/cartMMongo.js";
-
-const Servicies = new CartsManager();
+import { CartsServicie } from "../repositories/index.js";
 
 class CartController {
   constructor() {
@@ -15,7 +13,7 @@ class CartController {
 
   async getAll(req, res) {
     let limit = req.query;
-    let data = await Servicies.getAll(limit);
+    let data = await CartsServicie.getAll(limit);
     res.json({ data });
   }
 
@@ -32,7 +30,7 @@ class CartController {
   async getById(req, res) {
     try {
       const cid = req.params.cid;
-      const cart = await Servicies.getById(cid);
+      const cart = await CartsServicie.getById(cid);
       console.log(cart);
       res.send({ status: "success", payload: cart });
     } catch (error) {
@@ -53,7 +51,7 @@ class CartController {
 
   async create(req, res) {
     try {
-      const newCart = await Servicies.create();
+      const newCart = await CartsServicie.create();
       res.status(201).send({ status: "success", payload: newCart });
     } catch (error) {
       console.log(error);
@@ -96,7 +94,7 @@ class CartController {
     const { quantity } = req.body;
 
     try {
-      const updatedCart = await Servicies.add(cid, pid, parseInt(quantity));
+      const updatedCart = await CartsServicie.add(cid, pid, parseInt(quantity));
       res.status(201).send({ status: "success", payload: updatedCart });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
@@ -106,7 +104,7 @@ class CartController {
   async delete(req, res) {
     const { cid, pid } = req.params;
     try {
-      const deleteProduct = await Servicies.delete(cid, pid);
+      const deleteProduct = await CartsServicie.delete(cid, pid);
       console.log("borrado");
       res.status(201).send({ status: "success", payload: deleteProduct });
     } catch (error) {
@@ -123,7 +121,7 @@ class CartController {
     try {
       // Iterar sobre cada producto en la lista y actualizarlo en el carrito
       for (const { product, quantity } of productsToUpdate) {
-        await Servicies.updateProductsInCart(cid, product, quantity);
+        await CartsServicie.updateProductsInCart(cid, product, quantity);
       }
 
       // Devuelve una respuesta exitosa
@@ -142,7 +140,7 @@ class CartController {
     const { quantity } = req.body;
 
     try {
-      const updatedQuantity = await Servicies.update(
+      const updatedQuantity = await CartsServicie.update(
         cid,
         pid,
         parseInt(quantity)
@@ -156,7 +154,7 @@ class CartController {
   async deleteAll(req, res) {
     const { cid } = req.params;
     try {
-      const deleteProducts = await Servicies.deleteAll(cid);
+      const deleteProducts = await CartsServicie.deleteAll(cid);
       console.log("ProductOS borradoS del carrito");
       res.status(201).send({ status: "success", payload: deleteProducts });
     } catch (error) {

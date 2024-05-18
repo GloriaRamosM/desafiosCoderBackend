@@ -1,5 +1,4 @@
 import UserDTO from "../dao/DTOs/user.dto.js";
-//import AuthManager from "../dao/mongo/authMannager.js";
 
 export default class UserRepository {
   constructor(dao) {
@@ -35,10 +34,4 @@ export default class UserRepository {
   getPaginatedUsers = async (page = 1, limit = 10) => {
     return await this.dao.getPaginatedUsers(page, limit);
   };
-
-  //   login = async (email, password) => {
-  //     const user = await AuthManager.login({ email, password });
-  //     return await this.dao.login(user);
-  //   };
-  // }
 }

@@ -20,6 +20,7 @@ class SessionController {
 
   async login(req, res) {
     if (!req.user) return res.status(400).send("error");
+    console.log(req.session.user);
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,

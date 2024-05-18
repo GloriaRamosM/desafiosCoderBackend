@@ -16,6 +16,7 @@ import initilizePassport from "./src/config/passport.config.js";
 import userRouter from "./src/routes/userRouter.js";
 import cookieParser from "cookie-parser";
 import config from "./src/config.js";
+import mongoose from "mongoose";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,6 +39,18 @@ const server = app.listen(port, () =>
 
 const DB_URL = config.DB_URL;
 console.log(DB_URL);
+
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(DB_URL);
+    console.log("conexion a la MONGODB");
+  } catch (error) {
+    console.error("No se pudo conectar a la BD", error);
+    process.exit();
+  }
+};
+
+connectMongoDB();
 
 //middleware session
 

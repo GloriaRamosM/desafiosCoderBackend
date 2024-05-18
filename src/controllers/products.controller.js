@@ -1,5 +1,3 @@
-//import { Products } from "../dao/factory.js";
-//import ProductDTO from "../dao/DTOs/product.dto.js";
 import { ProductsService } from "../repositories/index.js";
 
 class ProductController {
