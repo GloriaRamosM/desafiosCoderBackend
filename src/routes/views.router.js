@@ -5,7 +5,7 @@ import { dirname, join } from "path";
 import MessageManager from "../dao/mongo/messagesMManager.js";
 import ProductManager from "../dao/mongo/productMMongo.js";
 import CartManager from "../dao/mongo/cartMMongo.js";
-import { auth } from "../middlewares/auth.js";
+import { auth, ensureIsUser } from "../middlewares/auth.js";
 
 const manejadorDeMensajes = new MessageManager();
 const manejadorDeProducto = new ProductManager();
@@ -39,7 +39,7 @@ router.get("/realtimeproducts", auth, async (req, res) => {
   }
 });
 
-router.get("/chat", auth, async (req, res) => {
+router.get("/chat", auth, ensureIsUser, async (req, res) => {
   try {
     const messages = await manejadorDeMensajes.getAll();
     res.render("chat", { messages });

@@ -17,7 +17,7 @@ export default class CartManager {
 
       return result;
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error("No se encontro O este error " + error.message);
     }
   };
 

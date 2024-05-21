@@ -1,9 +1,10 @@
 import { Router } from "express";
-
 //import { createHash, isValidPassword } from "../utils.js";
 import passport from "passport";
 import { auth } from "../middlewares/auth.js";
 import sessionsController from "../controllers/sessions.controller.js";
+import transport from "../config.nodemailer.js";
+import config from "../config.js";
 const sessionRouter = Router();
 
 //REGISTER SIN PASSPORT
@@ -36,6 +37,18 @@ sessionRouter.post(
   sessionsController.register
 );
 
+sessionRouter.get("/bienvenida", async (req, res) => {
+  const result = await transport.sendMail({
+    from: `Correo de prueba <${config.MAIL_USERNAME}>`,
+    to: `${config.MAIL_USERNAME}`,
+    subject: "Correo de Bienvenida!",
+    html: ` <div>
+    <h1> Gracias por registrarte en nuestro Ecommerce! </h1>
+    </div> `,
+  });
+
+  res.send("Correo enviado");
+});
 sessionRouter.get("/failregister", sessionsController.failregister);
 
 //LOGIN SIN PASSPORTT SIN PASSPORT

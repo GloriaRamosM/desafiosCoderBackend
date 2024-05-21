@@ -3,6 +3,7 @@ import { auth } from "../middlewares/auth.js";
 import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
 import UserdatosDTO from "../dao/DTOs/userdatos.dto.js";
+import nodemailer from "nodemailer";
 
 class SessionController {
   constructor() {
@@ -12,6 +13,8 @@ class SessionController {
   async register(req, res) {
     res.status(201).send({ status: "success", message: "Usuario registrado" });
   }
+
+  async bienvenida(req, res) {}
 
   async failregister(req, res) {
     console.log("error");
@@ -26,12 +29,13 @@ class SessionController {
       last_name: req.user.last_name,
       email: req.user.email,
       age: req.user.age,
+      rol: req.user.rol,
     };
     res.status(200).send({ status: "success", payload: req.user });
   }
 
   async fail(req, res) {
-    console.log("error EN failLogin");
+    console.log("error En failLogin");
     res.send({ error: "Fallo" });
   }
 
@@ -43,8 +47,7 @@ class SessionController {
 
   // Modificada para que pase informacion con un DTO indicando que datos va a enviar
   async current(req, res) {
-    let { first_name, last_name, age, rol } = req.session.user;
-    const datosUser = new UserdatosDTO({ first_name, last_name, age, rol });
+    const datosUser = new UserdatosDTO(req.session.user);
     res.send({
       datosUser,
       sessionType: "Passport session",

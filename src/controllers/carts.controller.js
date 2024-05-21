@@ -1,4 +1,5 @@
-import { CartsServicie } from "../repositories/index.js";
+import { CartsServicie, TicketService } from "../repositories/index.js";
+import { ProductsService } from "../repositories/index.js";
 
 class CartController {
   constructor() {
@@ -157,6 +158,54 @@ class CartController {
       const deleteProducts = await CartsServicie.deleteAll(cid);
       console.log("ProductOS borradoS del carrito");
       res.status(201).send({ status: "success", payload: deleteProducts });
+    } catch (error) {
+      res.status(500).send({ status: "error", error: error.message });
+    }
+  }
+
+  async purchase(req, res) {
+    const { cid } = req.params;
+    try {
+      const cartPurchase = await CartsServicie.getById(cid);
+      let cantidadTotal = 0;
+      const productsComprados = [];
+      const productsNoComprados = [];
+      for (let i = 0; i < cartPurchase.products.length; i++) {
+        const { product: productId, quantity } = cartPurchase.products[i];
+        const product = await ProductsService.getById(productId);
+        console.log(product, quantity);
+        if (product.stock >= quantity) {
+          productsComprados.push({ productId, quantity });
+          const updateProduct = await ProductsService.update(productId, {
+            stock: product.stock - quantity,
+          });
+          const eliminados = await CartsServicie.delete(
+            cid,
+            productId.toString()
+          );
+          console.log(eliminados, productId);
+          cantidadTotal += product.price * quantity;
+        } else {
+          productsNoComprados.push(productId);
+          //agregar la quantity del producto al array de NOcomprados
+        }
+      }
+
+      // EL CODIGO DEBE AUTOGENERARSE Y NO REPETIRSE
+
+      const ticket = await TicketService.add({
+        amount: cantidadTotal,
+        code: 635,
+        purchaser: req.session.user.email,
+      });
+
+      console.log(ticket);
+
+      if (productsNoComprados.length > 0) {
+        return res.json({ productsNoComprados });
+      }
+
+      res.status(200).json({});
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
     }

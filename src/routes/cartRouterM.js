@@ -1,5 +1,6 @@
 import { Router } from "express";
 import CartsController from "../controllers/carts.controller.js";
+import { ensureIsUser } from "../middlewares/auth.js";
 
 const cartsRouterM = Router();
 
@@ -13,7 +14,7 @@ cartsRouterM.get("/:cid", CartsController.getById);
 cartsRouterM.post("/", CartsController.create);
 
 // POST /api/carts/:cid/product/:pid AGREGA PRODUCTOS AL CARRITO
-cartsRouterM.post("/:cid/products/:pid", CartsController.add);
+cartsRouterM.post("/:cid/products/:pid", ensureIsUser, CartsController.add);
 
 // BORRA EL PRODUCTO DEL CARRITO
 cartsRouterM.delete("/:cid/products/:pid", CartsController.delete);
@@ -28,5 +29,7 @@ cartsRouterM.put("/:cid", CartsController.updateProductsInCart);
 cartsRouterM.put("/:cid/products/:pid", CartsController.update);
 
 cartsRouterM.delete("/:cid", CartsController.deleteAll);
+
+cartsRouterM.post("/:cid/purchase", ensureIsUser, CartsController.purchase);
 
 export default cartsRouterM;
