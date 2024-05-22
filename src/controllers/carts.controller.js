@@ -1,3 +1,4 @@
+import generateUniqueCode from "../dao/services/generadordeCodigo.js";
 import { CartsServicie, TicketService } from "../repositories/index.js";
 import { ProductsService } from "../repositories/index.js";
 
@@ -191,11 +192,13 @@ class CartController {
         }
       }
 
-      // EL CODIGO DEBE AUTOGENERARSE Y NO REPETIRSE
+      // EL CODIGO DEBE AUTOGENERARSE Y NO REPETIRSE, utilizo la funcion generateUniqueCode
+
+      const ticketCode = generateUniqueCode();
 
       const ticket = await TicketService.add({
         amount: cantidadTotal,
-        code: 635,
+        code: ticketCode,
         purchaser: req.session.user.email,
       });
 
