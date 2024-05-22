@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import config from "./config.js";
 
 //configuracion nodemailer
 
@@ -8,8 +9,8 @@ const transport = nodemailer.createTransport({
   secure: false,
   port: 587,
   auth: {
-    user: process.env.USER,
-    pass: process.env.MAIL_PASSWORD,
+    user: config.MAIL_USERNAME,
+    pass: config.MAIL_PASSWORD,
   },
 });
 
