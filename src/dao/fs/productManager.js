@@ -6,31 +6,25 @@ export default class ProductManager {
 
   constructor(path) {
     this.path = path;
+    console.log(this.path);
     if (fs.existsSync(this.path)) {
       this.productos = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-      console.log("existe el archivo");
+      console.log("existe el archivo de productos");
     } else {
       fs.writeFileSync(this.path, JSON.stringify(this.productos));
-      console.log("no existe");
+      console.log("no existe el archivo de productos");
     }
   }
 
   // consultar si hace falta sacar el await en la parte de JSON.parse
-  getProductos = async (limit = null) => {
+  getAll = async (limit = null) => {
     const productsfile = await fs.promises.readFile(this.path, "utf-8");
     const products = await JSON.parse(productsfile);
     this.productos = products;
     return limit ? this.productos.slice(0, limit) : this.productos;
   };
 
-  async agregarProductos({
-    titulo,
-    descripcion,
-    precio,
-    rutaDeImagen,
-    codigo,
-    stock,
-  }) {
+  async add({ titulo, descripcion, precio, rutaDeImagen, codigo, stock }) {
     if (
       !titulo ||
       !descripcion ||
@@ -80,19 +74,19 @@ export default class ProductManager {
     return id;
   }
   // revisar esto para cuando yo borre productos que pasa con el id como los va agregando? OJO
-  getProductoById(productoId) {
+  getById(productoId) {
     const producto = this.productos.find(
       (producto) => producto.id == productoId
     );
 
     if (!producto) {
-      console.log("Producto no encontrado");
+      console.log(`Producto con id ${productoId} no encontrado`);
     }
 
     return producto;
   }
 
-  async updateProduct(productoId, cambios) {
+  async update(productoId, cambios) {
     const producto = this.productos.some(
       (producto) => producto.id == productoId
     );
@@ -127,7 +121,7 @@ export default class ProductManager {
   7. Si el resultado de el FindIndex es -1, es que no encontro coincidencia 
   en la condicion y hace el console.log(no se encontro ningun producto con ese ID, que recibe por parametro)*/
 
-  async deleteProduct(productoId) {
+  async delete(productoId) {
     const productoIndex = this.productos.findIndex(
       (producto) => producto.id == productoId
     );

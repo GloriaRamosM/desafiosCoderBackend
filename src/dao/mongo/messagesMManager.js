@@ -1,4 +1,4 @@
-import messagesModel from "../models/messagess.js";
+import messagesModel from "../mongo/models/messagess.js";
 
 class MessageManager {
   getAll = async () => {

@@ -1,121 +1,35 @@
 import { Router } from "express";
-import UserManager from "../dao/services/userMMongo.js";
-import AuthManager from "../dao/services/authMannager.js";
 import passport from "passport";
 import { auth } from "../middlewares/auth.js";
+import userController from "../controllers/user.controller.js";
 
 const userRouter = Router();
-
-//instanciación
-const userManager = new UserManager();
-const authManager = new AuthManager();
 
 //Obtener todos los usuarios. traer a los usuarios usando la estrategia de JWT y loggeado con la ruta de JWT
 userRouter.get(
   "/jwt/users",
   passport.authenticate("jwt", { session: false }),
-  async (req, res) => {
-    try {
-      const users = await userManager.getAll();
-      res.status(200).json({ users });
-    } catch (error) {
-      console.error(`Error al cargar los usuarios: ${error}`);
-      res.status(500).json({ error: `Error al recibir los usuarios` });
-    }
-  }
+  userController.getAll
 );
 
 // traer a los usuarios usando session.
 
-userRouter.get("/users", auth, async (req, res) => {
-  try {
-    const users = await userManager.getAll();
-    res.status(200).json({ users });
-  } catch (error) {
-    console.error(`Error al cargar los usuarios: ${error}`);
-    res.status(500).json({ error: `Error al recibir los usuarios` });
-  }
-});
+userRouter.get("/users", auth, userController.getAll);
 
 // Obtener un usuario por su ID
-userRouter.get("/user/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const user = await userManager.getById(id);
-    if (user) {
-      res.status(200).json({ user });
-    } else {
-      res.status(404).json({ error: `Usuario con id: ${id} no encontrado` });
-    }
-  } catch (error) {
-    console.error(`Error al cargar el usuario: ${error}`);
-    res.status(500).json({ error: `Error al recibir el usuario` });
-  }
-});
+userRouter.get("/user/:id", userController.getById);
 
 // Crear un nuevo usuario
-userRouter.post("/user", async (req, res) => {
-  try {
-    const newUser = req.body;
-    const result = await userManager.createUser(newUser);
-    res.status(201).json({ result });
-  } catch (error) {
-    console.error(`Error al crear el usuario: ${error}`);
-    res.status(500).json({ error: `Error al crear el usuario` });
-  }
-});
+userRouter.post("/user", userController.createUser);
 
 // Actualizar un usuario existente
-userRouter.put("/user/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const updatedUser = req.body;
-    const result = await userManager.updateUser(id, updatedUser);
-    if (result) {
-      res.status(200).json({ message: "Usuario actualizado exitosamente" });
-    } else {
-      res.status(404).json({ error: "Usuario no encontrado" });
-    }
-  } catch (error) {
-    console.error(`Error al actualizar el usuario: ${error}`);
-    res.status(500).json({ error: `Error al actualizar el usuario` });
-  }
-});
+userRouter.put("/user/:id", userController.updateUser);
 
 // Eliminar un usuario por su ID
-userRouter.delete("/user/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deletedUser = await userManager.deleteUser(id);
-    if (deletedUser) {
-      res.status(200).json({ message: "Usuario eliminado exitosamente" });
-    } else {
-      res.status(404).json({ error: "Usuario no encontrado" });
-    }
-  } catch (error) {
-    console.error(`Error al eliminar el usuario: ${error}`);
-    res.status(500).json({ error: `Error al eliminar el usuario` });
-  }
-});
+userRouter.delete("/user/:id", userController.deleteUser);
 
 //login
-userRouter.post("/login", async (req, res) => {
-  //lógica a implementar
-  try {
-    const { email, password } = req.body;
-    const user = await authManager.login({ email, password });
-    console.log(user.token);
-    if (user.token) {
-      res
-        .cookie("desafio-integrador", user.token, {
-          httpOnly: true,
-        })
-        .send({ status: "success", message: user.message });
-    }
-  } catch (error) {
-    res.send({ status: "error", message: error });
-  }
-});
+userRouter.post("/login", userController.login);
 // En tu archivo de rutas
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar

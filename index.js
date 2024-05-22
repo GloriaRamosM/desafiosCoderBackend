@@ -4,13 +4,10 @@ import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import productsRouter from "./src/routes/productsRouter.js";
-//import cartsRouter from "./src/routes/cartsRouter.js";
 import viewsRouter from "./src/routes/views.router.js";
 import cartsRouterM from "./src/routes/cartRouterM.js";
-//import productRouterfs from "./src/routes/productRouterfs.js";
-import ProductMannager from "./src/dao/services/productManager.js";
-import mongoose from "mongoose";
-import MessageManager from "./src/dao/services/messagesMManager.js";
+import ProductMannager from "./src/dao/fs/productManager.js";
+import MessageManager from "./src/dao/mongo/messagesMManager.js";
 import session from "express-session";
 import sessionsRouter from "./src/routes/sessions.router.js";
 import MongoStore from "connect-mongo";
@@ -19,6 +16,7 @@ import initilizePassport from "./src/config/passport.config.js";
 import userRouter from "./src/routes/userRouter.js";
 import cookieParser from "cookie-parser";
 import config from "./src/config.js";
+import mongoose from "mongoose";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -84,7 +82,9 @@ app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
 
 const io = new Server(server); // instanciando socket.io
-const manejadorDeProducto = new ProductMannager("./src/data/productos.json");
+const manejadorDeProducto = new ProductMannager(
+  "./src/dao/fs/data/productos.json"
+);
 const manejadorDeMensajes = new MessageManager();
 
 io.on("connection", (socket) => {
