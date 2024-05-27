@@ -2,6 +2,7 @@ import { Router } from "express";
 import __dirname from "../utils.js";
 import ProductController from "../controllers/products.controller.js";
 import { ensureIsAdmin } from "../middlewares/auth.js";
+import productsController from "../controllers/products.controller.js";
 
 const productsRouter = Router();
 

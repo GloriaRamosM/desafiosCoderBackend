@@ -1,4 +1,5 @@
 import { ProductsService } from "../repositories/index.js";
+import { generateProduct } from "../utils.js";
 
 class ProductController {
   constructor() {

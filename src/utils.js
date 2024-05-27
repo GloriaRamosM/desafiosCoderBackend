@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { fakerES as faker } from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,6 +25,16 @@ export const isValidPassword = (user, password) => {
 export const generateToken = (email) => {
   const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "5h" });
   return token;
+};
+
+export const generateProduct = () => {
+  return {
+    id: faker.database.mongodbObjectId(),
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    price: faker.commerce.price(),
+    category: faker.commerce.productMaterial(),
+  };
 };
 
 export default __dirname;

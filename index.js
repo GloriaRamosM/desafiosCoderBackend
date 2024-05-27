@@ -17,6 +17,7 @@ import userRouter from "./src/routes/userRouter.js";
 import cookieParser from "cookie-parser";
 import config from "./src/config.js";
 import mongoose from "mongoose";
+import fakerRouter from "./src/routes/fakerRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -80,6 +81,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouterM);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
+app.use(fakerRouter);
 
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager(
