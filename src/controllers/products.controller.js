@@ -1,5 +1,4 @@
 import { ProductsService } from "../repositories/index.js";
-import { generateProduct } from "../utils.js";
 
 class ProductController {
   constructor() {
@@ -61,6 +60,48 @@ class ProductController {
   //   }
   // }
 
+  // async add(req, res) {
+  //   const {
+  //     title,
+  //     description,
+  //     code,
+  //     price,
+  //     status,
+  //     category,
+  //     stock,
+  //     thumbnails,
+  //     brand,
+  //   } = req.body;
+
+  //   // Validar solo title y price porque lo pide el desafio
+  //   const hayerror = validarDatosProducto({ title, price });
+
+  //   if (hayerror) {
+  //     return res.status(400).json({ error: error.error });
+  //   }
+
+  //   const newProduct = {
+  //     title,
+  //     description,
+  //     code,
+  //     price,
+  //     status,
+  //     category,
+  //     stock,
+  //     thumbnails,
+  //     brand,
+  //   };
+
+  //   try {
+  //     let result = await ProductsService.add(newProduct);
+  //     res.json({ result });
+  //   } catch (err) {
+  //     res
+  //       .status(500)
+  //       .json({ error: "Ocurrió un error al agregar el producto." });
+  //   }
+  // }
+
   async add(req, res) {
     const {
       title,
@@ -73,6 +114,24 @@ class ProductController {
       thumbnails,
       brand,
     } = req.body;
+
+    // Verificar si todos los campos requeridos están presentes
+    if (
+      !title ||
+      !description ||
+      !code ||
+      !price ||
+      !status ||
+      !category ||
+      !stock ||
+      !brand
+    ) {
+      return res.status(400).json({
+        status: "failure",
+        errorCode: "missing_fields",
+        errorMessage: "Todos los campos son obligatorios",
+      });
+    }
     const newProduct = {
       title,
       description,
