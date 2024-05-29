@@ -60,92 +60,118 @@ class ProductController {
   //   }
   // }
 
-  // async add(req, res) {
-  //   const {
-  //     title,
-  //     description,
-  //     code,
-  //     price,
-  //     status,
-  //     category,
-  //     stock,
-  //     thumbnails,
-  //     brand,
-  //   } = req.body;
-
-  //   // Validar solo title y price porque lo pide el desafio
-  //   const hayerror = validarDatosProducto({ title, price });
-
-  //   if (hayerror) {
-  //     return res.status(400).json({ error: error.error });
-  //   }
-
-  //   const newProduct = {
-  //     title,
-  //     description,
-  //     code,
-  //     price,
-  //     status,
-  //     category,
-  //     stock,
-  //     thumbnails,
-  //     brand,
-  //   };
-
-  //   try {
-  //     let result = await ProductsService.add(newProduct);
-  //     res.json({ result });
-  //   } catch (err) {
-  //     res
-  //       .status(500)
-  //       .json({ error: "Ocurrió un error al agregar el producto." });
-  //   }
-  // }
-
+  //Agregar un nuevo producto.
   async add(req, res) {
-    const {
-      title,
-      description,
-      code,
-      price,
-      status,
-      category,
-      stock,
-      thumbnails,
-      brand,
-    } = req.body;
+    try {
+      const {
+        title,
+        description,
+        code,
+        price,
+        status,
+        category,
+        stock,
+        thumbnails,
+        brand,
+      } = req.body;
 
-    // Verificar si todos los campos requeridos están presentes
-    if (
-      !title ||
-      !description ||
-      !code ||
-      !price ||
-      !status ||
-      !category ||
-      !stock ||
-      !brand
-    ) {
-      return res.status(400).json({
+      // Validar que los campos requeridos sean enviados
+      const camposRequeridos = [
+        "title",
+        "description",
+        "code",
+        "price",
+        "status",
+        "category",
+        "stock",
+        "brand",
+      ];
+      const camposFaltantes = camposRequeridos.filter(
+        (campo) => !req.body[campo]
+      );
+
+      // Si se encuentran campos faltantes, devolver un error 400 Bad Request
+      if (camposFaltantes.length) {
+        return res.status(400).json({
+          status: "failure",
+          errorCode: "faltan_campos",
+          errorMessage: `Todos los campos son obligatorios. Faltan los siguientes campos: ${camposFaltantes.join(
+            ", "
+          )}`,
+        });
+      }
+
+      // Si todos los campos requeridos están presentes, continuar con la lógica de agregar el producto
+      const newProduct = {
+        title,
+        description,
+        code,
+        price,
+        status,
+        category,
+        stock,
+        thumbnails,
+        brand,
+      };
+
+      let result = await ProductsService.add(newProduct);
+      res.json({ result });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
         status: "failure",
-        errorCode: "missing_fields",
-        errorMessage: "Todos los campos son obligatorios",
+        errorCode: "INTERNAL_SERVER_ERROR",
+        errorMessage: "Error al agregar el producto",
       });
     }
-    const newProduct = {
-      title,
-      description,
-      code,
-      price,
-      status,
-      category,
-      stock,
-      thumbnails,
-      brand,
-    };
-    let result = await ProductsService.add(newProduct);
-    res.json({ result });
   }
+
+  // async add(req, res) {
+  //   try {
+  //     const {
+  //       title,
+  //       description,
+  //       code,
+  //       price,
+  //       status,
+  //       category,
+  //       stock,
+  //       thumbnails,
+  //       brand,
+  //     } = req.body;
+
+  //     // Verificar si todos los campos requeridos están presentes
+  //     if (
+  //       !title ||
+  //       !description ||
+  //       !code ||
+  //       !price ||
+  //       !status ||
+  //       !category ||
+  //       !stock ||
+  //       !brand
+  //     ) {
+  //       return res.status(400).json({
+  //         status: "failure",
+  //         errorCode: "missing_campos",
+  //         errorMessage: "Todos los campos son obligatorios",
+  //       });
+  //     }
+  //     const newProduct = {
+  //       title,
+  //       description,
+  //       code,
+  //       price,
+  //       status,
+  //       category,
+  //       stock,
+  //       thumbnails,
+  //       brand,
+  //     };
+  //     let result = await ProductsService.add(newProduct);
+  //     res.json({ result });
+  //   } catch (error) {}
+  // }
 
   // Update FS
   //  async update(req, res) {

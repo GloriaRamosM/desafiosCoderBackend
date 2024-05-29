@@ -14,8 +14,6 @@ class SessionController {
     res.status(201).send({ status: "success", message: "Usuario registrado" });
   }
 
-  async bienvenida(req, res) {}
-
   async failregister(req, res) {
     console.log("error");
     res.send({ error: "Falló el registro(/failregister)" });

@@ -28,7 +28,7 @@ const initilizePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         // aca recibimos todo por body
-        const { first_name, last_name, email, age } = req.body;
+        const { first_name, last_name, email, age, rol } = req.body;
 
         try {
           //primero lo busca y comparar por mail
