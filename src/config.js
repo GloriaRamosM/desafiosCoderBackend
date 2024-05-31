@@ -12,4 +12,5 @@ export default {
   persistence: process.env.PERSISTENCE,
   MAIL_PASSWORD: process.env.MAIL_PASSWORD,
   MAIL_USERNAME: process.env.MAIL_USERNAME,
+  NODE_ENV: process.env.NODE_ENV,
 };

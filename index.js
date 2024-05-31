@@ -18,6 +18,7 @@ import cookieParser from "cookie-parser";
 import config from "./src/config.js";
 import mongoose from "mongoose";
 import fakerRouter from "./src/routes/fakerRouter.js";
+import { addLogger } from "./src/middlewares/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -82,6 +83,13 @@ app.use("/api/carts", cartsRouterM);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
 app.use(fakerRouter);
+app.use(addLogger);
+
+app.get("/loggerTest", (req, res) => {
+  req.logger.fatal("Fatal error");
+});
+
+//config.NODE_ENV === "PRODUCTION" ? prodLogger : ;
 
 const io = new Server(server); // instanciando socket.io
 const manejadorDeProducto = new ProductMannager(
