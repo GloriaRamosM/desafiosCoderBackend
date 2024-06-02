@@ -1,8 +1,9 @@
 import productsModel from "../mongo/models/products.js";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class ProductManager {
   constructor() {
-    console.log("Trabajando con productManager");
+    Logger.info("Trabajando con productManager");
   }
 
   getAll = async ({ limit = 10, page = 1, query, sort }) => {
@@ -131,7 +132,7 @@ export default class ProductManager {
       const products = await productsModel.find().populate("category");
       return products;
     } catch (error) {
-      console.log("Error  al obtener todos lo productos");
+      Logger.info("Error  al obtener todos lo productos");
     }
   };
 
@@ -145,7 +146,7 @@ export default class ProductManager {
       const products = await productsModel.paginate({}, options);
       return products;
     } catch (error) {
-      console.log("Error  al Paginar los  productos");
+      Logger.info("Error  al Paginar los  productos");
     }
   };
 }

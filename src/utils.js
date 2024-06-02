@@ -3,7 +3,7 @@ import { dirname } from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { fakerES as faker } from "@faker-js/faker";
-
+import { Logger } from "./middlewares/logger.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -16,7 +16,7 @@ export const createHash = (password) =>
 
 // aca validamos la contrase;a con la que usuario ingresa
 export const isValidPassword = (user, password) => {
-  console.log(
+  Logger.debug(
     `Datos a validar: user-password: ${user.password}, password: ${password}`
   );
   return bcrypt.compareSync(password, user.password);

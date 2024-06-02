@@ -1,8 +1,9 @@
 import cartModel from "../mongo/models/carts.js";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class CartManager {
   constructor() {
-    console.log("Trabajando con cartManager");
+    Logger.info("Trabajando con cartManager");
   }
 
   getAll = async (limit) => {
@@ -120,11 +121,11 @@ export default class CartManager {
     try {
       let cart = await cartModel.findById(cid);
       if (!cart) {
-        console.log("Carrito no encontrado");
+        Logger.info("Carrito no encontrado");
         return; // SI no lo encuentra, termina aca
       }
       if (cart.products.length === 0) {
-        console.log("El carrito ya está vacío");
+        Logger.info("El carrito ya está vacío");
         return; // Si el carrito esta vacio y no tiene nada que borrar, termina aca
       }
       // Si encuentra al carrito, sigue y vacia products
@@ -133,7 +134,7 @@ export default class CartManager {
       // Guardar  el carrito actualizado sin productos
       await cart.save();
 
-      console.log(
+      Logger.info(
         "Todos los productos fueron eliminados del carrito exitosamente"
       );
       return cart; // Devolver el carrito actualizado, me lo deja disponible

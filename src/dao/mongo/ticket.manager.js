@@ -1,8 +1,9 @@
 import ticketsModel from "../mongo/models/ticket.model.js";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class ticketManager {
   constructor() {
-    console.log("Trabajando con ticketManager");
+    Logger.info("Trabajando con ticketManager");
   }
 
   getAll = async ({ limit = 10, page = 1, query, sort }) => {

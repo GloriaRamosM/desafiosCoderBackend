@@ -6,7 +6,7 @@ export function auth(req, res, next) {
 }
 
 export function ensureIsAdmin(req, res, next) {
-  console.log(req.session.user);
+  req.logger.debug(req.session.user);
   if (req.session && req.session.user.rol == "Admin") {
     next();
     return;

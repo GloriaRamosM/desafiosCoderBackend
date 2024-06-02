@@ -1,8 +1,9 @@
 import { ProductsService } from "../repositories/index.js";
+import { Logger } from "../middlewares/logger.js";
 
 class ProductController {
   constructor() {
-    console.log("Controlador de producto");
+    Logger.info("Controlador de producto");
   }
 
   //GETALL FS
@@ -17,12 +18,10 @@ class ProductController {
       let { limit, page, query, sort } = req.query;
       let data = await ProductsService.getAll(limit, page, query, sort);
       //let data = await manejadorDeProducto.getAllProductsWithCategories({ limit, page, query, sort });
-      console.log(sort);
+      req.logger.debug(sort);
       res.status(200).json({ data }); // usamos json porque tiene incluido a send() pero tiene algo adicional en un tema de formato que me conviene usar por ejemplo un null.
     } catch (error) {
-      console.log(
-        "Error al intentar traer todos los productos  " + error.message
-      );
+      req.logger.error(error);
     }
   }
 
@@ -37,9 +36,14 @@ class ProductController {
   // }
 
   async getById(req, res) {
-    const productId = req.params.pid;
-    let data = await ProductsService.getById(productId);
-    res.json({ data });
+    try {
+      const productId = req.params.pid;
+      let data = await ProductsService.getById(productId);
+      res.json({ data });
+    } catch (error) {
+      Logger.error(error);
+      res.send("ID no encontrado");
+    }
   }
 
   //ADD FS

@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 export const upload = multer({
   storage,
   onError: function (err, next) {
-    console.log(err);
+    Logger.error(err);
     next();
   },
 });

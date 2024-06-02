@@ -34,7 +34,7 @@ const initilizePassport = () => {
           //primero lo busca y comparar por mail
           const user = await userService.findOne({ email: username });
           if (user) {
-            console.log("El usuario existe");
+            Logger.info("El usuario existe");
             return done(null, false);
           }
           // si no existe pasa a crearlo
@@ -111,10 +111,10 @@ const initilizePassport = () => {
             let createdUser = await userService.create(newUser);
             // aca es donde se crea
             done(null, createdUser);
-            console.log(createdUser, profile);
+            Logger.debug(createdUser, profile);
           } else {
             done(null, user);
-            console.log(user, profile);
+            Logger.debug(user, profile);
           }
         } catch (error) {
           return done(error);

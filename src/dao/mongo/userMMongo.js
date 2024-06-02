@@ -1,9 +1,10 @@
 import { createHash } from "../../utils.js";
 import userModel from "../mongo/models/Users.model.js";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class UserManager {
   constructor() {
-    console.log("ConstructorUserManager");
+    Logger.info("ConstructorUserManager");
   }
 
   getAll = async () => {
@@ -23,7 +24,7 @@ export default class UserManager {
       const result = await userModel.create(userData);
       return result;
     } catch (error) {
-      console.log("Error al tratar de crear un usuario " + error.message);
+      Logger.error("Error al tratar de crear un usuario " + error.message);
     }
   };
 
@@ -36,7 +37,7 @@ export default class UserManager {
       const result = await userModel.updateOne({ _id: id }, { $set: userData });
       return result;
     } catch (error) {
-      console.log("Error al tratar de actualizar un usuario " + error.message);
+      Logger.error("Error al tratar de actualizar un usuario " + error.message);
     }
   };
 
@@ -52,7 +53,7 @@ export default class UserManager {
       const users = await userModel.find().populate("cart.product");
       return users;
     } catch (error) {
-      console.log(
+      Logger.error(
         "error al obtener los usuarios con su carrito ",
         error.message
       );
@@ -71,7 +72,7 @@ export default class UserManager {
 
       return users;
     } catch (error) {
-      console.log("Error al realizar la paginación " + error.message);
+      Logger.error("Error al realizar la paginación " + error.message);
     }
   };
 }

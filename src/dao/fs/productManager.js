@@ -1,4 +1,5 @@
 import fs from "fs";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class ProductManager {
   productos = [];
@@ -6,13 +7,13 @@ export default class ProductManager {
 
   constructor(path) {
     this.path = path;
-    console.log(this.path);
+    Logger.debug(this.path);
     if (fs.existsSync(this.path)) {
       this.productos = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-      console.log("existe el archivo de productos");
+      Logger.info("existe el archivo de productos");
     } else {
       fs.writeFileSync(this.path, JSON.stringify(this.productos));
-      console.log("no existe el archivo de productos");
+      Logger.info("no existe el archivo de productos");
     }
   }
 
@@ -41,7 +42,7 @@ export default class ProductManager {
     );
 
     if (productoExistente) {
-      console.log("Producto ya existe , no se puede agregar");
+      Logger.info("Producto ya existe , no se puede agregar");
       return null;
     }
 
@@ -80,7 +81,7 @@ export default class ProductManager {
     );
 
     if (!producto) {
-      console.log(`Producto con id ${productoId} no encontrado`);
+      Logger.debug(`Producto con id ${productoId} no encontrado`);
     }
 
     return producto;
@@ -127,7 +128,7 @@ export default class ProductManager {
     );
 
     if (productoIndex !== -1) {
-      console.log("Producto encontrado, va a ser eliminado");
+      Logger.info("Producto encontrado, va a ser eliminado");
       this.productos.splice(productoIndex, 1);
       await fs.promises.writeFile(
         this.path,

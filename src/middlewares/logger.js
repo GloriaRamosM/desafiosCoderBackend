@@ -1,4 +1,5 @@
 import winston from "winston";
+import config from "../config.js";
 
 const levels = {
   fatal: 0,
@@ -11,30 +12,26 @@ const levels = {
 
 const devLogger = winston.createLogger({
   levels: levels,
-  transports: [
-    new winston.transports.Console({ level: "debug" }),
-    new winston.transports.Console({ level: "http" }),
-    new winston.transports.Console({ level: "info" }),
-    new winston.transports.Console({ level: "warn" }),
-    new winston.transports.Console({ level: "error" }),
-    new winston.transports.Console({ level: "fatal" }),
-  ],
+  transports: [new winston.transports.Console({ level: "debug" })],
 });
 
 const prodLogger = winston.createLogger({
+  levels,
   transports: [
     new winston.transports.Console({ level: "info" }),
+
     new winston.transports.File({
-      filename: "./errors-env.log",
-      level: "warn",
+      filename: "./errors.log",
+      level: "error",
     }),
   ],
 });
 
 export const addLogger = (req, res, next) => {
-  req.logger = devLogger;
+  req.logger = config.NODE_ENV === "PRODUCTION" ? prodLogger : devLogger;
   req.logger.http(
     `${req.method} en ${req.url} - ${new Date().toLocaleString()}`
   );
   next();
 };
+export const Logger = config.NODE_ENV === "PRODUCTION" ? prodLogger : devLogger;

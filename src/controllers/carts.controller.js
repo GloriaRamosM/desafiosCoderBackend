@@ -1,10 +1,11 @@
 import generateUniqueCode from "../dao/services/generadordeCodigo.js";
 import { CartsServicie, TicketService } from "../repositories/index.js";
 import { ProductsService } from "../repositories/index.js";
+import { Logger } from "../middlewares/logger.js";
 
 class CartController {
   constructor() {
-    console.log("Controlador de Carrito");
+    Logger.debug("Controlador de Carrito");
   }
 
   // GET ALL FS
@@ -33,10 +34,10 @@ class CartController {
     try {
       const cid = req.params.cid;
       const cart = await CartsServicie.getById(cid);
-      console.log(cart);
+      req.logger.debug(cart);
       res.send({ status: "success", payload: cart });
     } catch (error) {
-      console.log(error);
+      req.logger.error(error);
       res.status(500).send({ status: "error", error: error.message });
     }
   }
@@ -56,7 +57,7 @@ class CartController {
       const newCart = await CartsServicie.create();
       res.status(201).send({ status: "success", payload: newCart });
     } catch (error) {
-      console.log(error);
+      req.logger.debug(error);
       res.status(500).send({ status: "error", error: error.message });
     }
   }
@@ -107,7 +108,7 @@ class CartController {
     const { cid, pid } = req.params;
     try {
       const deleteProduct = await CartsServicie.delete(cid, pid);
-      console.log("borrado");
+      req.logger.info("borrado");
       res.status(201).send({ status: "success", payload: deleteProduct });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
@@ -118,7 +119,7 @@ class CartController {
     const { cid } = req.params;
     const productsToUpdate = req.body;
 
-    console.log("ID del producto:", cid);
+    req.logger.debug("ID del producto:", cid);
 
     try {
       // Iterar sobre cada producto en la lista y actualizarlo en el carrito
@@ -157,7 +158,7 @@ class CartController {
     const { cid } = req.params;
     try {
       const deleteProducts = await CartsServicie.deleteAll(cid);
-      console.log("ProductOS borradoS del carrito");
+      req.logger.info("ProductOS borradoS del carrito");
       res.status(201).send({ status: "success", payload: deleteProducts });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
@@ -174,7 +175,7 @@ class CartController {
       for (let i = 0; i < cartPurchase.products.length; i++) {
         const { product: productId, quantity } = cartPurchase.products[i];
         const product = await ProductsService.getById(productId);
-        console.log(product, quantity);
+        req.logger.debug(product, quantity);
         if (product.stock >= quantity) {
           productsComprados.push({ productId, quantity });
           const updateProduct = await ProductsService.update(productId, {
@@ -184,7 +185,7 @@ class CartController {
             cid,
             productId.toString()
           );
-          console.log(eliminados, productId);
+          req.logger.debug(eliminados, productId);
           cantidadTotal += product.price * quantity;
         } else {
           productsNoComprados.push(productId);
@@ -202,7 +203,7 @@ class CartController {
         purchaser: req.session.user.email,
       });
 
-      console.log(ticket);
+      req.logger.debug(ticket);
 
       if (productsNoComprados.length > 0) {
         return res.json({ productsNoComprados });

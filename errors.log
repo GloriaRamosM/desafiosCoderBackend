@@ -1,2 +1,22 @@
 {"level":"warn","message":"Alerta"}
 {"level":"warn","message":"Alerta"}
+{"level":"error","message":"error error"}
+{"level":"fatal","message":"fatal error"}
+{"level":"error","message":"error error"}
+{"level":"fatal","message":"fatal error"}
+{"level":"error","message":"error error"}
+{"level":"fatal","message":"fatal error"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}
+{"level":"fatal","message":"fatal log"}
+{"level":"error","message":"error log"}

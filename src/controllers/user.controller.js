@@ -1,12 +1,13 @@
 import { UsersService } from "../repositories/index.js";
 import authManager from "../dao/mongo/authMannager.js";
 import { createHash } from "../utils.js";
+import { Logger } from "../middlewares/logger.js";
 
 const ServiciesAuthManager = new authManager();
 
 class UserController {
   constructor() {
-    console.log("Trabajando con UserControler");
+    Logger.info("Trabajando con UserControler");
   }
 
   async getAll(req, res) {
@@ -98,7 +99,7 @@ class UserController {
     try {
       const { email, password } = req.body;
       const user = await ServiciesAuthManager.login({ email, password });
-      console.log(user.token);
+      req.logger.debug(user.token);
       if (user.token) {
         res
           .cookie("desafio-integrador", user.token, {

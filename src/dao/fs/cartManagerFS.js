@@ -13,10 +13,10 @@ export default class CartManager {
     this.path = path;
     if (fs.existsSync(this.path)) {
       this.carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-      console.log("existe el archivo", this.carts);
+      Logger.debug("existe el archivo", this.carts);
     } else {
       fs.writeFileSync(this.path, JSON.stringify(this.carts));
-      console.log("no existe");
+      Logger.info("no existe");
     }
   }
 
@@ -79,12 +79,12 @@ export default class CartManager {
     );
     if (productIndex !== -1) {
       this.carts[foundCartIndex].products[productIndex].quantity++;
-      console.log(
+      Logger.info(
         "se sumo la cantidad a tu producto ya guardado anteriormente"
       );
     } else {
       this.carts[foundCartIndex].products.push({ id: pid, quantity: 1 });
-      console.log("Se agrego el ID del producto al carrito solicitado");
+      Logger.info("Se agrego el ID del producto al carrito solicitado");
     }
     try {
       await fs.promises.writeFile(

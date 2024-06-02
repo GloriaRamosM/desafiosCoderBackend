@@ -19,6 +19,7 @@ import config from "./src/config.js";
 import mongoose from "mongoose";
 import fakerRouter from "./src/routes/fakerRouter.js";
 import { addLogger } from "./src/middlewares/logger.js";
+import { Logger } from "./src/middlewares/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,6 +27,9 @@ const __dirname = dirname(__filename);
 const app = express();
 
 const port = config.PORT || 8080;
+
+const DB_URL = config.DB_URL;
+Logger.debug(DB_URL);
 
 //Middlewares
 app.set("views", __dirname + "/src/views");
@@ -35,28 +39,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/src/public`));
 app.engine("handlebars", handlebars.engine());
 
-const server = app.listen(port, () =>
-  console.log("servidor corriendo en el puerto " + port)
-);
-
-const DB_URL = config.DB_URL;
-console.log(DB_URL);
-
-const connectMongoDB = async () => {
-  try {
-    await mongoose.connect(DB_URL);
-    console.log("conexion a la MONGODB");
-  } catch (error) {
-    console.error("No se pudo conectar a la BD", error);
-    process.exit();
-  }
-};
-
-connectMongoDB();
-
-//middleware session
-
-//logica de la sesión
 app.use(
   session({
     store: MongoStore.create({
@@ -71,10 +53,12 @@ app.use(
 
 //usando passpot, primero traigo a la funcion que cree en passport.config, luego inicio passport y luego uso
 // con paassport la session que esta trabajando con la base de Datos Mongo
+
 app.use(cookieParser());
 initilizePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(addLogger);
 
 ////Routes
 app.use(viewsRouter);
@@ -83,10 +67,29 @@ app.use("/api/carts", cartsRouterM);
 app.use("/api/sessions", sessionsRouter);
 app.use("/api", userRouter);
 app.use(fakerRouter);
-app.use(addLogger);
+
+const server = app.listen(port, () =>
+  Logger.info("servidor corriendo en el puerto " + port)
+);
+
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(DB_URL);
+    Logger.info("conexion a la MONGODB");
+  } catch (error) {
+    console.error("No se pudo conectar a la BD", error);
+    process.exit();
+  }
+};
+
+connectMongoDB();
 
 app.get("/loggerTest", (req, res) => {
-  req.logger.fatal("Fatal error");
+  req.logger.fatal("fatal log");
+  req.logger.error("error log");
+  req.logger.warn("warn log");
+  req.logger.info("info log");
+  req.logger.debug("debug log");
 });
 
 //config.NODE_ENV === "PRODUCTION" ? prodLogger : ;
@@ -98,7 +101,7 @@ const manejadorDeProducto = new ProductMannager(
 const manejadorDeMensajes = new MessageManager();
 
 io.on("connection", (socket) => {
-  console.log("Cliente conectado");
+  Logger.info("Cliente conectado");
 
   socket.on("articuloCargado", async (data) => {
     const jsonObjeto = data;
@@ -106,13 +109,13 @@ io.on("connection", (socket) => {
       jsonObjeto
     );
     if (productoAgregado) {
-      console.log(
+      Logger.info(
         "Producto agregado correctamente, en caso de que el producto exista en los datos, no se volvera a agregar"
       );
 
       socket.emit("datosRecibidos", productoAgregado);
     } else {
-      console.log("No se pudo agregar el producto");
+      Logger.info("No se pudo agregar el producto");
       socket.emit("respuesta", { mensaje: "No se pudo agregar el producto" });
     }
   });

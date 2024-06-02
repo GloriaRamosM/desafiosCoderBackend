@@ -1,9 +1,10 @@
 import userModel from "../mongo/models/Users.model.js";
 import { isValidPassword, generateToken } from "../../utils.js";
+import { Logger } from "../../middlewares/logger.js";
 
 export default class AuthManager {
   constructor() {
-    console.log("Constructor AuthManager");
+    Logger.info("Constructor AuthManager");
   }
 
   async login({ email, password }) {
@@ -16,7 +17,7 @@ export default class AuthManager {
       const token = generateToken(email);
       return { message: "Autenticacion exitosa", token };
     } catch (error) {
-      console.log(error);
+      Logger.error(error);
       res.status(500).send({ status: "error", massage: error.message });
     }
   }

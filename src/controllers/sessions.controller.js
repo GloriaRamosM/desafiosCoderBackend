@@ -4,10 +4,11 @@ import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
 import UserdatosDTO from "../dao/DTOs/userdatos.dto.js";
 import nodemailer from "nodemailer";
+import { Logger } from "../middlewares/logger.js";
 
 class SessionController {
   constructor() {
-    console.log("Trabajando con SessionController");
+    Logger.info("Trabajando con SessionController");
   }
 
   async register(req, res) {
@@ -15,13 +16,13 @@ class SessionController {
   }
 
   async failregister(req, res) {
-    console.log("error");
+    req.logger.error("error");
     res.send({ error: "Falló el registro(/failregister)" });
   }
 
   async login(req, res) {
     if (!req.user) return res.status(400).send("error");
-    console.log(req.session.user);
+    req.logger.debug(req.session.user);
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -33,7 +34,7 @@ class SessionController {
   }
 
   async fail(req, res) {
-    console.log("error En failLogin");
+    req.logger.error("error En failLogin");
     res.send({ error: "Fallo" });
   }
 
@@ -77,7 +78,7 @@ class SessionController {
       });
     }
     const user = await userModel.findOne({ email });
-    console.log(user);
+    req.logger.debug(user);
     if (!user)
       return res
         .status(400)
