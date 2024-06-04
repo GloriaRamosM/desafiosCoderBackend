@@ -35,7 +35,7 @@ class SessionController {
 
   async fail(req, res) {
     req.logger.error("error En failLogin");
-    res.send({ error: "Fallo" });
+    res.send({ error: "Fallo el login" });
   }
 
   async github(req, res) {
