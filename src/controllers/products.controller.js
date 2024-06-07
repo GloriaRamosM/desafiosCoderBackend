@@ -204,31 +204,40 @@ class ProductController {
   // }
 
   async update(req, res) {
-    let id = req.params.pid;
-    const {
-      title,
-      description,
-      code,
-      price,
-      status,
-      category,
-      stock,
-      thumbnails,
-      brand,
-    } = req.body;
-    const updateProduct = {
-      title,
-      description,
-      code,
-      price,
-      status,
-      category,
-      stock,
-      thumbnails,
-      brand,
-    };
-    let result = await ProductsService.update(id, updateProduct);
-    res.json({ result });
+    try {
+      let id = req.params.pid;
+      const {
+        title,
+        description,
+        code,
+        price,
+        status,
+        category,
+        stock,
+        thumbnails,
+        brand,
+      } = req.body;
+      const updateProduct = {
+        title,
+        description,
+        code,
+        price,
+        status,
+        category,
+        stock,
+        thumbnails,
+        brand,
+      };
+      let result = await ProductsService.update(id, updateProduct);
+      res.json({ result });
+    } catch (error) {
+      Logger.error(error);
+      res.status(500).json({
+        status: "failure",
+        errorCode: "INTERNAL_SERVER_ERROR",
+        errorMessage: "Error al actualizar un producto",
+      });
+    }
   }
 
   //delete FS
