@@ -97,6 +97,18 @@ class CartController {
     const { quantity } = req.body;
 
     try {
+      if (req.session && req.session.user.rol == "Premium") {
+        let product = await ProductsService.getById(pid);
+
+        if (product.owner == req.session.user._id) {
+          res.status(500).send({
+            status: "error",
+            error: "No puedes agregar un producto propio",
+          });
+          return;
+        }
+      }
+
       const updatedCart = await CartsServicie.add(cid, pid, parseInt(quantity));
       res.status(201).send({ status: "success", payload: updatedCart });
     } catch (error) {

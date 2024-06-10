@@ -79,6 +79,8 @@ class ProductController {
         brand,
       } = req.body;
 
+      const owner =
+        req.session.user.rol == "Premium" ? req.session.user._id : "Admin";
       // Validar que los campos requeridos sean enviados
       const camposRequeridos = [
         "title",
@@ -116,6 +118,7 @@ class ProductController {
         stock,
         thumbnails,
         brand,
+        owner,
       };
 
       let result = await ProductsService.add(newProduct);
