@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { auth } from "../middlewares/auth.js";
+import { auth, ensureIsAdmin } from "../middlewares/auth.js";
 import userController from "../controllers/user.controller.js";
 
 const userRouter = Router();
@@ -30,7 +30,11 @@ userRouter.delete("/user/:id", userController.deleteUser);
 
 //login
 userRouter.post("/login", userController.login);
-// En tu archivo de rutas
+
+// ruta para cambiar un usuario de user a premium y viceversa
+
+userRouter.post("/users/premium/:uid", ensureIsAdmin, userController.chanceRol);
+
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar
 });

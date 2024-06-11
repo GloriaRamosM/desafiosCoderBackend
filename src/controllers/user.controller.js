@@ -111,6 +111,94 @@ class UserController {
       res.send({ status: "error", message: error });
     }
   }
+
+  async chanceRol(req, res) {
+    try {
+      const uid = req.params.uid;
+      const user = await UsersService.getById(uid);
+
+      let newRole;
+      if (user.rol === "User") {
+        newRole = "Premium";
+      } else if (user.rol === "Premium") {
+        newRole = "User";
+      } else {
+        return res.status(400).json({
+          status: "failure",
+          errorCode: "INVALID_ROLE",
+          errorMessage: "Rol de usuario inválido",
+        });
+      }
+
+      const userData = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        age: user.age,
+        rol: newRole,
+        cart: user.cart,
+      };
+
+      await UsersService.updateUser(user._id, userData);
+
+      res.status(200).json({
+        message: `Usuario actualizado y cambiado a rol ${newRole} exitosamente`,
+      });
+    } catch (error) {
+      console.error("Error al cambiar el rol del usuario:", error);
+      res.status(500).json({
+        status: "failure",
+        errorCode: "INTERNAL_SERVER_ERROR",
+        errorMessage:
+          "Error interno del servidor al cambiar el rol del usuario",
+      });
+    }
+  }
+
+  // async chanceRol(req, res) {
+  //   try {
+  //     const uid = req.params;
+  //     const user = await UsersService.getById(uid);
+  //     if (user.rol == "User") {
+  //       const userData = {
+  //         first_name: user.first_name,
+  //         last_name: user.last_name,
+  //         email: user.email,
+  //         age: user.age,
+  //         rol: "Premium",
+  //         cart: user.cart,
+  //       };
+
+  //       await UsersService.updateUser(user._id, userData);
+  //       return res.status(200).json({
+  //         message:
+  //           "Usuario actualizado, y cambiado a rol Premium  exitosamente",
+  //       });
+  //     }
+  //     if (user.rol == "Premium") {
+  //       const userData = {
+  //         first_name: user.first_name,
+  //         last_name: user.last_name,
+  //         email: user.email,
+  //         age: user.age,
+  //         rol: "User",
+  //         cart: user.cart,
+  //       };
+
+  //       UsersService.updateUser(user._id, userData);
+  //       return res.status(200).json({
+  //         message:
+  //           "Usuario actualizado, y cambiado a rol Premium  exitosamente",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     res.status(500).json({
+  //       status: "failure",
+  //       errorCode: "INTERNAL_SERVER_ERROR",
+  //       errorMessage: "Error al cambiar al usuario de rol  producto",
+  //     });
+  //   }
+  // }
 }
 
 export default new UserController();

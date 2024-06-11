@@ -20,7 +20,7 @@ export default class UserRepository {
 
   updateUser = async (id, userData) => {
     const updateUser = new UserDTO(userData);
-    return await this.dao.update(id, updateUser);
+    return await this.dao.updateUser(id, updateUser);
   };
 
   delete = async (id) => {
