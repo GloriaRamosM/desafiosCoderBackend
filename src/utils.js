@@ -4,11 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { fakerES as faker } from "@faker-js/faker";
 import { Logger } from "./middlewares/logger.js";
+import config from "./config.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-//Clave secreta para firmar el token JWT
-const JWT_SECRET = "desafio-integrador";
 
 //Aqui Hasheo de contrase;a ( similar a encriptar o poner dificil)
 export const createHash = (password) =>
@@ -23,10 +21,25 @@ export const isValidPassword = (user, password) => {
 };
 
 export const generateToken = (email) => {
-  const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "5h" });
+  const token = jwt.sign({ email }, config.JWT_SECRET, { expiresIn: "5h" });
   return token;
 };
 
+export const generateTokenRecupero = (userId) => {
+  const token = jwt.sign({ userId }, config.JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  return token;
+};
+
+export const validateToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, config.JWT_SECRET);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
 export const generateProduct = () => {
   return {
     id: faker.database.mongodbObjectId(),

@@ -1,8 +1,9 @@
 import { UsersService } from "../repositories/index.js";
 import authManager from "../dao/mongo/authMannager.js";
-import { createHash } from "../utils.js";
+import { createHash, validateToken } from "../utils.js";
 import { Logger } from "../middlewares/logger.js";
-
+import { generateTokenRecupero } from "../utils.js";
+import transport from "../config.nodemailer.js";
 const ServiciesAuthManager = new authManager();
 
 class UserController {
@@ -155,6 +156,53 @@ class UserController {
     }
   }
 
+  // recupero de contrasena
+  async recuperarContrasena(req, res) {
+    try {
+      const { email } = req.body;
+      const user = await UsersService.getBy({ email });
+
+      if (!user)
+        return res
+          .status(404)
+          .send({ status: "error", error: "User not found" });
+
+      const token = generateTokenRecupero(user._id);
+
+      const correoOptiopn = {
+        from: " Api Coder GR",
+        to: user.email,
+        subject: "Recuperacion de contraseña",
+        html: `
+<p> Por favor, haz clic en el siguiente enlace para recuperar tu contraseña</p> 
+<a href="http://localhost:8080/api/users/reset-password/${token}"> Recuperar contraseña</a>
+`,
+      };
+
+      const result = await transport.sendMail(correoOptiopn);
+      res.status(200).send("Correo enviado");
+    } catch (error) {
+      res.send({ status: "error", message: error.message });
+    }
+  }
+
+  async recuperarContrasenaToken(req, res) {
+    const token = req.params.token;
+
+    const decodedToken = validateToken(token);
+    if (!decodedToken) return res.redirect("/api/users/reset-password");
+
+    res.redirect("/api/users/reset-password");
+  }
+
+  async updatePassword(req, res) {
+    const { userId, newPassword } = req.body;
+
+    const result = await UsersService.updatePassword(userId, newPassword);
+    res
+      .status(200)
+      .send({ status: "success", message: "Password updated successfully" });
+  }
   // async chanceRol(req, res) {
   //   try {
   //     const uid = req.params;

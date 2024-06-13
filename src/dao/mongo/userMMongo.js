@@ -28,6 +28,15 @@ export default class UserManager {
     }
   };
 
+  getBy = async (params) => {
+    try {
+      const result = await userModel.findOne(params);
+      return result;
+    } catch (error) {
+      Logger.error("Error al tratar de obtener un usuario " + error.message);
+    }
+  };
+
   updateUser = async (id, userData) => {
     // Hashear la contraseña antes de actualizar el usuario
     try {
@@ -38,6 +47,24 @@ export default class UserManager {
       return result;
     } catch (error) {
       Logger.error("Error al tratar de actualizar un usuario " + error.message);
+    }
+  };
+
+  updatePassword = async (userId, newPassword) => {
+    try {
+      // Hashear la nueva contraseña antes de actualizarla
+      const hashedPassword = createHash(newPassword);
+
+      const result = await userModel.updateOne(
+        { _id: userId },
+        { $set: { password: hashedPassword } }
+      );
+      return result;
+    } catch (error) {
+      Logger.error(
+        "Error al tratar de actualizar la contraseña del usuario " +
+          error.message
+      );
     }
   };
 

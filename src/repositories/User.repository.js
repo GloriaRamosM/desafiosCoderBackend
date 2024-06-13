@@ -34,4 +34,12 @@ export default class UserRepository {
   getPaginatedUsers = async (page = 1, limit = 10) => {
     return await this.dao.getPaginatedUsers(page, limit);
   };
+
+  getBy = async (query) => {
+    return await this.dao.getBy(query);
+  };
+
+  updatePassword = async (userId, newPassword) => {
+    return await this.dao.updatePassword(userId, newPassword);
+  };
 }

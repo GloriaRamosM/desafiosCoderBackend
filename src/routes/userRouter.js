@@ -35,6 +35,15 @@ userRouter.post("/login", userController.login);
 
 userRouter.post("/users/premium/:uid", ensureIsAdmin, userController.chanceRol);
 
+//recuperar contraseña
+userRouter.post("/users/reset-password", userController.recuperarContrasena);
+
+userRouter.get(
+  "/users/reset-password/:token",
+  userController.recuperarContrasenaToken
+);
+userRouter.get("/users/reset-password", userController.updatePassword);
+
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar
 });
