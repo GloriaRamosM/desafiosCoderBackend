@@ -7,6 +7,7 @@ export function auth(req, res, next) {
   next();
 }
 
+export function ensureCreateProduct(req, res, next) {}
 export function ensureIsAdmin(req, res, next) {
   req.logger.debug(req.session.user);
   if (req.session && req.session.user.rol == "Admin") {
@@ -17,10 +18,16 @@ export function ensureIsAdmin(req, res, next) {
 }
 
 export function ensureIsUser(req, res, next) {
-  if (req.session && req.session.user.rol == "User") {
+  if (
+    req.session &&
+    (req.session.user.rol === "User" ||
+      req.session.user.rol === "Premium" ||
+      req.session.user.rol === "Admin")
+  ) {
     next();
     return;
   }
+
   res.status(401).json({ message: "User is not authorised" });
 }
 
@@ -48,9 +55,7 @@ export async function ensureHasAccessToProduct(req, res, next) {
     return;
   }
 
-  res
-    .status(401)
-    .json({
-      message: "Este Usuario no puede borrar un producto que no le pertenece",
-    });
+  res.status(401).json({
+    message: "Este Usuario no puede borrar un producto que no le pertenece",
+  });
 }
