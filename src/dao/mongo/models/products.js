@@ -40,12 +40,12 @@ const schema = new Schema({
     required: true,
   },
   brand: {
-    type: [String],
+    type: String,
     required: true,
   },
   owner: {
-    type: Schema.Types.ObjectId,
-    ref: "Users",
+    type: String,
+    required: true,
   },
 });
 

@@ -83,6 +83,7 @@ class ProductController {
         req.session.user && req.session.user.rol === "Premium"
           ? req.session.user._id
           : "Admin";
+      console.log(req.session.user);
 
       // Validar que los campos requeridos sean enviados
       const camposRequeridos = [
@@ -274,7 +275,7 @@ class ProductController {
 
   async delete(req, res) {
     const id = req.params.pid;
-    let result = await ProductsService.delete(id);
+    let result = await ProductsService.delet(id);
     res.json({ result });
   }
 }

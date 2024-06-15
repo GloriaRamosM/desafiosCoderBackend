@@ -48,5 +48,9 @@ export async function ensureHasAccessToProduct(req, res, next) {
     return;
   }
 
-  res.status(401).json({ message: "User is not authorised" });
+  res
+    .status(401)
+    .json({
+      message: "Este Usuario no puede borrar un producto que no le pertenece",
+    });
 }

@@ -14,9 +14,7 @@ export const createHash = (password) =>
 
 // aca validamos la contrase;a con la que usuario ingresa
 export const isValidPassword = (user, password) => {
-  Logger.debug(
-    `Datos a validar: user-password: ${user.password}, password: ${password}`
-  );
+  Logger.debug(`Datos a validar: user-password: ${user.password}, password:`);
   return bcrypt.compareSync(password, user.password);
 };
 

@@ -160,7 +160,9 @@ class UserController {
   async recuperarContrasena(req, res) {
     try {
       const { email } = req.body;
+      console.log("Email recibido:", email);
       const user = await UsersService.getBy({ email });
+      console.log("user recibido", user);
 
       if (!user)
         return res
@@ -190,9 +192,9 @@ class UserController {
     const token = req.params.token;
 
     const decodedToken = validateToken(token);
-    if (!decodedToken) return res.redirect("/api/users/reset-password");
+    if (!decodedToken) return res.render("restablecer");
 
-    res.redirect("/api/users/reset-password");
+    res.render("restore");
   }
 
   async updatePassword(req, res) {

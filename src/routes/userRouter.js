@@ -42,7 +42,7 @@ userRouter.get(
   "/users/reset-password/:token",
   userController.recuperarContrasenaToken
 );
-userRouter.get("/users/reset-password", userController.updatePassword);
+//userRouter.get("/users/reset-password", userController.updatePassword);
 
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar

@@ -99,6 +99,7 @@ export default class ProductManager {
     if (existingProduct) {
       return { message: "Ya existe un producto con este código." };
     } else {
+      console.log(product);
       let result = await productsModel.create(product);
       return result;
     }
