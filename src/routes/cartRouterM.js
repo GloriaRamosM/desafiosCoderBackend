@@ -13,7 +13,7 @@ cartsRouterM.get("/:cid", CartsController.getById);
 // POST /api/carts
 cartsRouterM.post("/", CartsController.create);
 
-// POST /api/carts/:cid/product/:pid AGREGA PRODUCTOS AL CARRITO
+// POST /api/carts/:cid/productS/:pid AGREGA PRODUCTOS AL CARRITO
 cartsRouterM.post("/:cid/products/:pid", ensureIsUser, CartsController.add);
 
 // BORRA EL PRODUCTO DEL CARRITO

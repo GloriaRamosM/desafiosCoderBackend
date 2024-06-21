@@ -20,6 +20,9 @@ import mongoose from "mongoose";
 import fakerRouter from "./src/routes/fakerRouter.js";
 import { addLogger } from "./src/middlewares/logger.js";
 import { Logger } from "./src/middlewares/logger.js";
+import swaggerJSDOC from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+import path from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,6 +33,30 @@ const port = config.PORT || 8080;
 
 const DB_URL = config.DB_URL;
 Logger.debug(DB_URL);
+
+// config docu
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: " API Ecommerce-Coder",
+      description:
+        "La API de este ecommerce facilita la gestión completa de una tienda en línea al proporcionar un conjunto  de endpoints. Los usuarios pueden agregar, actualizar y eliminar productos, gestionar categorías, administrar cuentas de clientes y procesar órdenes de compra.",
+    },
+  },
+
+  apis: [path.resolve(__dirname, "./src/docs/**/*.yaml")],
+};
+const specs = swaggerJSDOC(swaggerOptions);
+
+app.use(
+  "/apidocs",
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(specs, {
+    customCss: ".swagger-ui .topbar {display:none}",
+  })
+);
 
 //Middlewares
 app.set("views", __dirname + "/src/views");

@@ -1,0 +1,263 @@
+paths:
+  # trae los productos
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Productos cargados correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Error del servidor
+
+      #ruta para agregar productos
+    post:
+      summary: Agrega un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/addProduct"
+
+      responses:
+        "200":
+          description: Producto agregado correctamente
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Error del servidor
+
+  # ruta de producto por id
+  /api/products/{pid}:
+    # trae al producto por ID
+    get:
+      summary: Obtiene un producto por su Id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Parametro id del producto"
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Producto por Id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "500":
+          description: Error del servidor
+
+    # Actualiza el producto que se trae por ID
+    put:
+      summary: Obtiene un producto por su Id y lo actualiza
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Parametro id del producto"
+          schema:
+            type: string
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/requestBodies/updateProduct"
+
+      responses:
+        "200":
+          description: Producto por Id para actualizar
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Error del servidor
+
+    # Borra el producto que se trae por ID
+    delete:
+      summary: Borra un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: "Parametro id del producto que se quiere eliminar"
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Producto eliminado correctamente
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Error del servidor
+
+  # Esquema y requestbodies que van a usar mis metodos
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: id autogenerado
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        code:
+          type: string
+          description: Codigo del producto
+        price:
+          type: number
+          description: Precio del producto
+        status:
+          type: boolean
+          description: Se refiere a si esta disponible
+        category:
+          type: string
+          description: Categoria del producto
+        stock:
+          type: number
+          description: Cantidad de productos disponible
+        thumbnails:
+          type: string
+          description: Imagenes del producto
+        brand:
+          type: string
+          description: Marca del producto
+        owner:
+          type: string
+          description: Dueño del producto es autogenerado
+      example:
+        _id: "6983497a874"
+        title: "Zapatillas"
+        description: "Zapatillas con soporte para entrenamiento"
+        code: "96845"
+        price: 5600
+        status: true
+        category: "Deportiva"
+        stock: 50
+        thumbnails: "imagenes"
+        brand: "Nike"
+
+  requestBodies:
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        code:
+          type: string
+          description: Codigo del producto
+        price:
+          type: number
+          description: Precio del producto
+        status:
+          type: boolean
+          description: Se refiere a si esta disponible
+        category:
+          type: string
+          description: Categoria del producto
+        stock:
+          type: number
+          description: Cantidad de productos disponible
+        thumbnails:
+          type: string
+          description: Imagenes del producto
+        brand:
+          type: string
+          description: Marca del producto
+
+      example:
+        _id: "6983497a874"
+        title: "Zapatillas"
+        description: "Zapatillas con soporte para entrenamiento"
+        code: "96845"
+        price: 5600
+        status: true
+        category: "Deportiva"
+        stock: 50
+        thumbnails: "imagenes"
+        brand: "Nike"
+        owner: "ramosgloria@mail.com"
+
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: descripcion del producto
+        code:
+          type: string
+          description: Codigo del producto
+        price:
+          type: number
+          description: Precio del producto
+        status:
+          type: boolean
+          description: Se refiere a si esta disponible
+        category:
+          type: string
+          description: Categoria del producto
+        stock:
+          type: number
+          description: Cantidad de productos disponible
+        thumbnails:
+          type: string
+          description: Imagenes del producto
+        brand:
+          type: string
+          description: Marca del producto
+
+      example:
+        _id: "6983497a874"
+        title: "Remera de Tortugas Ninja"
+        description: "Remera animadas"
+        code: "96845"
+        price: 69850
+        status: true
+        category: "Casual"
+        stock: 50
+        thumbnails: "imagenes"
+        brand: "Old Navy"
+        owner: "ramosgloria@mail.com"
