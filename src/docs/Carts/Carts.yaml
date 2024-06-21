@@ -178,13 +178,14 @@ paths:
           description: "ID del producto"
           schema:
             type: string
-
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: "#/components/requestBodies/updateProductQuantity"
+            example:
+              quantity: 8
       responses:
         "200":
           description: cantida de producto actualizado con éxito
