@@ -70,7 +70,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/requestBodies/updateCart"
+              $ref: "#/components/requestBodies/updateCart/content/application~1json/schema"
       responses:
         "200":
           description: Carrito actualizado con éxito
