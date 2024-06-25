@@ -1,8 +1,10 @@
 <div>
   <h1>Restaura la contraseña del usuario</h1>
+
   <form id="restoreForm">
     <label>Correo electrónico</label>
-    <input name="email" />
+    <input id="email" name="email" disabled value={{email}} />
+
     <label>Nueva contraseña</label>
     <input name="password" />
     <input type="submit" />

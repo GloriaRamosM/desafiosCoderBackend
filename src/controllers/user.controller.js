@@ -192,9 +192,13 @@ class UserController {
     const token = req.params.token;
 
     const decodedToken = validateToken(token);
+    console.log(decodedToken);
     if (!decodedToken) return res.render("restablecer");
 
-    res.render("restore");
+    const { email } = await UsersService.getById(decodedToken.userId);
+
+    console.log(email);
+    res.render("restore", { email });
   }
 
   async updatePassword(req, res) {

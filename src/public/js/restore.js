@@ -1,9 +1,9 @@
 const form = document.getElementById("restoreForm");
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = form.email.value;
+  const email = document.getElementById("email").value;
   const password = form.password.value;
 
   // Verificar si los campos están vacíos
@@ -13,22 +13,24 @@ form.addEventListener("submit", (e) => {
   }
 
   const data = new FormData(form);
-  const obj = {};
+  const obj = { email };
   console.log(data);
   data.forEach((value, key) => (obj[key] = value));
   //hacer un fetch al end point del back que es en mis router
-  fetch("/api/sessions/restore", {
+
+  const response = await fetch("/api/sessions/restore", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((response) => {
-    if (response.status === 200) {
-      console.log("exito");
-      window.location.href = "/login";
-    } else {
-      console.log("algo salio mal");
-    }
   });
+
+  if (response.status === 200) {
+    console.log("exito");
+    window.location.href = "/login";
+  } else {
+    const error = await response.json();
+    window.alert(error.message);
+  }
 });

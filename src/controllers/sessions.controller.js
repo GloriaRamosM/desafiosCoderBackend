@@ -78,12 +78,22 @@ class SessionController {
         message: "Correo electrónico y contraseña son requeridos",
       });
     }
+
     const user = await userModel.findOne({ email });
+
     req.logger.debug(user);
     if (!user)
       return res
         .status(400)
         .send({ status: "error", message: "No se encuentra el user" });
+    const valid = isValidPassword(user, password);
+    if (valid) {
+      return res.status(400).send({
+        status: "error",
+        message: "Contraseña no puede ser igual a la anterior",
+      });
+    }
+
     const newPass = createHash(password);
 
     await userModel.updateOne(
