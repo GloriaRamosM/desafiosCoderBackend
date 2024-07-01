@@ -14,4 +14,5 @@ export default {
   MAIL_USERNAME: process.env.MAIL_USERNAME,
   NODE_ENV: process.env.NODE_ENV,
   JWT_SECRET: process.env.JWT_SECRET,
+  URL_TESTING: process.env.URL_TESTING,
 };
