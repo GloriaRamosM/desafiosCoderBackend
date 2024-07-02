@@ -17,7 +17,7 @@ class CartController {
   async getAll(req, res) {
     let limit = req.query;
     let data = await CartsServicie.getAll(limit);
-    res.json({ data });
+    res.status(200).json({ data });
   }
 
   // GETBYID FS
@@ -35,7 +35,7 @@ class CartController {
       const cid = req.params.cid;
       const cart = await CartsServicie.getById(cid);
       req.logger.debug(cart);
-      res.send({ status: "success", payload: cart });
+      res.status(200).send({ status: "success", payload: cart });
     } catch (error) {
       req.logger.error(error);
       res.status(500).send({ status: "error", error: error.message });
