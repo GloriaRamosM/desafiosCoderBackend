@@ -67,9 +67,10 @@ const initilizePassport = () => {
           if (!user) return done(null, false);
           const valid = isValidPassword(user, password);
           if (!valid) return done(null, false);
-
+          console.log({ user });
           return done(null, user);
         } catch (error) {
+          console.log({ error });
           return done(error);
         }
       }
