@@ -209,6 +209,12 @@ class UserController {
       .status(200)
       .send({ status: "success", message: "Password updated successfully" });
   }
+
+  async uploadDocuments(req, res) {
+    console.log(req.file);
+    res.status(200).send({});
+  }
+
   // async chanceRol(req, res) {
   //   try {
   //     const uid = req.params;

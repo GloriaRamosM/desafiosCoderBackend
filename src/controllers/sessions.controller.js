@@ -5,6 +5,8 @@ import { createHash, isValidPassword } from "../utils.js";
 import UserdatosDTO from "../dao/DTOs/userdatos.dto.js";
 import nodemailer from "nodemailer";
 import { Logger } from "../middlewares/logger.js";
+import { UsersService } from "../repositories/index.js";
+import { useUpload } from "../dao/services/multer.js";
 
 class SessionController {
   constructor() {
@@ -31,6 +33,10 @@ class SessionController {
       age: req.user.age,
       rol: req.user.rol,
     };
+    const upload = useUpload("products");
+    await UsersService.updateUser(req.user._id, {
+      last_connection: new Date(),
+    });
     res.status(200).send({ status: "success", payload: req.user });
   }
 
@@ -61,8 +67,12 @@ class SessionController {
   }
 
   async logout(req, res) {
-    req.session.destroy((err) => {
+    req.session.destroy(async (err) => {
       if (!err) {
+        await UsersService.updateUser(req.user._id, {
+          last_connection: new Date(),
+        });
+
         res.redirect("/login");
       } else {
         res.send({ error: err });

@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import { auth, ensureIsAdmin } from "../middlewares/auth.js";
 import userController from "../controllers/user.controller.js";
+import { use } from "chai";
+import { useUpload } from "../dao/services/multer.js";
 
 const userRouter = Router();
 
@@ -21,6 +23,12 @@ userRouter.get("/user/:id", userController.getById);
 
 // Crear un nuevo usuario
 userRouter.post("/user", userController.createUser);
+
+userRouter.post(
+  "/users/:uid/documents",
+  useUpload("products").single("products"),
+  userController.uploadDocuments
+);
 
 // Actualizar un usuario existente
 userRouter.put("/user/:id", userController.updateUser);
