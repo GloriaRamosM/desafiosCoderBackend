@@ -96,7 +96,7 @@ app.use("/api", userRouter);
 app.use(fakerRouter);
 
 const server = app.listen(port, () =>
-  Logger.info("servidor corriendo en el puerto " + port)
+  Logger.info("servidor corriendo en el Puerto " + port)
 );
 
 const connectMongoDB = async () => {
