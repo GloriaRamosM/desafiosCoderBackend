@@ -120,6 +120,13 @@ class UserController {
 
       let newRole;
       if (user.rol === "User") {
+        if (user.documents.length < 1) {
+          return res.status(400).json({
+            status: "failure",
+            errorCode: "MISSING_DOCUMENTS",
+            errorMessage: "El usuario no ha cargado los documentos",
+          });
+        }
         newRole = "Premium";
       } else if (user.rol === "Premium") {
         newRole = "User";
@@ -211,8 +218,15 @@ class UserController {
   }
 
   async uploadDocuments(req, res) {
-    console.log(req.file);
-    res.status(200).send({});
+    const { documents } = req.files;
+    const result = await UsersService.uploadDocuments(
+      req.params.uid,
+      documents
+    );
+    res.status(200).send({
+      status: "success",
+      message: "Files uploaded successfully",
+    });
   }
 
   // async chanceRol(req, res) {

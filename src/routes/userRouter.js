@@ -26,7 +26,11 @@ userRouter.post("/user", userController.createUser);
 
 userRouter.post(
   "/users/:uid/documents",
-  useUpload("products").single("products"),
+  useUpload().fields([
+    { name: "products" },
+    { name: "profiles" },
+    { name: "documents" },
+  ]),
   userController.uploadDocuments
 );
 
@@ -41,7 +45,8 @@ userRouter.post("/login", userController.login);
 
 // ruta para cambiar un usuario de user a premium y viceversa
 
-userRouter.post("/users/premium/:uid", ensureIsAdmin, userController.chanceRol);
+// userRouter.post("/users/premium/:uid", ensureIsAdmin, userController.chanceRol);
+userRouter.post("/users/premium/:uid", userController.chanceRol);
 
 //recuperar contraseña
 userRouter.post("/users/reset-password", userController.recuperarContrasena);

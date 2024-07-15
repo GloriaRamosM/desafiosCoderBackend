@@ -42,4 +42,8 @@ export default class UserRepository {
   updatePassword = async (userId, newPassword) => {
     return await this.dao.updatePassword(userId, newPassword);
   };
+
+  uploadDocuments = async (userId, newPassword) => {
+    return await this.dao.uploadDocuments(userId, newPassword);
+  };
 }

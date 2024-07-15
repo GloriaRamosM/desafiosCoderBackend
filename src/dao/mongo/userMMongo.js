@@ -102,4 +102,19 @@ export default class UserManager {
       Logger.error("Error al realizar la paginación " + error.message);
     }
   };
+
+  uploadDocuments = async (id, documents) => {
+    const result = await userModel.updateOne(
+      { _id: id },
+      {
+        $set: {
+          documents: documents.map((document) => ({
+            name: document.originalname,
+            reference: `public/documents/${document.filename}`,
+          })),
+        },
+      }
+    );
+    console.log({ result });
+  };
 }
