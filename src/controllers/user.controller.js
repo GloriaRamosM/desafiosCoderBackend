@@ -1,5 +1,5 @@
 import { UsersService } from "../repositories/index.js";
-import authManager from "../dao/mongo/authMannager.js";
+import authManager from "../dao/mongo/auth.dao.js";
 import { createHash, validateToken } from "../utils.js";
 import { Logger } from "../middlewares/logger.js";
 import { generateTokenRecupero } from "../utils.js";

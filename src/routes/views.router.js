@@ -2,9 +2,9 @@ import { Router } from "express";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import MessageManager from "../dao/mongo/messagesMManager.js";
-import ProductManager from "../dao/mongo/productMMongo.js";
-import CartManager from "../dao/mongo/cartMMongo.js";
+import MessageManager from "../dao/mongo/messages.dao.js";
+import ProductManager from "../dao/mongo/product.dao.js";
+import CartManager from "../dao/mongo/cart.dao.js";
 import { auth, ensureIsUser } from "../middlewares/auth.js";
 
 const manejadorDeMensajes = new MessageManager();

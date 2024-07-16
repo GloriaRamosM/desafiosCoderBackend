@@ -3,7 +3,7 @@ import { Logger } from "../../middlewares/logger.js";
 
 export default class ProductManager {
   constructor() {
-    Logger.info("Trabajando con productManager");
+    Logger.info("Trabajando con productDao");
   }
 
   getAll = async ({ limit = 10, page = 1, query, sort }) => {
