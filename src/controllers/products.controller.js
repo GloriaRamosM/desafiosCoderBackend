@@ -284,9 +284,6 @@ class ProductController {
         return res.status(404).json({ message: "Producto no encontrado" });
       }
 
-      // Obtener el resultado de la eliminación
-      const result = await ProductsService.delet(id);
-
       // Verificar si el propietario del producto es un usuario Premium
       if (product.owner && product.owner != "Admin") {
         // Obtener la información del propietario del producto
@@ -315,8 +312,12 @@ class ProductController {
             );
           }
         }
-        res.json({ result });
       }
+
+      // Obtener el resultado de la eliminación
+      const result = await ProductsService.delet(id);
+
+      res.json({ result });
     } catch (error) {
       console.error(`Error al eliminar producto : ${error}`);
       res.status(500).json({ message: "Error al eliminar producto" });
