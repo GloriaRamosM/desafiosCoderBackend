@@ -62,39 +62,6 @@ userRouter.get(
 );
 //userRouter.get("/users/reset-password", userController.updatePassword);
 
-userRouter.get("/userDashboard", auth, ensureIsAdmin, async (req, res) => {
-  try {
-    const response = await userController.getAll();
-    console.log("Response from getAll:", response); // Log de la respuesta del controlador
-
-    // Verifica que `response` es el objeto esperado
-    if (response && response.users) {
-      const users = response.users;
-      const hasUsers = users.length > 0;
-
-      // Renderizar la vista con los usuarios
-      res.render("userDashboard", {
-        users,
-        hasUsers,
-        user: req.session.user,
-      });
-    } else {
-      console.error("La respuesta del controlador no contiene `users`");
-      res
-        .status(500)
-        .send({
-          status: "error",
-          error: "Error en la respuesta del controlador",
-        });
-    }
-  } catch (error) {
-    console.error(`Error al obtener usuarios: ${error}`);
-    res
-      .status(500)
-      .send({ status: "error", error: "Error al obtener usuarios" });
-  }
-});
-
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar
 });

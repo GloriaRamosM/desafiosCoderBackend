@@ -5,11 +5,14 @@ import { dirname, join } from "path";
 import MessageManager from "../dao/mongo/messages.dao.js";
 import ProductManager from "../dao/mongo/product.dao.js";
 import CartManager from "../dao/mongo/cart.dao.js";
-import { auth, ensureIsUser } from "../middlewares/auth.js";
+import { auth, ensureIsUser, ensureIsAdmin } from "../middlewares/auth.js";
+//import userController from "../controllers/user.controller.js";
+import UserManager from "../dao/mongo/user.dao.js";
 
 const manejadorDeMensajes = new MessageManager();
 const manejadorDeProducto = new ProductManager();
 const manejadorDeCarrito = new CartManager();
+const manejadorDeUsuarios = new UserManager();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -77,6 +80,36 @@ router.get("/products", auth, async (req, res) => {
     });
   } catch (error) {
     res.status(500).send({ status: "error", error: error.message });
+  }
+});
+
+router.get("/userDashboard", auth, ensureIsAdmin, async (req, res) => {
+  try {
+    const users = await manejadorDeUsuarios.getAll();
+    console.log("Response from getAll:", users); // Log de la respuesta del controlador
+
+    // Verifica que `response` es el objeto esperado
+    if (users) {
+      const hasUsers = users.length > 0;
+
+      // Renderizar la vista con los usuarios
+      res.render("userDashboard", {
+        users,
+        hasUsers,
+        user: req.session.user,
+      });
+    } else {
+      console.error("La respuesta del controlador no contiene `users`");
+      res.status(500).send({
+        status: "error",
+        error: "Error en la respuesta del controlador",
+      });
+    }
+  } catch (error) {
+    console.error(`Error al obtener usuarios: ${error}`);
+    res
+      .status(500)
+      .send({ status: "error", error: "Error al obtener usuarios" });
   }
 });
 

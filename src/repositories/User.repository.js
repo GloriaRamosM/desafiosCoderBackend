@@ -23,8 +23,8 @@ export default class UserRepository {
     return await this.dao.updateUser(id, updateUser);
   };
 
-  delete = async (id) => {
-    return await this.dao.delete(id);
+  deleteUser = async (id) => {
+    return await this.dao.deleteUser(id);
   };
 
   getAllUsersWithCart = async () => {

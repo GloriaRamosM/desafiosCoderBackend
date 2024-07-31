@@ -1,5 +1,5 @@
 import express from "express";
-import handlebars from "express-handlebars";
+import exphbs from "express-handlebars";
 import { Server } from "socket.io";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -58,13 +58,21 @@ app.use(
   })
 );
 
+const hbs = exphbs.create({
+  defaultLayout: "main",
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  },
+});
+
 //Middlewares
 app.set("views", __dirname + "/src/views");
 app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/src/public`));
-app.engine("handlebars", handlebars.engine());
+app.engine("handlebars", hbs.engine);
 
 app.use(
   session({
