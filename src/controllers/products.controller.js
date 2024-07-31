@@ -1,5 +1,6 @@
 import { ProductsService, UsersService } from "../repositories/index.js";
 import { Logger } from "../middlewares/logger.js";
+import transport from "../config.nodemailer.js";
 
 class ProductController {
   constructor() {
@@ -287,20 +288,37 @@ class ProductController {
       const result = await ProductsService.delet(id);
 
       // Verificar si el propietario del producto es un usuario Premium
-      if (product.owner && req.session && req.session.user.rol === "Premium") {
+      if (product.owner && product.owner != "Admin") {
         // Obtener la información del propietario del producto
         const owner = await UsersService.getById(product.owner);
         console.log(owner);
 
-        if (owner && owner.email) {
+        if (owner && owner.rol == "Premium" && owner.email) {
           // Enviar correo electrónico al propietario
           console.log(owner.email);
-        }
-      }
 
-      res.json({ result });
+          const correoOptiopn = {
+            from: "Api Coder GR",
+            to: owner.email,
+            subject: "Aviso: Producto Eliminado",
+            html: `
+          <p>Hola, el producto que agrego , ha sido eliminado</p>
+        `,
+          };
+
+          try {
+            await transport.sendMail(correoOptiopn);
+            console.log(`Correo enviado a: ${owner.email}`);
+          } catch (emailError) {
+            console.error(
+              `Error al enviar correo a ${owner.email}: ${emailError}`
+            );
+          }
+        }
+        res.json({ result });
+      }
     } catch (error) {
-      console.error(`Error al eliminar producto: ${error}`);
+      console.error(`Error al eliminar producto : ${error}`);
       res.status(500).json({ message: "Error al eliminar producto" });
     }
   }
