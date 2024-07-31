@@ -1,0 +1,26 @@
+<div>
+  <h1>Bienvenido al Dashboard de Usuarios</h1>
+  <p>{{user.first_name}} {{user.last_name}}</p>
+  <p>{{user.email}}</p>
+  <p>ROL: {{user.rol}}</p>
+  <button id="logout">Cerrar Sesión</button>
+</div>
+
+{{#if hasUsers}}
+  <h2>Listado de Usuarios</h2>
+  <hr />
+  <div>
+    {{#each users}}
+      <div>
+        <p><strong>Nombre:</strong> {{first_name}} {{last_name}}</p>
+        <p><strong>Email:</strong> {{email}}</p>
+        <p><strong>Rol:</strong> {{rol}}</p>
+      </div>
+      <br />
+    {{/each}}
+  </div>
+{{else}}
+  <h2>No hay usuarios</h2>
+{{/if}}
+
+<script src="/js/userDashboard.js"></script>

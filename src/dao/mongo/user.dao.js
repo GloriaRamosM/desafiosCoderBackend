@@ -72,7 +72,37 @@ export default class UserManager {
     const result = await userModel.deleteOne({ _id: id });
     return result;
   };
+  // Borra a los usuarios que no han iniciado sesion en los ultimos dos dias
 
+  deleteInactiveUsers = async (date) => {
+    try {
+      const result = await userModel.deleteMany({
+        $or: [
+          { last_connection: { $lt: date } },
+          { last_connection: { $exists: false } },
+        ],
+      });
+      return result;
+    } catch (error) {
+      console.error(`Error al eliminar usuarios inactivos: ${error}`);
+      throw error;
+    }
+  };
+
+  getInactiveUsers = async (date) => {
+    try {
+      const result = await userModel.find({
+        $or: [
+          { last_connection: { $lt: date } },
+          { last_connection: { $exists: false } },
+        ],
+      });
+      return result;
+    } catch (error) {
+      console.error(`Error al consultar usuarios inactivos: ${error}`);
+      throw error;
+    }
+  };
   // Buscar a los usuarios con los carritos incluidos
   getAllUsersWithCart = async () => {
     //logica

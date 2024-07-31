@@ -229,6 +229,75 @@ class UserController {
     });
   }
 
+  async getDatosUsers(req, res) {
+    try {
+      const users = await UsersService.getAll();
+      const userData = users.map((user) => ({
+        name: user.first_name + " " + user.last_name,
+        email: user.email,
+        role: user.rol,
+        id: user._id,
+      }));
+      res.status(200).json({ users: userData });
+    } catch (error) {
+      console.error(`Error al cargar los usuarios: ${error}`);
+      res.status(500).json({ error: "Error al recibir los usuarios" });
+    }
+  }
+
+  async deleteUsers(req, res) {
+    try {
+      // Obtiene la fecha actual y le resta 2 días
+      const twoDaysAgo = new Date();
+
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+      // llamar a los usuarios para ver cuales son los que no se han conectado en el tiempo estipulado
+      const users = await UsersService.getInactiveUsers(twoDaysAgo);
+
+      // Verifica si hay usuarios inactivos
+      if (users.length === 0) {
+        return res.status(200).json({
+          message: "No hay usuarios inactivos.",
+          users,
+        });
+      }
+
+      // Envía un correo a cada usuario inactivo
+      for (const user of users) {
+        const correoOptiopn = {
+          from: "Api Coder GR",
+          to: user.email,
+          subject: "Aviso: Inactividad",
+          html: `
+        <p>Hola, su cuenta ha sido eliminada por inactividad.</p>
+      `,
+        };
+
+        try {
+          await transport.sendMail(correoOptiopn);
+          console.log(`Correo enviado a: ${user.email}`);
+        } catch (emailError) {
+          console.error(
+            `Error al enviar correo a ${user.email}: ${emailError}`
+          );
+        }
+      }
+
+      // Llama al servicio para eliminar usuarios con conexión anterior a `twoDaysAgo`
+      const result = await UsersService.deleteInactiveUsers(twoDaysAgo);
+
+      res.status(200).json({
+        message: `${result.deletedCount} usuarios eliminados por inactividad.`,
+      });
+    } catch (error) {
+      console.error(`Error al eliminar usuarios: ${error}`);
+      res
+        .status(500)
+        .json({ error: `Error al eliminar usuarios por inactividad` });
+    }
+  }
+
   // async chanceRol(req, res) {
   //   try {
   //     const uid = req.params;

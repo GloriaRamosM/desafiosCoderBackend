@@ -46,4 +46,16 @@ export default class UserRepository {
   uploadDocuments = async (userId, newPassword) => {
     return await this.dao.uploadDocuments(userId, newPassword);
   };
+
+  getDatosUsers = async () => {
+    return await this.dao.getDatosUsers;
+  };
+
+  deleteInactiveUsers = async (date) => {
+    return await this.dao.deleteInactiveUsers(date);
+  };
+
+  getInactiveUsers = async (date) => {
+    return await this.dao.getInactiveUsers(date);
+  };
 }

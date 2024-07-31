@@ -21,6 +21,9 @@ userRouter.get("/users", auth, userController.getAll);
 // Obtener un usuario por su ID
 userRouter.get("/user/:id", userController.getById);
 
+//Get de los usuarios pero solo con NOMBRE, CORREO y TIPO DE CUENTA
+userRouter.get("/usersDatos", userController.getDatosUsers);
+
 // Crear un nuevo usuario
 userRouter.post("/user", userController.createUser);
 
@@ -40,6 +43,8 @@ userRouter.put("/user/:id", userController.updateUser);
 // Eliminar un usuario por su ID
 userRouter.delete("/user/:id", userController.deleteUser);
 
+userRouter.delete("/users", userController.deleteUsers);
+
 //login
 userRouter.post("/login", userController.login);
 
@@ -56,6 +61,39 @@ userRouter.get(
   userController.recuperarContrasenaToken
 );
 //userRouter.get("/users/reset-password", userController.updatePassword);
+
+userRouter.get("/userDashboard", auth, ensureIsAdmin, async (req, res) => {
+  try {
+    const response = await userController.getAll();
+    console.log("Response from getAll:", response); // Log de la respuesta del controlador
+
+    // Verifica que `response` es el objeto esperado
+    if (response && response.users) {
+      const users = response.users;
+      const hasUsers = users.length > 0;
+
+      // Renderizar la vista con los usuarios
+      res.render("userDashboard", {
+        users,
+        hasUsers,
+        user: req.session.user,
+      });
+    } else {
+      console.error("La respuesta del controlador no contiene `users`");
+      res
+        .status(500)
+        .send({
+          status: "error",
+          error: "Error en la respuesta del controlador",
+        });
+    }
+  } catch (error) {
+    console.error(`Error al obtener usuarios: ${error}`);
+    res
+      .status(500)
+      .send({ status: "error", error: "Error al obtener usuarios" });
+  }
+});
 
 userRouter.post("/logout", (req, res) => {
   //lógica a implementar

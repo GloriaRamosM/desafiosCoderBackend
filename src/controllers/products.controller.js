@@ -1,4 +1,4 @@
-import { ProductsService } from "../repositories/index.js";
+import { ProductsService, UsersService } from "../repositories/index.js";
 import { Logger } from "../middlewares/logger.js";
 
 class ProductController {
@@ -274,9 +274,35 @@ class ProductController {
   // }
 
   async delete(req, res) {
-    const id = req.params.pid;
-    let result = await ProductsService.delet(id);
-    res.json({ result });
+    try {
+      const id = req.params.pid;
+      // Obtener el producto antes de eliminarlo
+      const product = await ProductsService.getById(id);
+
+      if (!product) {
+        return res.status(404).json({ message: "Producto no encontrado" });
+      }
+
+      // Obtener el resultado de la eliminación
+      const result = await ProductsService.delet(id);
+
+      // Verificar si el propietario del producto es un usuario Premium
+      if (product.owner && req.session && req.session.user.rol === "Premium") {
+        // Obtener la información del propietario del producto
+        const owner = await UsersService.getById(product.owner);
+        console.log(owner);
+
+        if (owner && owner.email) {
+          // Enviar correo electrónico al propietario
+          console.log(owner.email);
+        }
+      }
+
+      res.json({ result });
+    } catch (error) {
+      console.error(`Error al eliminar producto: ${error}`);
+      res.status(500).json({ message: "Error al eliminar producto" });
+    }
   }
 }
 
