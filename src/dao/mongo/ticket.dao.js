@@ -1,4 +1,4 @@
-import ticketsModel from "../mongo/models/ticket.model.js";
+import ticketsModel from "../mongo/models/Ticket.model.js";
 import { Logger } from "../../middlewares/logger.js";
 
 export default class ticketManager {
