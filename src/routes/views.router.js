@@ -113,6 +113,27 @@ router.get("/userDashboard", auth, ensureIsAdmin, async (req, res) => {
   }
 });
 
+router.get("/checkout", auth, async (req, res) => {
+  try {
+    const cartId = req.query.cartId;
+    if (!cartId) {
+      return res.status(400).send("Cart ID es requerido");
+    }
+
+    const cart = await manejadorDeCarrito.getById(cartId);
+    const products = await Promise.all(
+      cart.products.map(async (item) => {
+        const product = await manejadorDeProducto.getById(item.product);
+        return { ...product, quantity: item.quantity };
+      })
+    );
+
+    res.render("checkout", { products, ticketCode: req.query.ticketCode }); // Asegúrate de pasar el ticketCode
+  } catch (error) {
+    res.status(500).send({ status: "error", error: error.message });
+  }
+});
+
 router.get("/carts/:cid", auth, async (req, res) => {
   try {
     const cid = req.params.cid;

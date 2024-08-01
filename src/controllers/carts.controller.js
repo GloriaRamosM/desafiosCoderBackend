@@ -181,13 +181,20 @@ class CartController {
     const { cid } = req.params;
     try {
       const cartPurchase = await CartsServicie.getById(cid);
+      console.log("Cart before purchase:", cartPurchase); // Verifica el contenido del carrito
+
+      if (cartPurchase.products.length === 0) {
+        return res.status(400).json({ error: "El carrito está vacío" });
+      }
+
       let cantidadTotal = 0;
       const productsComprados = [];
       const productsNoComprados = [];
+
       for (let i = 0; i < cartPurchase.products.length; i++) {
         const { product: productId, quantity } = cartPurchase.products[i];
         const product = await ProductsService.getById(productId);
-        req.logger.debug(product, quantity);
+
         if (product.stock >= quantity) {
           productsComprados.push({ productId, quantity });
           const updateProduct = await ProductsService.update(productId, {
@@ -197,31 +204,25 @@ class CartController {
             cid,
             productId.toString()
           );
-          req.logger.debug(eliminados, productId);
           cantidadTotal += product.price * quantity;
         } else {
-          productsNoComprados.push(productId);
-          //agregar la quantity del producto al array de NOcomprados
+          productsNoComprados.push({ productId, quantity });
         }
       }
 
-      // EL CODIGO DEBE AUTOGENERARSE Y NO REPETIRSE, utilizo la funcion generateUniqueCode
-
+      // Genera el código único para el ticket
       const ticketCode = generateUniqueCode();
-
       const ticket = await TicketService.add({
         amount: cantidadTotal,
         code: ticketCode,
         purchaser: req.session.user.email,
       });
 
-      req.logger.debug(ticket);
-
       if (productsNoComprados.length > 0) {
         return res.json({ productsNoComprados });
       }
 
-      res.status(200).json({});
+      res.status(200).json({ ticketCode, productsComprados });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
     }

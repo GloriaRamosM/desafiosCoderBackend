@@ -1,0 +1,23 @@
+<h1>Resumen de Compra</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Precio</th>
+      <th>Cantidad</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+      <tr>
+        <td>{{title}}</td>
+        <td>{{price}}</td>
+        <td>{{quantity}}</td>
+
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<p>Gracias por tu compra. Tu código de ticket es: {{ticketCode}}</p>

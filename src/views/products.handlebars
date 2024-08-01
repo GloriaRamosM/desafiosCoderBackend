@@ -1,10 +1,21 @@
 <div>
-  <h1>Bienvenido a tu perfil </h1>
+  <h1>Bienvenido a tu perfil</h1>
   <p>{{user.name}}</p>
   <p>{{user.email}}</p>
   <p>{{user.age}}</p>
-  <p>ROL:{{user.role}}</p>
-  <button id="logout"> Cerrar Sesion</button>
+  <p>ROL: {{user.rol}}</p>
+  <button id="logout">Cerrar Sesión</button>
+  <button id="initializeCart">Inicializar Carrito</button>
+  <p id="cartStatusMessage"></p>
+
+  <!-- Carrito con contador de productos -->
+  <div id="cartStatus">
+    <img src="" alt="Carrito" id="cartIcon" class="cart-icon" />
+    <span id="cartItemCount">0</span>
+  </div>
+
+  <!-- Botón para finalizar compra -->
+  <button id="finalizePurchase">Finalizar Compra</button>
 </div>
 
 {{#if hasProducts}}
@@ -18,7 +29,7 @@
         <p><strong>Precio:</strong> {{price}}</p>
         <p><strong>Categoría:</strong> {{category}}</p>
         <p><strong>Stock:</strong> {{stock}}</p>
-        <button>Agregar al carrito</button>
+        <button class="addToCart" data-pid="{{_id}}">Agregar al carrito</button>
       </div>
       <br />
     {{/each}}
