@@ -9,35 +9,18 @@
     />
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
-      <h1 class="text-4xl font-bold mb-6 text-center text-gray-800">Resumen de
-        Compra</h1>
+      <h1 class="text-4xl font-bold mb-6 text-center text-gray-800">
+        Resumen de Compra
+      </h1>
 
-      <table class="min-w-full bg-white border border-gray-300 rounded-lg">
-        <thead>
-          <tr class="bg-gray-200 text-gray-600">
-            <th class="py-3 px-4 border-b">Nombre</th>
-            <th class="py-3 px-4 border-b">Precio</th>
-            <th class="py-3 px-4 border-b">Cantidad</th>
-            <th class="py-3 px-4 border-b">Total</th>
-          </tr>
-        </thead>
-        <tbody class="text-gray-700">
-          {{#each products}}
-            <tr class="hover:bg-gray-100">
-              <td class="py-3 px-4 border-b">{{title}}</td>
-              <td class="py-3 px-4 border-b">${{price}}</td>
-              <td class="py-3 px-4 border-b">{{quantity}}</td>
-              <td class="py-3 px-4 border-b">${{multiply price quantity}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-
-      <p class="mt-6 text-center text-lg text-gray-800">Gracias por tu compra.
-        Tu código de ticket es:
-        <span class="font-bold">{{ticketCode}}</span></p>
+      <div class="text-center text-lg text-gray-800">
+        <p>Gracias por tu compra.</p>
+        <p>Tu código de ticket es:
+          <span class="font-bold">{{ticketCode}}</span></p>
+        <p>El monto total es: <span class="font-bold">${{amount}}</span></p>
+        <p>Comprador: <span class="font-bold">{{purchaser}}</span></p>
+      </div>
     </div>
 
     <script src="/path/to/handlebars.js"></script>

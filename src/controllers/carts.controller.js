@@ -222,7 +222,7 @@ class CartController {
         return res.json({ productsNoComprados });
       }
 
-      res.status(200).json({ ticketCode, productsComprados });
+      res.status(200).json({ productsComprados, ticket });
     } catch (error) {
       res.status(500).send({ status: "error", error: error.message });
     }

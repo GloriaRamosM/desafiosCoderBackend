@@ -8,6 +8,13 @@ import CartManager from "../dao/mongo/cart.dao.js";
 import { auth, ensureIsUser, ensureIsAdmin } from "../middlewares/auth.js";
 //import userController from "../controllers/user.controller.js";
 import UserManager from "../dao/mongo/user.dao.js";
+import cartsController from "../controllers/carts.controller.js";
+import {
+  CartsServicie,
+  ProductsService,
+  TicketService,
+} from "../repositories/index.js";
+import generateUniqueCode from "../dao/services/generadordeCodigo.js";
 
 const manejadorDeMensajes = new MessageManager();
 const manejadorDeProducto = new ProductManager();
@@ -114,24 +121,8 @@ router.get("/userDashboard", auth, ensureIsAdmin, async (req, res) => {
 });
 
 router.get("/checkout", auth, async (req, res) => {
-  try {
-    const cartId = req.query.cartId;
-    if (!cartId) {
-      return res.status(400).send("Cart ID es requerido");
-    }
-
-    const cart = await manejadorDeCarrito.getById(cartId);
-    const products = await Promise.all(
-      cart.products.map(async (item) => {
-        const product = await manejadorDeProducto.getById(item.product);
-        return { ...product, quantity: item.quantity };
-      })
-    );
-
-    res.render("checkout", { products, ticketCode: req.query.ticketCode }); // Asegúrate de pasar el ticketCode
-  } catch (error) {
-    res.status(500).send({ status: "error", error: error.message });
-  }
+  const { ticketCode, amount, purchaser } = req.query;
+  res.render("checkout", { ticketCode, amount, purchaser });
 });
 
 router.get("/carts/:cid", auth, async (req, res) => {

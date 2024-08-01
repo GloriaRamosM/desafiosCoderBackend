@@ -109,16 +109,20 @@ document
           "Content-Type": "application/json",
         },
       });
+
       if (!response.ok) {
         throw new Error("Error al finalizar la compra");
       }
       const data = await response.json();
+
       if (data.productsNoComprados && data.productsNoComprados.length > 0) {
         alert(
           "Algunos productos no pudieron ser comprados debido a stock insuficiente."
         );
       }
-      window.location.href = `/checkout?cartId=${cartId}`;
+      console.log(data.ticket);
+
+      window.location.href = `/checkout?ticketCode=${data.ticket.code}&amount=${data.ticket.amount}&purchaser=${data.ticket.purchaser}`;
     } catch (error) {
       console.error("Error:", error);
       alert("No se pudo finalizar la compra");
