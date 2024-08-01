@@ -5,7 +5,7 @@ document.getElementById("logout").addEventListener("click", () => {
 });
 
 let cartId = localStorage.getItem("cartId");
-let cartItemCount = localStorage.getItem("cartItemCount") || 0;
+let cartItemCount = parseInt(localStorage.getItem("cartItemCount")) || 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   const initializeCartButton = document.getElementById("initializeCart");
@@ -95,7 +95,6 @@ document.querySelectorAll(".addToCart").forEach((button) => {
   });
 });
 
-// Agrega el evento para finalizar la compra
 document
   .getElementById("finalizePurchase")
   .addEventListener("click", async () => {
@@ -119,7 +118,7 @@ document
           "Algunos productos no pudieron ser comprados debido a stock insuficiente."
         );
       }
-      window.location.href = `/checkout?cartId=${cartId}`; // Redirige a la página de checkout con el cartId
+      window.location.href = `/checkout?cartId=${cartId}`;
     } catch (error) {
       console.error("Error:", error);
       alert("No se pudo finalizar la compra");

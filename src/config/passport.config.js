@@ -50,7 +50,7 @@ const initilizePassport = () => {
           const result = await userService.create(newUser);
           return done(null, result);
         } catch (error) {
-          return done("error al crear al usuario" + error);
+          return done("error al crear al usuario, el correo ya existe" + error);
         }
       }
     )

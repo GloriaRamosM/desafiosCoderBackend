@@ -1,56 +1,100 @@
-<div>
-  <h1>Bienvenido a tu perfil</h1>
-  <p>{{user.name}}</p>
-  <p>{{user.email}}</p>
-  <p>{{user.age}}</p>
-  <p>ROL: {{user.rol}}</p>
-  <button id="logout">Cerrar Sesión</button>
-  <button id="initializeCart">Inicializar Carrito</button>
-  <p id="cartStatusMessage"></p>
-
-  <!-- Carrito con contador de productos -->
-  <div id="cartStatus">
-    <img src="" alt="Carrito" id="cartIcon" class="cart-icon" />
-    <span id="cartItemCount">0</span>
-  </div>
-
-  <!-- Botón para finalizar compra -->
-  <button id="finalizePurchase">Finalizar Compra</button>
-</div>
-
-{{#if hasProducts}}
-  <h2>Listado de Productos</h2>
-  <hr />
-  <div>
-    {{#each payload}}
-      <div>
-        <p><strong>Nombre:</strong> {{title}}</p>
-        <p><strong>Descripción:</strong> {{description}}</p>
-        <p><strong>Precio:</strong> {{price}}</p>
-        <p><strong>Categoría:</strong> {{category}}</p>
-        <p><strong>Stock:</strong> {{stock}}</p>
-        <button class="addToCart" data-pid="{{_id}}">Agregar al carrito</button>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil de Usuario</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .cart-icon { width: 24px; height: 24px; }
+    </style>
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+      <h1 class="text-3xl mb-6 text-center">Bienvenido a tu perfil</h1>
+      <div class="mb-4">
+        <p class="text-xl"><strong>Nombre:</strong> {{user.name}}</p>
+        <p class="text-xl"><strong>Email:</strong> {{user.email}}</p>
+        <p class="text-xl"><strong>Edad:</strong> {{user.age}}</p>
+        <p class="text-xl"><strong>ROL:</strong> {{user.rol}}</p>
       </div>
-      <br />
-    {{/each}}
-  </div>
-  <br />
-  <hr />
-  <div>
-    {{#if hasPrevPage}}
-      <a href="{{prevLink}}">&lt;&lt; Anterior</a>
-    {{/if}}
-    {{currentPage}}
-    {{#if hasNextPage}}
-      <a href="{{nextLink}}">Siguiente &gt;&gt;</a>
-    {{/if}}
-  </div>
-{{else}}
-  {{#if isValidPage}}
-    <h2>No hay productos en esta página</h2>
-  {{else}}
-    <h2>No hay productos</h2>
-  {{/if}}
-{{/if}}
+      <div class="flex justify-between mb-6">
+        <button
+          id="logout"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >Cerrar Sesión</button>
+        <button
+          id="initializeCart"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >Inicializar Carrito</button>
+      </div>
+      <p id="cartStatusMessage" class="text-red-500 mb-4"></p>
 
-<script src="/js/products.js"></script>
+      <div id="cartStatus" class="flex items-center mb-6">
+        <img
+          src="/path/to/cart-icon.png"
+          alt="Carrito"
+          id="cartIcon"
+          class="cart-icon mr-2"
+        />
+        <span id="cartItemCount" class="text-xl font-bold">0</span>
+      </div>
+
+      <button
+        id="finalizePurchase"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full mb-6"
+      >Finalizar Compra</button>
+
+      {{#if hasProducts}}
+        <div class="bg-white p-8 mt-8 rounded-lg shadow-lg w-full max-w-2xl">
+          <h2 class="text-2xl mb-4">Listado de Productos</h2>
+          <hr class="mb-4" />
+          <div>
+            {{#each payload}}
+              <div class="mb-4 p-4 border rounded-lg">
+                <p><strong>Nombre:</strong> {{title}}</p>
+                <p><strong>Descripción:</strong> {{description}}</p>
+                <p><strong>Precio:</strong> {{price}}</p>
+                <p><strong>Categoría:</strong> {{category}}</p>
+                <p><strong>Stock:</strong> {{stock}}</p>
+                <button
+                  class="addToCart bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+                  data-pid="{{_id}}"
+                >Agregar al carrito</button>
+              </div>
+            {{/each}}
+          </div>
+          <div class="flex justify-between mt-4">
+            {{#if hasPrevPage}}
+              <a
+                href="{{prevLink}}"
+                class="text-blue-500 hover:text-blue-700"
+              >&lt;&lt; Anterior</a>
+            {{/if}}
+            <span>{{currentPage}}</span>
+            {{#if hasNextPage}}
+              <a
+                href="{{nextLink}}"
+                class="text-blue-500 hover:text-blue-700"
+              >Siguiente &gt;&gt;</a>
+            {{/if}}
+          </div>
+        </div>
+      {{else}}
+        <div
+          class="bg-white p-8 mt-8 rounded-lg shadow-lg w-full max-w-2xl text-center"
+        >
+          {{#if isValidPage}}
+            <h2 class="text-2xl">No hay productos en esta página</h2>
+          {{else}}
+            <h2 class="text-2xl">No hay productos</h2>
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+
+    <script src="/js/products.js"></script>
+  </body>
+</html>
