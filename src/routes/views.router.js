@@ -8,13 +8,6 @@ import CartManager from "../dao/mongo/cart.dao.js";
 import { auth, ensureIsUser, ensureIsAdmin } from "../middlewares/auth.js";
 //import userController from "../controllers/user.controller.js";
 import UserManager from "../dao/mongo/user.dao.js";
-import cartsController from "../controllers/carts.controller.js";
-import {
-  CartsServicie,
-  ProductsService,
-  TicketService,
-} from "../repositories/index.js";
-import generateUniqueCode from "../dao/services/generadordeCodigo.js";
 
 const manejadorDeMensajes = new MessageManager();
 const manejadorDeProducto = new ProductManager();
@@ -25,7 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = Router();
-const productosFilePath = join(__dirname, "../data/productos.json");
+const productosFilePath = join(__dirname, "../dao/fs/data/productos.json");
 
 router.get("/", auth, async (req, res) => {
   try {
