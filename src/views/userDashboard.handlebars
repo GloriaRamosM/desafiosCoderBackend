@@ -1,28 +1,58 @@
-<div>
-  <h1>Bienvenido al Dashboard de Usuarios</h1>
-  <p>{{user.first_name}} {{user.last_name}}</p>
-  <p>{{user.email}}</p>
-  <p>ROL: {{user.rol}}</p>
-  <button id="logout">Cerrar Sesión</button>
-</div>
-
-{{#if hasUsers}}
-  <h2>Listado de Usuarios</h2>
-  <hr />
-  <div>
-    {{#each users}}
-      <div>
-        <p><strong>Nombre:</strong> {{first_name}} {{last_name}}</p>
-        <p><strong>Email:</strong> {{email}}</p>
-        <p><strong>Rol:</strong> {{rol}}</p>
-        <button class="delete-user" data-id="{{_id}}">Eliminar</button>
-        <button class="edit-rol" data-id="{{_id}}">Editar rol</button>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard de Usuarios</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold mb-4">Bienvenido al Dashboard de Usuarios</h1>
+        <p class="text-xl mb-2">{{user.first_name}} {{user.last_name}}</p>
+        <p class="text-xl mb-2">{{user.email}}</p>
+        <p class="text-xl mb-4">ROL: {{user.rol}}</p>
+        <button
+          id="logout"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Cerrar Sesión
+        </button>
       </div>
-      <br />
-    {{/each}}
-  </div>
-{{else}}
-  <h2>No hay usuarios</h2>
-{{/if}}
 
-<script src="/js/userDashboard.js"></script>
+      {{#if hasUsers}}
+        <h2 class="text-2xl font-semibold mb-4">Listado de Usuarios</h2>
+        <hr class="mb-4" />
+        <div>
+          {{#each users}}
+            <div class="bg-gray-50 p-4 rounded-lg shadow mb-4">
+              <p class="mb-2"><strong>Nombre:</strong>
+                {{first_name}}
+                {{last_name}}</p>
+              <p class="mb-2"><strong>Email:</strong> {{email}}</p>
+              <p class="mb-2"><strong>Rol:</strong> {{rol}}</p>
+              <button
+                class="delete-user bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
+                data-id="{{_id}}"
+              >
+                Eliminar
+              </button>
+              <button
+                class="edit-rol bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                data-id="{{_id}}"
+              >
+                Editar rol
+              </button>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <h2 class="text-xl text-center mt-8">No hay usuarios</h2>
+      {{/if}}
+    </div>
+    <script src="/js/userDashboard.js"></script>
+  </body>
+</html>
