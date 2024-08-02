@@ -20,15 +20,19 @@ const __dirname = dirname(__filename);
 const router = Router();
 const productosFilePath = join(__dirname, "../dao/fs/data/productos.json");
 
-router.get("/", auth, async (req, res) => {
-  try {
-    const productosData = await fs.readFile(productosFilePath, "utf-8");
-    const productos = JSON.parse(productosData);
-    res.render("home", { productos: productos });
-  } catch (error) {
-    console.error("Error al leer el archivo JSON:", error);
-    res.status(500).send("Error interno del servidor");
-  }
+// router.get("/", auth, async (req, res) => {
+//   try {
+//     const productosData = await fs.readFile(productosFilePath, "utf-8");
+//     const productos = JSON.parse(productosData);
+//     res.render("home", { productos: productos });
+//   } catch (error) {
+//     console.error("Error al leer el archivo JSON:", error);
+//     res.status(500).send("Error interno del servidor");
+//   }
+// });
+
+router.get("/", async (req, res) => {
+  res.render("Bienvenida");
 });
 
 router.get("/realtimeproducts", auth, async (req, res) => {
