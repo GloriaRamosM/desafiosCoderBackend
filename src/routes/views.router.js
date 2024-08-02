@@ -32,7 +32,7 @@ const productosFilePath = join(__dirname, "../dao/fs/data/productos.json");
 // });
 
 router.get("/", async (req, res) => {
-  res.render("Bienvenida");
+  res.render("bienvenida");
 });
 
 router.get("/realtimeproducts", auth, async (req, res) => {
