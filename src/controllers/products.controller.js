@@ -308,7 +308,7 @@ class ProductController {
             console.log(`Correo enviado a: ${owner.email}`);
           } catch (emailError) {
             console.error(
-              `Error al enviar correo a ${owner.email}: ${emailError}`
+              `Error al enviar un correo a ${owner.email}: ${emailError}`
             );
           }
         }
