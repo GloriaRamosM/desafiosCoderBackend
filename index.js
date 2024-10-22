@@ -40,7 +40,7 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.1",
     info: {
-      title: " API Ecommerce-Coder",
+      title: " API Ecommerce-CodeR",
       description:
         "La API de este ecommerce facilita la gestión completa de una tienda en línea al proporcionar un conjunto  de endpoints. Los usuarios pueden agregar, actualizar y eliminar productos, gestionar categorías, administrar cuentas de clientes y procesar órdenes de compra.",
     },
